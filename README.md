@@ -1,8 +1,10 @@
 # MGT 816 Fall 2026 — Course Website
 
-Public course hub for **The Private Firm CFO: Accounting and Finance Strategies** (Yale SOM, Fall-1 2026).
+Course hub for **The Private Firm CFO: Accounting and Finance Strategies** (Yale SOM, Fall-1 2026).
 
-**Live site:** https://barrios88.github.io/mgt816-fall2026/
+**Live site (once public):** https://barrios88.github.io/mgt816-private-firm-cfo/
+
+> **Currently private / not deployed.** Repo stays private while the course is being built; the Pages workflow is disabled. To go live: make the repo public → Settings → Pages → source "GitHub Actions" → re-enable the `Publish Quarto Site` workflow → run it once.
 
 Canvas remains the system of record for graded work, licensed cases, and problem sets.
 
@@ -52,6 +54,19 @@ Repo history is forever — solutions must never be committed, even in a "privat
 - `materials/` — public PDFs and handouts
 - `discussion-sites/` — interactive discussion sites (drop in from Opus builds)
 - `files/` — syllabus PDF, verification log template, etc.
+
+## Dropbox + git coexistence (this working copy lives in Dropbox)
+
+The canonical working copy sits inside Dropbox; GitHub is the sole carrier of git history. Three rules keep them from fighting:
+
+1. **Dropbox never syncs git or build state.** `.git/`, `.venv/`, `_site/`, `_freeze/`, and `.quarto/` are marked with the `com.dropbox.ignored` xattr (they show a gray minus badge in Finder). If one of these directories is ever recreated (fresh clone, `venv --clear`, first render), re-mark it:
+   ```bash
+   xattr -w com.dropbox.ignored 1 .git .venv _site _freeze .quarto
+   ```
+2. **Source files stay downloaded.** Keep this folder "Available Offline" in Dropbox (right-click in Finder). Online-only eviction turns files into 0-byte stubs, which git would see as emptied files.
+3. **Stub commits are blocked.** A local pre-commit hook (`.git/hooks/pre-commit` — not versioned, recreate on new clones) refuses to commit any staged file carrying the `com.dropbox.placeholder` xattr. If it fires, materialize the file (`open -g -a TextEdit <file>`) and retry.
+
+On any other machine, `git clone` from GitHub — do **not** re-init git inside the Dropbox copy there (Dropbox doesn't carry `.git`, by design).
 
 ## License
 
