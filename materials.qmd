@@ -1,0 +1,49 @@
+---
+title: "Materials"
+---
+
+Slide decks and handouts are posted **after each class day** (after the 4:10 pm section). Student versions only — scrubbed of licensed case exhibits and third-party images.
+
+```{python}
+#| echo: false
+#| output: asis
+import yaml
+from datetime import datetime
+
+with open("schedule.yml") as f:
+    sessions = yaml.safe_load(f)
+
+for entry in sessions:
+    if entry.get("exam"):
+        continue
+    sess = entry.get("session")
+    if sess is None:
+        continue
+    d = datetime.strptime(str(entry["date"]), "%Y-%m-%d").strftime("%a %b %-d, %Y")
+    topic = entry.get("topic", "")
+    print(f"### Session {sess} — {topic}")
+    print(f"*{d}*")
+    print()
+    slides = entry.get("slides")
+    handouts = entry.get("handouts") or []
+    if slides:
+        print(f"- [Slide deck (PDF)]({slides})")
+    else:
+        print("- Slides: *posted after class*")
+    if handouts:
+        for h in handouts:
+            if isinstance(h, dict):
+                print(f"- [{h.get('label', 'Handout')}]({h.get('path', '#')})")
+            else:
+                print(f"- [{h}]({h})")
+    else:
+        print("- Handouts: *none*")
+    wb = entry.get("workbench")
+    if wb:
+        print(f"- [PS1 digital workbench]({wb}) — complete and submit here")
+    print()
+```
+
+**Naming convention:** `materials/sNN_slides.pdf`, `materials/sNN_handout.pdf` (e.g., `s02_slides.pdf`).
+
+Problem sets have their own page: **[Assignments](assignments.qmd)** — the PS1 digital workbench, assignment PDF, and Excel template live there. Solutions and grading guides are on **Canvas only**.

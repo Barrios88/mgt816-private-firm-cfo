@@ -1,0 +1,81 @@
+---
+title: "Syllabus"
+---
+
+::: {.callout-important}
+The **official syllabus** is the PDF below. The HTML summary at the bottom is for quick reference and search only.
+:::
+
+::: {.syllabus-actions}
+[Download PDF](files/syllabus.pdf){.btn-download}
+[Open in new tab](files/syllabus.pdf){.btn-secondary target="_blank"}
+:::
+
+::: {.pdf-viewer}
+::: {.pdf-viewer-header}
+Official syllabus — MGT 816 · Fall 2026
+:::
+
+```{=html}
+<iframe
+  src="files/syllabus.pdf#view=FitH"
+  title="MGT 816 Fall 2026 Syllabus"
+  loading="lazy">
+  <p>Your browser cannot display PDFs inline.
+    <a href="files/syllabus.pdf">Download the syllabus (PDF)</a> instead.</p>
+</iframe>
+```
+:::
+
+::: {.callout-note}
+**On a phone or tablet?** If the preview does not load, use **Download PDF** or **Open in new tab** above — most mobile browsers handle PDFs better that way.
+:::
+
+---
+
+## Quick reference (HTML summary)
+
+### Course description
+
+This course equips students with the core set of tools and strategies related to accounting and financial reporting from the perspective of a Chief Financial Officer at a private, entrepreneurial company. The class focuses on accounting-based financial metrics, financial reporting, and managerial accounting, with an emphasis on structuring the accounting system from the start-up phase through to exit.
+
+**Prerequisites:** Financial Accounting and Corporate Finance.
+
+**Textbook:** *Entrepreneurial Finance and Accounting for High-Tech Companies*, Frank Fabozzi, MIT Press, 2016 (first edition).
+
+### Grading (400 points total)
+
+| Component | Points |
+|:----------|-------:|
+| Final exam (closed book; one handwritten cheat sheet) | 200 |
+| Two problem sets (groups of 2–4; both count) | 80 |
+| Two cases (groups of up to 4) | 75 |
+| Class participation (in-class + pre-class Canvas polls) | 45 |
+| **Total** | **400** |
+
+The course cannot be taken pass/fail.
+
+### Deliverables at a glance
+
+| Deliverable | Assigned | Due (1:00 pm) | Points |
+|:------------|:---------|:--------------|-------:|
+| Case 1 memo (FeedBurner) | Wed, Sep 2 | Wed, Sep 16 | 37.5 |
+| Problem Set 1 (cap tables) | Wed, Sep 9 | Wed, Sep 23 | 40 |
+| Case 2 memo (Solstice Robotics) | Mon, Sep 21 | Wed, Sep 30 | 37.5 |
+| Problem Set 2 (AI-assisted forecast) | Mon, Sep 28 | Mon, Oct 12 | 40 |
+| Final exam | — | Oct 19–23 exam period | 200 |
+
+### Use of AI
+
+AI tools are **required** on Problem Set 2 and welcome as study aids throughout the course. Two rules apply:
+
+1. **Every number you submit is yours** — if you cannot reproduce and defend it, do not submit it. On PS2 you document this in a graded verification log.
+2. **The final exam is closed book** and tests this material without AI.
+
+### Laptop and tablet use
+
+Tablets are permitted for notes and following lecture materials. Laptops may be used only in the back rows, with one exception: **Monday, September 28** (AI-assisted forecasting workshop) — bring a laptop with Excel; laptops are required throughout the room that day.
+
+### Full schedule
+
+See the [Schedule](schedule.qmd) page for session-by-session preparation and links.

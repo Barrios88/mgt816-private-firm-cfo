@@ -1,0 +1,6 @@
+pyyaml
+pandas
+tabulate
+jupyter
+nbformat
+ipykernel

@@ -1,0 +1,168 @@
+# Single source of truth for Schedule and Materials pages.
+# Weekly update: fill in slides/handouts after each class day.
+
+- session: 1
+  date: 2026-09-02
+  topic: "The private-company CFO and the financial infrastructure"
+  prep:
+    - text: "Fabozzi Ch. 1 (skim)"
+    - text: "a16z podcast: Cash, Growth, and CEO–CFO"
+      url: "https://a16z.com/podcast/"
+  out: "Case 1 (due Sep 16)"
+  due: null
+  slides: null
+  handouts: []
+
+- session: 0
+  date: 2026-09-04
+  topic: "CFO Toolkit Bootcamp — accounting refresher, Excel cap-table warm-up, group formation"
+  prep: []
+  out: null
+  due: null
+  slides: null
+  handouts: []
+  note: "Required Monday-makeup class (no classes Labor Day Mon Sep 7)"
+
+- session: 2
+  date: 2026-09-09
+  topic: "Cap Table Lab — formation through Series A, dilution, option-pool mechanics"
+  prep:
+    - text: "Fabozzi Ch. 7, pp. 127–130 and 140–143"
+  out: "PS1 (due Sep 23)"
+  due: null
+  slides: null
+  handouts:
+    - label: "PS1 assignment (PDF)"
+      path: files/ps1_assignment.pdf
+    - label: "PS1 Excel scratch template (optional)"
+      path: files/ps1_student_template.xlsx
+  workbench: ps1/index.html
+  assignment: assignments.html#ps1
+
+- session: 3
+  date: 2026-09-14
+  topic: "Legal and people infrastructure — entity choice, legal documents, worker classification"
+  prep:
+    - text: "Fabozzi Ch. 3"
+    - text: "QSBS primer (Canvas)"
+  out: null
+  due: null
+  slides: null
+  handouts: []
+
+- session: 4
+  date: 2026-09-16
+  topic: "Case 1: FeedBurner — founding teams and splitting the pie"
+  prep:
+    - text: "HBS case 9-809-089"
+    - text: "Lebret (2017)"
+    - text: "Gimlet podcast: How to Divide an Imaginary Pie"
+  out: null
+  due: "Case 1 memo"
+  slides: null
+  handouts: []
+  case_day: true
+
+- session: 5
+  date: 2026-09-21
+  topic: "Equity compensation — instruments, accounting, and tax (83(b), ISO/NQSO, AMT, 409A, QSBS, ASC 718)"
+  prep:
+    - text: "Fabozzi Ch. 4"
+    - text: "FreshBites 409A mini-case (self-check)"
+  out: "Case 2 (due Sep 30)"
+  due: null
+  slides: null
+  handouts: []
+
+- session: 6
+  date: 2026-09-23
+  topic: "KPIs, budgeting, and forecasting — driver-based planning and unit economics"
+  prep:
+    - text: "Fabozzi Ch. 2, pp. 15–30, and Ch. 13, pp. 241–257"
+    - text: "HBR: The True Measures of Success"
+    - text: "Pre-class quiz on Canvas"
+  out: null
+  due: "PS1"
+  slides: null
+  handouts: []
+  workbench: ps1/index.html
+  assignment: assignments.html#ps1
+
+- session: 7
+  date: 2026-09-28
+  topic: "AI-assisted forecasting workshop (laptops required)"
+  prep:
+    - text: "Download the workshop kit (Canvas)"
+    - text: "Read the one-page AI-for-FP&A ground rules"
+    - text: "Verify an AI login"
+  out: "PS2 (due Oct 12)"
+  due: null
+  slides: null
+  handouts: []
+  laptop_required: true
+
+- session: 8
+  date: 2026-09-30
+  topic: "Case 2: Solstice Robotics — taxes and employee stock options"
+  prep:
+    - text: "Solstice Robotics case packet (Canvas)"
+  out: null
+  due: "Case 2 memo"
+  slides: null
+  handouts: []
+  case_day: true
+
+- session: 9
+  date: 2026-10-05
+  topic: "Revenue recognition and margins — ASC 606, bookings vs. revenue, SaaS models"
+  prep:
+    - text: "Fabozzi Ch. 8, pp. 150–160, and Ch. 10, pp. 197–198"
+  out: null
+  due: null
+  slides: null
+  handouts: []
+
+- session: 10
+  date: 2026-10-07
+  topic: "Boards, board packages, and audit readiness"
+  prep:
+    - text: "Sequoia: Preparing a Board Deck"
+    - text: "Feld: The Best Approach to a Board Package"
+  out: null
+  due: null
+  slides: null
+  handouts: []
+
+- session: 11
+  date: 2026-10-12
+  topic: "Fundraising — process, term sheets, SAFEs and convertible notes, venture debt"
+  prep:
+    - text: "Fabozzi Ch. 6, pp. 100–103, and Ch. 7, pp. 133–136"
+    - text: "Bessemer Guide to Venture Debt (skim)"
+  out: null
+  due: "PS2"
+  slides: null
+  handouts: []
+
+- session: 12
+  date: 2026-10-14
+  topic: "Exits — M&A, private equity, IPO readiness; course synthesis and exam guidance"
+  prep:
+    - text: "Fabozzi Ch. 2, pp. 30–35"
+    - text: "Ramsinghani Ch. 25"
+  out: null
+  due: null
+  slides: null
+  handouts: []
+
+- session: null
+  date: 2026-10-19
+  date_end: 2026-10-23
+  topic: "Final exam (Fall-1 examination period)"
+  prep:
+    - text: "One handwritten cheat sheet, 8.5×11, double-sided"
+  out: null
+  due: null
+  slides: null
+  handouts: []
+  exam: true

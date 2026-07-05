@@ -1,0 +1,75 @@
+---
+title: "Course Info"
+---
+
+## Sections and meeting times
+
+Mondays and Wednesdays, Fall-1 2026 (September 2 – October 14).
+
+| Section | Time | Room |
+|:--------|:-----|:-----|
+| 01 | 1:00 – 2:20 pm | *TBD* |
+| 02 | 2:35 – 3:55 pm | *TBD* |
+| G1 | 4:10 – 5:30 pm | *TBD* |
+
+**One timeline:** All deliverables are due at **1:00 pm** — the start of the first section — regardless of which section you attend.
+
+**Friday, September 4:** CFO Toolkit Bootcamp — required Monday-makeup class (no classes Labor Day, Monday September 7).
+
+## Instructor
+
+**Professor John M. Barrios**  
+Yale School of Management
+
+**Office hours:** *TBD — update before semester start*
+
+## Teaching assistant
+
+*Name and email TBD*
+
+## Canvas
+
+All graded submissions, licensed cases, problem sets, and polls are on [Canvas](CANVAS_URL_PLACEHOLDER).
+
+## Policies
+
+### Participation (45 points)
+
+Based on in-class contribution (especially case discussions), attendance, and short pre-class Canvas polls (~15 of the 45 points). Name tents are required. Polls are graded for completion, not correctness.
+
+### Laptop and tablet use
+
+Tablets are permitted for notes and following lecture materials. Laptops may be used only in the back rows, with one exception: **Monday, September 28** — AI-assisted forecasting workshop; laptops with Excel required throughout the room.
+
+### Use of AI
+
+AI tools are **required** on Problem Set 2 and welcome as study aids. Every number you submit must be yours — if you cannot reproduce and defend it, do not submit it. The final exam is closed book and tests this material **without AI**.
+
+### Final exam
+
+Closed book; one handwritten cheat sheet (8.5×11, double-sided). Fall-1 examination period: **October 19–23**.
+
+---
+
+## FAQ
+
+**Where do I submit assignments?**  
+Canvas. Always Canvas for graded work.
+
+**Which section's deadline applies?**  
+1:00 pm for everyone — the first section's start time.
+
+**Can I attend a different section for one day?**  
+Coordinate with the instructor; deliverable deadlines do not change.
+
+**Where are the slides?**  
+On the [Materials](materials.qmd) page after each class day.
+
+**Where is the HBS Feedburner case?**  
+HBS coursepack / Canvas — not on this public site (licensed).
+
+**Where is the Solstice case packet?**  
+Canvas — distributed Monday, September 21.
+
+**Do I need a paid AI subscription for PS2?**  
+No. Free tier is sufficient; one working login per group of 3–4 is enough.

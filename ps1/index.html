@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PS1 Workbench — Capitalization &amp; Cap Tables · MGT 816</title>
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --accent: #1F4E79;
+      --accent-light: #D5E8F0;
+      --accent-pale: #eef4f8;
+      --border: #d4dce4;
+      --card: #ffffff;
+      --warn: #b8860b;
+      --warn-bg: #fff8e6;
+      --success: #2e7d32;
+      --computed-bg: #D5E8F0;
+      --radius: 10px;
+      --shadow: 0 2px 12px rgba(31, 78, 121, 0.08);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --max-w: 1100px;
+      --base: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-size: var(--base); scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    a { color: var(--accent); }
+    header.site-header {
+      background: var(--accent);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+    }
+    .header-inner h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+    .header-inner .sub { font-size: 0.85rem; opacity: 0.9; margin-top: 0.15rem; }
+    nav.part-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.65rem;
+      padding-bottom: 0.5rem;
+    }
+    nav.part-nav button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    nav.part-nav button:hover { background: rgba(255,255,255,0.28); }
+    nav.part-nav button.active { background: #fff; color: var(--accent); font-weight: 600; }
+    nav.part-nav button.done::after { content: " ✓"; font-size: 0.75rem; }
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      padding: 0.4rem 0;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-top: 0.35rem;
+    }
+    .save-indicator { opacity: 0.9; }
+    .save-indicator.saved { color: #a8e6a8; }
+    .toolbar-btn {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .toolbar-btn:hover { background: rgba(255,255,255,0.32); }
+    main { max-width: var(--max-w); margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+    .deadline-banner {
+      background: linear-gradient(135deg, var(--accent-pale), var(--accent-light));
+      border-left: 5px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .deadline-banner strong { color: var(--accent); }
+    .panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .panel.active { animation: none; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      margin: 0 0 0.5rem;
+      color: var(--accent);
+      font-size: 1.35rem;
+      font-weight: 650;
+    }
+    .card h3 {
+      margin: 1.25rem 0 0.5rem;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .card .hint { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+    .narrative {
+      background: var(--accent-pale);
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .narrative p { margin: 0 0 0.6rem; }
+    .narrative p:last-child { margin-bottom: 0; }
+    .honor-box {
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      background: #fff;
+    }
+    .honor-box label { display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; font-weight: 500; }
+    .honor-box input { margin-top: 0.25rem; width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+    .member-grid { display: grid; gap: 0.75rem; }
+    @media (min-width: 600px) { .member-grid { grid-template-columns: 1fr 1fr; } }
+    .field-row { display: flex; flex-direction: column; gap: 0.25rem; }
+    .field-row label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    input[type="text"], input[type="number"], textarea, select {
+      font: inherit;
+      padding: 0.5rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      width: 100%;
+    }
+    input[type="number"] { font-variant-numeric: tabular-nums; }
+    textarea { min-height: 8rem; resize: vertical; }
+    input.empty-required, textarea.empty-required { border-color: #c62828; background: #fff5f5; }
+    table.cap-table, table.je-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 0.75rem 0;
+    }
+    table.cap-table th, table.je-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.55rem 0.5rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    table.cap-table td, table.je-table td {
+      padding: 0.35rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    table.cap-table tr:nth-child(even) td { background: #f8f9fa; }
+    table.cap-table td.computed {
+      background: var(--computed-bg);
+      font-weight: 600;
+      text-align: right;
+      color: var(--accent);
+    }
+    table.cap-table input { text-align: right; min-width: 5rem; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .badge-warn { background: var(--warn-bg); color: var(--warn); border: 1px solid #e6c200; }
+    .badge-ok { background: #e8f5e9; color: var(--success); }
+    .je-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 0.5rem 0; font-size: 0.9rem; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+    button.btn {
+      font: inherit;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button.btn:hover { background: var(--accent-pale); border-color: var(--accent); }
+    button.btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    button.btn-primary:hover { background: #163a5c; }
+    button.btn-danger { color: #c62828; border-color: #ef9a9a; }
+    button.btn-sm { padding: 0.3rem 0.6rem; font-size: 0.82rem; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+    .tabs button {
+      padding: 0.45rem 0.9rem;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+    .tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .comparison-strip {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    @media (min-width: 700px) { .comparison-strip { grid-template-columns: repeat(4, 1fr); } }
+    .metric-fields { display: grid; gap: 0.75rem; }
+    @media (min-width: 500px) { .metric-fields { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 800px) { .metric-fields.cols-3 { grid-template-columns: repeat(3, 1fr); } }
+    .sentence-counter { font-size: 0.85rem; color: var(--muted); margin-top: 0.35rem; }
+    .sentence-counter.warn { color: var(--warn); font-weight: 600; }
+    .privacy-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      margin-top: 1.5rem;
+    }
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li { padding: 0.4rem 0; display: flex; gap: 0.5rem; align-items: center; }
+    .checklist .icon { width: 1.25rem; text-align: center; }
+    .review-block { margin-bottom: 1.5rem; }
+    .review-block h3 { color: var(--accent); margin-bottom: 0.5rem; }
+    footer.site-footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    #import-file { display: none; }
+    .jump-nav {
+      position: sticky;
+      z-index: 90;
+      background: rgba(250, 250, 248, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 0 0.75rem;
+      margin: -1.5rem 0 1.25rem;
+      box-shadow: 0 2px 8px rgba(31, 78, 121, 0.06);
+    }
+    .jump-nav-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .jump-row { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+    .jump-row.jump-sub {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed var(--border);
+    }
+    .jump-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.38rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--accent);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+    .jump-tag:hover { background: var(--accent-pale); border-color: var(--accent); }
+    .jump-tag.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .jump-tag .pts {
+      font-size: 0.68rem;
+      opacity: 0.8;
+      font-weight: 500;
+      background: rgba(255,255,255,0.2);
+      padding: 0.05rem 0.35rem;
+      border-radius: 999px;
+    }
+    .jump-tag:not(.active) .pts { background: var(--accent-light); color: var(--accent); opacity: 1; }
+    .jump-tag.sub {
+      font-size: 0.78rem;
+      padding: 0.3rem 0.7rem;
+      font-weight: 500;
+      border-style: dashed;
+    }
+    .jump-tag.sub.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: var(--accent);
+      border-style: solid;
+    }
+    .panel-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .panel-footer-nav .jump-tag { font-size: 0.85rem; }
+    .section-anchor { scroll-margin-top: var(--scroll-offset, 9rem); }
+    h3.section-anchor { margin-top: 1.5rem; padding-top: 0.25rem; }
+    @media print {
+      .jump-nav, .panel-footer-nav, header.site-header, .btn-row, .toolbar-btn, nav.part-nav, .privacy-note { display: none !important; }
+      .panel { display: block !important; }
+      body { background: #fff; }
+      .card { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <h1>Problem Set 1 — Capitalization &amp; Cap Tables</h1>
+      <div class="sub">MGT 816 · The Private Firm CFO · Fall 2026 · Houzz cap-table build</div>
+      <nav class="part-nav" aria-label="Problem set sections">
+        <button type="button" data-panel="setup" class="active">Setup</button>
+        <button type="button" data-panel="I">Part I</button>
+        <button type="button" data-panel="II">Part II</button>
+        <button type="button" data-panel="III">Part III</button>
+        <button type="button" data-panel="IV">Part IV</button>
+        <button type="button" data-panel="review">Review</button>
+      </nav>
+      <div class="status-bar">
+        <span class="save-indicator" id="save-indicator" aria-live="polite">Not saved yet</span>
+        <button type="button" class="toolbar-btn" id="btn-export">Export progress</button>
+        <button type="button" class="toolbar-btn" id="btn-import">Import progress</button>
+        <input type="file" id="import-file" accept=".json,.ps1work.json,application/json">
+        <a href="../schedule.html" class="toolbar-btn" style="text-decoration:none;">← Schedule</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <nav class="jump-nav" id="jump-nav" aria-label="Jump to part or section">
+      <div class="jump-nav-label">Jump to</div>
+      <div class="jump-row" id="jump-parts">
+        <button type="button" class="jump-tag active" data-panel="setup">Setup</button>
+        <button type="button" class="jump-tag" data-panel="I">Part I<span class="pts">18 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="II">Part II<span class="pts">10 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="III">Part III<span class="pts">8 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="IV">Part IV<span class="pts">4 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="review">Review</button>
+      </div>
+      <div class="jump-row jump-sub" id="jump-sections" hidden></div>
+    </nav>
+
+    <!-- Panel 0: Setup -->
+    <section class="panel active" id="panel-setup" aria-labelledby="setup-heading">
+      <div class="deadline-banner" role="status">
+        <strong>Due Wednesday, September 23, 2026 at 1:00 pm</strong> on Canvas — one submission per group (2–4 students). Upload the HTML file this workbench generates (PDF also accepted).
+      </div>
+      <div class="card section-anchor" id="setup-story">
+        <h2>The assignment</h2>
+        <p>Two founders start a company, take in an angel, raise a Series A with an option pool, and come back for a Series B. Over four parts you will build <strong>Houzz</strong>'s capitalization table from formation through Series B, watch each round dilute the founders, test how negotiating the option pool and the valuation changes the outcome, and then advise the founders in a short email.</p>
+        <p class="hint">Everything you need is given in each part's story — you supply the share counts, prices, and reasoning; the site totals shares and computes ownership % for you. Worth 40 points across Parts I–IV (18 · 10 · 8 · 4).</p>
+      </div>
+      <div class="card section-anchor" id="setup-group">
+        <h2 id="setup-heading">Group setup</h2>
+        <p class="hint">Enter every group member. You need at least 2 and at most 4 names.</p>
+        <div class="member-grid" id="member-grid"></div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-sm" id="btn-add-member">+ Add member</button>
+          <button type="button" class="btn btn-sm btn-danger" id="btn-remove-member">− Remove last</button>
+        </div>
+        <div class="honor-box">
+          <label>
+            <input type="checkbox" id="honor-check">
+            <span>I certify on behalf of my group that every number entered in this workbench is our own work. AI tools may be used as a study aid, but we must be able to reproduce and defend every figure. We understand the closed-book final tests the same mechanics without AI.</span>
+          </label>
+        </div>
+      </div>
+      <div class="card section-anchor" id="setup-howto">
+        <h2>How this workbench works</h2>
+        <ul>
+          <li><strong>Structure, not answers.</strong> The site formats cap tables, computes ownership % from your share counts, and warns about unbalanced journal entries — it never tells you if an answer is correct.</li>
+          <li><strong>Autosave on this device only.</strong> Progress saves to your browser every few seconds. Use Export/Import to share work within your group.</li>
+          <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page.</li>
+          <li><strong>Excel is optional.</strong> Scratch work is fine in Excel or on paper; submit via the generated HTML file.</li>
+        </ul>
+      </div>
+      <div class="panel-footer-nav" data-footer="setup"></div>
+    </section>
+
+    <!-- Panel I -->
+    <section class="panel" id="panel-I" aria-labelledby="part-i-heading">
+      <div class="card">
+        <h2 id="part-i-heading">Part I — Formation through Series A <span class="badge" style="background:var(--accent-light);color:var(--accent);">18 pts</span></h2>
+        <div class="narrative">
+          <p><strong>Houzz</strong> started as a fix for its founders' own headache. Mid-remodel and buried in contractor bids and paint swatches, <strong>Katy Perry</strong> and <strong>Snoop Dogg</strong> built a web app to tame the chaos — mood boards, a directory of vetted pros, and a marketplace for the furniture people actually wanted. The side project caught on, and one spring they incorporated, walked away from their day jobs, and split the company down the middle: each founder put in <strong>$30,000</strong> for <strong>600,000</strong> common shares.</p>
+          <p>You are Houzz's first finance hire. Your job is to build the cap table on day one and keep it honest as the company raises three rounds of capital — watching what happens to the founders' ownership at each step.</p>
+          <p><strong>Seed.</strong> Growth outran the founders' savings inside a year. <strong>Mark Cuban</strong> — an early believer who had used the product himself — comes in as the first outside money, investing <strong>$1.5M</strong> at a <strong>$7.5M post-money</strong> valuation ($6.0M pre-money).</p>
+          <p><strong>Series A.</strong> Eighteen months later, with usage compounding and a hiring plan to fund, <strong>Greylock Partners</strong> leads a <strong>$12M</strong> round at a <strong>$50M post-money</strong> valuation. The term sheet requires a <strong>16% unallocated option pool</strong> after the round (fully diluted, carved from the pre-money). Mark Cuban exercises his pro-rata right for <strong>20%</strong> of the Series A check; Greylock takes the rest.</p>
+        </div>
+
+        <h3 id="part-i-formation" class="section-anchor">(a) Founding round</h3>
+        <p class="hint">Record the journal entry and build the initial cap table.</p>
+        <div id="je-formation"></div>
+        <div id="grid-formation"></div>
+
+        <h3 id="part-i-seed" class="section-anchor">(b) Series Seed — $1.5M on $7.5M post</h3>
+        <p>With traction but an empty bank account, the founders take Cuban's <strong>$1.5M</strong> check. Record the journal entry, update the cap table, and work out the round's valuation split, price per share, and the founders' new combined stake.</p>
+        <div id="je-seed"></div>
+        <div id="grid-seed"></div>
+        <div class="metric-fields cols-3" id="metrics-seed"></div>
+
+        <h3 id="part-i-seriesa" class="section-anchor">(c) Series A — $12M on $50M post, 16% option pool</h3>
+        <p>This is where it gets interesting: Greylock's term sheet bakes in a <strong>16%</strong> option pool carved from the pre-money — and someone has to pay for it. Build the round, and see what the pool does to the founders.</p>
+        <p class="hint">Include the unallocated option pool as a separate row. Greylock = 80% of Series A dollars; Mark Cuban = 20%.</p>
+        <div id="je-seriesA"></div>
+        <div id="grid-seriesA"></div>
+        <div class="metric-fields cols-3" id="metrics-seriesA"></div>
+      </div>
+      <div class="panel-footer-nav" data-footer="I"></div>
+    </section>
+
+    <!-- Panel II -->
+    <section class="panel" id="panel-II" aria-labelledby="part-ii-heading">
+      <div class="card">
+        <h2 id="part-ii-heading">Part II — Negotiating the option pool and valuation <span class="badge" style="background:var(--accent-light);color:var(--accent);">10 pts</span></h2>
+        <div class="narrative">
+          <p>The night before signing, Katy asks whether they can do better. The Series A investment stays <strong>$12M</strong>, but the founders push on two levers: the <strong>option pool size</strong> and the <strong>post-money valuation</strong>. Work three scenarios — a smaller <strong>12%</strong> pool, a higher <strong>$60M</strong> valuation, and both together — each starting from your Part I Series A cap table. Each scenario is independent; edit freely.</p>
+        </div>
+        <div class="btn-row" style="margin-bottom:1rem;">
+          <button type="button" class="btn btn-sm" id="btn-resync-ii">↻ Re-sync all scenarios from Part I</button>
+        </div>
+        <div id="part-ii-scenarios" class="section-anchor">
+        <div class="tabs" id="scenario-tabs" role="tablist"></div>
+        <div id="scenario-panel"></div>
+        </div>
+
+        <h3 id="part-ii-comparison" class="section-anchor">Scenario comparison</h3>
+        <p class="hint">Fill in your results for each scenario (one row per metric).</p>
+        <div class="table-wrap">
+          <table class="cap-table" id="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Smaller pool (12%)</th>
+                <th>Higher val ($60M)</th>
+                <th>Both levers</th>
+              </tr>
+            </thead>
+            <tbody id="comparison-body"></tbody>
+          </table>
+        </div>
+
+        <h3 id="part-ii-judgment" class="section-anchor">Judgment questions</h3>
+        <div class="field-row" style="margin-bottom:1rem;">
+          <label for="judgment-lever">Which lever should the founders push hardest, and why?</label>
+          <textarea id="judgment-lever" rows="4" placeholder="Your analysis…"></textarea>
+        </div>
+        <div class="field-row">
+          <label for="judgment-pool">Who bears the cost of the option pool in each scenario?</label>
+          <textarea id="judgment-pool" rows="4" placeholder="Your analysis…"></textarea>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="II"></div>
+    </section>
+
+    <!-- Panel III -->
+    <section class="panel" id="panel-III" aria-labelledby="part-iii-heading">
+      <div class="card">
+        <h2 id="part-iii-heading">Part III — Series B and pool top-up <span class="badge" style="background:var(--accent-light);color:var(--accent);">8 pts</span></h2>
+        <div class="narrative">
+          <p>A year on, Houzz is a real business and the checks are bigger. <strong>Series B:</strong> Houzz raises <strong>$27M</strong> at a <strong>$105M post-money</strong> valuation. <strong>Sequoia Capital</strong> leads with <strong>$18M</strong>; Greylock follows on with <strong>$9M</strong>. After the round, <strong>unallocated</strong> options must equal <strong>12%</strong> of fully diluted shares.</p>
+          <p>Start from your <strong>Part I Series A</strong> cap table (the signed 16% deal). Since then, of the 400,000-share option pool, <strong>80,000 options have been granted</strong> (allocated and outstanding) and <strong>320,000 remain unallocated</strong>. The Series B top-up is carved from the pre-money, just like the Series A pool.</p>
+        </div>
+        <div id="part-iii-seriesb" class="section-anchor">
+        <div id="grid-seriesB"></div>
+        <div class="metric-fields cols-3" id="metrics-seriesB"></div>
+        </div>
+        <h3 id="part-iii-stretch" class="section-anchor">Stretch</h3>
+        <div class="field-row">
+          <label for="stretch-iii">Show your work for new option shares needed and founder ownership after Series B.</label>
+          <textarea id="stretch-iii" rows="5" placeholder="Equations, share counts, and reasoning…"></textarea>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="III"></div>
+    </section>
+
+    <!-- Panel IV -->
+    <section class="panel" id="panel-IV" aria-labelledby="part-iv-heading">
+      <div class="card">
+        <h2 id="part-iv-heading">Part IV — The founder email <span class="badge" style="background:var(--accent-light);color:var(--accent);">4 pts</span></h2>
+        <div class="narrative">
+          <p>Write an email to Katy and Snoop (max <strong>5 sentences</strong>): given your Part II analysis, should they negotiate for the smaller pool, the higher valuation, or both — and who pays for the pool either way?</p>
+        </div>
+        <div class="field-row section-anchor" id="part-iv-email">
+          <label for="founder-email">Your email</label>
+          <textarea id="founder-email" rows="8" placeholder="Dear Katy and Snoop,&#10;&#10;…"></textarea>
+          <div class="sentence-counter" id="sentence-counter">0 sentences</div>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="IV"></div>
+    </section>
+
+    <!-- Review -->
+    <section class="panel" id="panel-review" aria-labelledby="review-heading">
+      <div class="card">
+        <h2 id="review-heading">Review &amp; submit</h2>
+        <p class="hint">Check completeness, then generate your submission file for Canvas.</p>
+        <ul class="checklist section-anchor" id="completeness-checklist"></ul>
+        <div class="btn-row section-anchor" id="part-review-submit" style="margin-top:1.25rem;">
+          <button type="button" class="btn btn-primary" id="btn-generate">Generate submission sheet</button>
+          <button type="button" class="btn" id="btn-print">Print / Save as PDF</button>
+        </div>
+        <div id="review-content" class="review-block" style="margin-top:2rem;"></div>
+      </div>
+      <div class="panel-footer-nav" data-footer="review"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>Privacy:</strong> This page stores data only in your browser (localStorage). No analytics, no server, no network calls.</p>
+    <p>MGT 816 · Yale School of Management · Fall 2026 · Workbench v<span id="version-display"></span></p>
+  </footer>
+
+  <script>
+(function () {
+  'use strict';
+
+  const SCHEMA = 'ps1-2026-v1';
+  const VERSION = '1.0.0';
+  const STORAGE_KEY = 'mgt816-ps1-2026';
+  const ACCOUNTS = ['Cash', 'Common Stock', 'APIC', 'Seed Preferred', 'Series A Preferred', 'Series B Preferred'];
+  const SCENARIO_KEYS = ['smallerPool', 'higherVal', 'both'];
+  const SCENARIO_LABELS = {
+    smallerPool: 'Smaller pool (12%)',
+    higherVal: 'Higher valuation ($60M post)',
+    both: 'Both levers (12% pool, $60M post)'
+  };
+  const COMPARISON_METRICS = [
+    { key: 'pps', label: 'Price per share ($)' },
+    { key: 'founderPct', label: 'Founder % (each)' },
+    { key: 'vcPct', label: 'Greylock %' },
+    { key: 'angelPct', label: 'Mark Cuban %' }
+  ];
+
+  let state = loadState();
+  let saveTimer = null;
+  let sentenceTimer = null;
+  let gridRefreshPending = false;
+  let gridRefreshPaths = new Set();
+  let jeRefreshPending = new Set();
+  let activePanel = 'setup';
+  let activeScenario = 'smallerPool';
+
+  const GRID_BY_PATH = {
+    'I.formation.holders': { id: 'grid-formation', cols: ['common'] },
+    'I.seed.holders': { id: 'grid-seed', cols: ['common', 'seedPref'] },
+    'I.seriesA.holders': { id: 'grid-seriesA', cols: ['common', 'seedPref', 'seriesAPref'] },
+    'III.holders': { id: 'grid-seriesB', cols: ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated'] }
+  };
+
+  const JE_CONTAINERS = {
+    formation: 'je-formation',
+    seed: 'je-seed',
+    seriesA: 'je-seriesA'
+  };
+
+  const PART_NAV = [
+    { id: 'setup', label: 'Setup', sections: [
+      { id: 'setup-story', label: 'Overview' },
+      { id: 'setup-group', label: 'Group' },
+      { id: 'setup-howto', label: 'How it works' }
+    ]},
+    { id: 'I', label: 'Part I', pts: 18, sections: [
+      { id: 'part-i-formation', label: 'Formation' },
+      { id: 'part-i-seed', label: 'Seed' },
+      { id: 'part-i-seriesa', label: 'Series A' }
+    ]},
+    { id: 'II', label: 'Part II', pts: 10, sections: [
+      { id: 'part-ii-scenarios', label: 'Scenarios' },
+      { id: 'part-ii-comparison', label: 'Compare' },
+      { id: 'part-ii-judgment', label: 'Judgment' }
+    ]},
+    { id: 'III', label: 'Part III', pts: 8, sections: [
+      { id: 'part-iii-seriesb', label: 'Series B' },
+      { id: 'part-iii-stretch', label: 'Stretch' }
+    ]},
+    { id: 'IV', label: 'Part IV', pts: 4, sections: [
+      { id: 'part-iv-email', label: 'Email' }
+    ]},
+    { id: 'review', label: 'Review', sections: [
+      { id: 'completeness-checklist', label: 'Checklist' },
+      { id: 'part-review-submit', label: 'Submit' }
+    ]}
+  ];
+
+  function defaultJE(accounts) {
+    return accounts.map(a => ({ account: a, dr: '', cr: '' }));
+  }
+
+  function defaultHolder(name, cols) {
+    const h = { name };
+    cols.forEach(c => { h[c] = ''; });
+    if (name.toLowerCase().includes('pool')) h.isPool = true;
+    return h;
+  }
+
+  function defaultState() {
+    return {
+      schema: SCHEMA,
+      group: [{ name: '', netid: '' }, { name: '', netid: '' }],
+      honor: false,
+      parts: {
+        I: {
+          formation: {
+            je: defaultJE(['Cash', 'Common Stock', 'Common Stock']),
+            holders: [
+              defaultHolder('Katy Perry', ['common']),
+              defaultHolder('Snoop Dogg', ['common'])
+            ]
+          },
+          seed: {
+            je: defaultJE(['Cash', 'Seed Preferred']),
+            holders: [
+              defaultHolder('Katy Perry', ['common', 'seedPref']),
+              defaultHolder('Snoop Dogg', ['common', 'seedPref']),
+              defaultHolder('Mark Cuban', ['common', 'seedPref'])
+            ],
+            preMoney: '', postMoney: '', pps: '', founderCollectivePct: ''
+          },
+          seriesA: {
+            je: defaultJE(['Cash', 'Series A Preferred', 'Series A Preferred']),
+            holders: [
+              defaultHolder('Katy Perry', ['common', 'seedPref', 'seriesAPref']),
+              defaultHolder('Snoop Dogg', ['common', 'seedPref', 'seriesAPref']),
+              defaultHolder('Mark Cuban', ['common', 'seedPref', 'seriesAPref']),
+              defaultHolder('Greylock Partners', ['common', 'seedPref', 'seriesAPref']),
+              defaultHolder('Option Pool (unallocated)', ['common', 'seedPref', 'seriesAPref'])
+            ],
+            greylockPct: '', pps: '', founderEachPct: '', founderDilutionPp: '', markPct: '', markChangePp: ''
+          }
+        },
+        II: {
+          scenarios: {},
+          comparison: {
+            smallerPool: { pps: '', founderPct: '', vcPct: '', angelPct: '' },
+            higherVal: { pps: '', founderPct: '', vcPct: '', angelPct: '' },
+            both: { pps: '', founderPct: '', vcPct: '', angelPct: '' }
+          },
+          judgmentLever: '',
+          judgmentPool: ''
+        },
+        III: {
+          holders: [
+            defaultHolder('Katy Perry', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Snoop Dogg', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Mark Cuban', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Greylock Partners', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Sequoia Capital', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Options — allocated', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Options — unallocated (pre-B)', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']),
+            defaultHolder('Options — new unallocated (B)', ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated'])
+          ],
+          unallocatedBefore: '', allocatedOutstanding: '', sharesNeeded: '', pctFullyDiluted: '', founderOwnershipAfter: '', pps: '',
+          stretch: ''
+        },
+        IV: { text: '' }
+      },
+      meta: { version: VERSION, lastSaved: null }
+    };
+  }
+
+  function initScenarios() {
+    SCENARIO_KEYS.forEach(key => {
+      if (!state.parts.II.scenarios[key]) {
+        state.parts.II.scenarios[key] = copySeriesAForScenario(key);
+      }
+    });
+  }
+
+  function copySeriesAForScenario(key) {
+    const src = state.parts.I.seriesA.holders;
+    const poolPct = key === 'smallerPool' || key === 'both' ? '12' : '16';
+    const postMoney = key === 'higherVal' || key === 'both' ? '60000000' : '50000000';
+    return {
+      poolPct,
+      postMoney,
+      investment: '12000000',
+      holders: src.map(h => ({ ...h, common: h.common || '', seedPref: h.seedPref || '', seriesAPref: h.seriesAPref || '' }))
+    };
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.schema === SCHEMA) return mergeDefaults(parsed);
+      }
+    } catch (e) { /* fresh start */ }
+    const s = defaultState();
+    initScenariosFrom(s);
+    return s;
+  }
+
+  function initScenariosFrom(s) {
+    SCENARIO_KEYS.forEach(key => {
+      if (!s.parts.II.scenarios[key]) {
+        s.parts.II.scenarios[key] = {
+          poolPct: key === 'smallerPool' || key === 'both' ? '12' : '16',
+          postMoney: key === 'higherVal' || key === 'both' ? '60000000' : '50000000',
+          investment: '12000000',
+          holders: s.parts.I.seriesA.holders.map(h => ({ ...h }))
+        };
+      }
+    });
+  }
+
+  function mergeDefaults(parsed) {
+    const base = defaultState();
+    const merged = deepMerge(base, parsed);
+    initScenariosFrom(merged);
+    return merged;
+  }
+
+  function deepMerge(target, source) {
+    if (source === null || typeof source !== 'object') return source;
+    const out = Array.isArray(target) ? target.slice() : { ...target };
+    Object.keys(source).forEach(k => {
+      if (source[k] && typeof source[k] === 'object' && !Array.isArray(source[k])) {
+        out[k] = deepMerge(out[k] || {}, source[k]);
+      } else {
+        out[k] = source[k];
+      }
+    });
+    return out;
+  }
+
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    const el = document.getElementById('save-indicator');
+    if (!el.classList.contains('saved')) el.textContent = 'Edited';
+    el.classList.remove('saved');
+    saveTimer = setTimeout(() => {
+      el.textContent = 'Saving…';
+      persistState();
+    }, 1200);
+  }
+
+  function persistState() {
+    state.meta.lastSaved = new Date().toISOString();
+    const payload = JSON.stringify(state);
+    const el = document.getElementById('save-indicator');
+    const write = () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, payload);
+        el.textContent = 'Saved ✓ (this device only)';
+        el.classList.add('saved');
+      } catch (err) {
+        el.textContent = 'Save failed — export your work';
+      }
+    };
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(write, { timeout: 2000 });
+    else setTimeout(write, 0);
+  }
+
+  function parseNum(val) {
+    if (val === '' || val === null || val === undefined) return 0;
+    const n = Number(String(val).replace(/,/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function formatNum(n) {
+    if (!n && n !== 0) return '';
+    return Math.round(n).toLocaleString('en-US');
+  }
+
+  function formatPct(n) {
+    if (!isFinite(n)) return '—';
+    return n.toFixed(1) + '%';
+  }
+
+  function holderTotalShares(h, cols) {
+    return cols.reduce((sum, c) => sum + parseNum(h[c]), 0);
+  }
+
+  function computeOwnership(holders, cols) {
+    const totals = holders.map(h => holderTotalShares(h, cols));
+    const grand = totals.reduce((a, b) => a + b, 0);
+    return holders.map((h, i) => grand > 0 ? (totals[i] / grand) * 100 : 0);
+  }
+
+  function renderJE(containerId, jeKey, partKey) {
+    const container = document.getElementById(containerId);
+    container.dataset.jePart = partKey;
+    container.dataset.jeSub = jeKey;
+    const je = state.parts[partKey][jeKey].je;
+    let html = '<div class="table-wrap"><table class="je-table"><thead><tr><th>Account</th><th>Debit ($)</th><th>Credit ($)</th><th></th></tr></thead><tbody>';
+    je.forEach((row, i) => {
+      html += `<tr>
+        <td><select data-je="${partKey}.${jeKey}.${i}.account">${ACCOUNTS.map(a => `<option value="${a}"${row.account === a ? ' selected' : ''}>${a}</option>`).join('')}</select></td>
+        <td><input type="text" inputmode="decimal" data-je="${partKey}.${jeKey}.${i}.dr" value="${esc(row.dr)}" placeholder="0"></td>
+        <td><input type="text" inputmode="decimal" data-je="${partKey}.${jeKey}.${i}.cr" value="${esc(row.cr)}" placeholder="0"></td>
+        <td><button type="button" class="btn btn-sm btn-danger" data-je-remove="${partKey}.${jeKey}.${i}">×</button></td>
+      </tr>`;
+    });
+    html += '</tbody></table></div>';
+    html += `<div class="je-totals" data-je-totals>
+      <span data-je-dr>Debits: <strong>$0</strong></span>
+      <span data-je-cr>Credits: <strong>$0</strong></span>
+      <span class="badge" data-je-badge>Balanced</span>
+    </div>
+    <button type="button" class="btn btn-sm" data-je-add="${partKey}.${jeKey}">+ Add row</button>`;
+    container.innerHTML = html;
+    refreshJE(containerId);
+  }
+
+  function refreshJE(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container || !container.dataset.jePart) return;
+    const je = state.parts[container.dataset.jePart][container.dataset.jeSub].je;
+    const drTotal = je.reduce((s, r) => s + parseNum(r.dr), 0);
+    const crTotal = je.reduce((s, r) => s + parseNum(r.cr), 0);
+    const balanced = Math.abs(drTotal - crTotal) < 0.01;
+    const totals = container.querySelector('[data-je-totals]');
+    if (!totals) return;
+    totals.querySelector('[data-je-dr] strong').textContent = '$' + formatNum(drTotal);
+    totals.querySelector('[data-je-cr] strong').textContent = '$' + formatNum(crTotal);
+    const badge = totals.querySelector('[data-je-badge]');
+    badge.textContent = balanced ? 'Balanced' : 'Debits ≠ Credits';
+    badge.className = 'badge ' + (balanced ? 'badge-ok' : 'badge-warn');
+  }
+
+  function renderGrid(containerId, holders, cols, colLabels, dataPath, editableName) {
+    const container = document.getElementById(containerId);
+    container.dataset.gridPath = dataPath;
+    container.dataset.gridCols = cols.join(',');
+    let html = '<div class="table-wrap"><table class="cap-table"><thead><tr>';
+    html += `<th>Holder</th>${colLabels.map(l => `<th>${l}</th>`).join('')}<th>Ownership</th>`;
+    if (editableName) html += '<th></th>';
+    html += '</tr></thead><tbody>';
+    holders.forEach((h, i) => {
+      html += `<tr data-grid-row="${i}">`;
+      if (editableName) {
+        html += `<td><input type="text" data-grid="${dataPath}.${i}.name" value="${esc(h.name)}"></td>`;
+      } else {
+        html += `<td>${esc(h.name)}</td>`;
+      }
+      cols.forEach(c => {
+        html += `<td><input type="text" inputmode="numeric" data-grid="${dataPath}.${i}.${c}" value="${esc(h[c])}" placeholder="0"></td>`;
+      });
+      html += `<td class="computed" data-ownership>—</td>`;
+      if (editableName) html += `<td><button type="button" class="btn btn-sm btn-danger" data-grid-remove="${dataPath}.${i}">×</button></td>`;
+      html += '</tr>';
+    });
+    html += '<tr class="grid-total-row" style="font-weight:600;background:#eef4f8;"><td>Total</td>';
+    cols.forEach((c, ci) => { html += `<td data-col-total="${c}" style="text-align:right;padding-right:0.65rem;">0</td>`; });
+    html += `<td class="computed" data-grand-total>—</td>`;
+    if (editableName) html += '<td></td>';
+    html += '</tr></tbody></table></div>';
+    if (editableName) {
+      html += `<button type="button" class="btn btn-sm" data-grid-add="${dataPath}">+ Add holder</button>`;
+    }
+    container.innerHTML = html;
+    refreshGrid(containerId, holders, cols);
+  }
+
+  function refreshGrid(containerId, holders, cols) {
+    const table = document.querySelector('#' + containerId + ' table.cap-table');
+    if (!table) return;
+    const live = readLiveHolders(containerId, holders, cols);
+    const pcts = computeOwnership(live, cols);
+    holders.forEach((h, i) => {
+      const row = table.querySelector(`tr[data-grid-row="${i}"]`);
+      if (!row) return;
+      const cell = row.querySelector('[data-ownership]');
+      if (cell) cell.textContent = formatPct(pcts[i]);
+    });
+    const totalRow = table.querySelector('tr.grid-total-row');
+    if (!totalRow) return;
+    const colTotals = cols.map(c => live.reduce((s, h) => s + parseNum(h[c]), 0));
+    const grand = colTotals.reduce((a, b) => a + b, 0);
+    colTotals.forEach((t, ci) => {
+      const cell = totalRow.querySelector(`[data-col-total="${cols[ci]}"]`);
+      if (cell) cell.textContent = formatNum(t);
+    });
+    const grandCell = totalRow.querySelector('[data-grand-total]');
+    if (grandCell) grandCell.textContent = grand > 0 ? '100.0%' : '—';
+  }
+
+  function scheduleGridRefresh(path) {
+    gridRefreshPaths.add(path);
+    if (gridRefreshPending) return;
+    gridRefreshPending = true;
+    requestAnimationFrame(() => {
+      gridRefreshPending = false;
+      gridRefreshPaths.forEach(p => {
+        syncHoldersFromDOM(p);
+        refreshGridForPath(p);
+      });
+      gridRefreshPaths.clear();
+    });
+  }
+
+  function scheduleJERefresh(containerId) {
+    jeRefreshPending.add(containerId);
+    requestAnimationFrame(() => {
+      jeRefreshPending.forEach(id => refreshJE(id));
+      jeRefreshPending.clear();
+    });
+  }
+
+  function refreshGridForPath(path) {
+    const cfg = gridConfigForPath(path);
+    if (!cfg) return;
+    const holders = getByPath(path);
+    if (!holders) return;
+    refreshGrid(cfg.id, holders, cfg.cols);
+  }
+
+  function handleGridInput(target) {
+    const { path, idx, field } = parseGridAttr(target.dataset.grid);
+    const arr = getByPath(path);
+    if (!arr || !arr[idx]) return;
+    arr[idx][field] = target.value;
+    scheduleSave();
+    scheduleGridRefresh(path);
+  }
+
+  function renderMetrics(containerId, fields, partKey, subKey) {
+    const container = document.getElementById(containerId);
+    const data = subKey ? state.parts[partKey][subKey] : state.parts[partKey];
+    container.innerHTML = fields.map(f => `
+      <div class="field-row">
+        <label>${f.label}</label>
+        <input type="text" data-metric="${partKey}${subKey ? '.' + subKey : ''}.${f.key}" value="${esc(data[f.key] || '')}" placeholder="${f.placeholder || ''}">
+      </div>
+    `).join('');
+  }
+
+  function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderSetup() {
+    const grid = document.getElementById('member-grid');
+    grid.innerHTML = state.group.map((m, i) => `
+      <div class="field-row">
+        <label>Member ${i + 1} — Full name</label>
+        <input type="text" data-member="${i}.name" value="${esc(m.name)}" placeholder="First Last">
+      </div>
+      <div class="field-row">
+        <label>NetID</label>
+        <input type="text" data-member="${i}.netid" value="${esc(m.netid)}" placeholder="abc123">
+      </div>
+    `).join('');
+    document.getElementById('honor-check').checked = state.honor;
+  }
+
+  function renderPartI() {
+    renderJE('je-formation', 'formation', 'I');
+    renderGrid('grid-formation', state.parts.I.formation.holders, ['common'], ['Common shares'], 'I.formation.holders', false);
+    renderJE('je-seed', 'seed', 'I');
+    renderGrid('grid-seed', state.parts.I.seed.holders, ['common', 'seedPref'], ['Common', 'Seed Pref'], 'I.seed.holders', false);
+    renderMetrics('metrics-seed', [
+      { key: 'preMoney', label: 'Pre-money valuation ($)' },
+      { key: 'postMoney', label: 'Post-money valuation ($)' },
+      { key: 'pps', label: 'Price per share ($)' },
+      { key: 'founderCollectivePct', label: 'Founders collective ownership (%)' }
+    ], 'I', 'seed');
+    renderJE('je-seriesA', 'seriesA', 'I');
+    renderGrid('grid-seriesA', state.parts.I.seriesA.holders, ['common', 'seedPref', 'seriesAPref'], ['Common', 'Seed Pref', 'Series A Pref'], 'I.seriesA.holders', true);
+    renderMetrics('metrics-seriesA', [
+      { key: 'greylockPct', label: 'Greylock ownership (%)' },
+      { key: 'pps', label: 'Price per share ($)' },
+      { key: 'founderEachPct', label: 'Each founder ownership (%)' },
+      { key: 'founderDilutionPp', label: 'Founders combined dilution since formation (p.p.)' },
+      { key: 'markPct', label: 'Mark Cuban ownership (%)' },
+      { key: 'markChangePp', label: 'Mark Cuban ownership change (p.p.)' }
+    ], 'I', 'seriesA');
+  }
+
+  function renderScenarioTabs() {
+    const tabs = document.getElementById('scenario-tabs');
+    tabs.innerHTML = SCENARIO_KEYS.map(k => `
+      <button type="button" role="tab" aria-selected="${k === activeScenario}" class="${k === activeScenario ? 'active' : ''}" data-scenario="${k}">${SCENARIO_LABELS[k]}</button>
+    `).join('');
+  }
+
+  function renderScenarioPanel() {
+    const sc = state.parts.II.scenarios[activeScenario];
+    const panel = document.getElementById('scenario-panel');
+    panel.innerHTML = `
+      <div class="metric-fields" style="margin-bottom:1rem;">
+        <div class="field-row"><label>Target option pool (%)</label>
+          <input type="text" data-scenario-field="poolPct" value="${esc(sc.poolPct)}"></div>
+        <div class="field-row"><label>Post-money valuation ($)</label>
+          <input type="text" data-scenario-field="postMoney" value="${esc(sc.postMoney)}"></div>
+        <div class="field-row"><label>Series A investment ($)</label>
+          <input type="text" data-scenario-field="investment" value="${esc(sc.investment)}"></div>
+      </div>
+      <div id="grid-scenario"></div>
+    `;
+    renderGrid('grid-scenario', sc.holders, ['common', 'seedPref', 'seriesAPref'], ['Common', 'Seed Pref', 'Series A Pref'], `II.scenarios.${activeScenario}.holders`, true);
+  }
+
+  function renderComparison() {
+    const body = document.getElementById('comparison-body');
+    body.innerHTML = COMPARISON_METRICS.map(m => `
+      <tr>
+        <td>${m.label}</td>
+        ${SCENARIO_KEYS.map(k => `<td><input type="text" data-comparison="${k}.${m.key}" value="${esc(state.parts.II.comparison[k][m.key])}"></td>`).join('')}
+      </tr>
+    `).join('');
+    document.getElementById('judgment-lever').value = state.parts.II.judgmentLever;
+    document.getElementById('judgment-pool').value = state.parts.II.judgmentPool;
+  }
+
+  function renderPartIII() {
+    const p = state.parts.III;
+    renderGrid('grid-seriesB', p.holders,
+      ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated'],
+      ['Common', 'Seed Pref', 'A Pref', 'B Pref', 'Opts (alloc)', 'Opts (unalloc)'],
+      'III.holders', true);
+    renderMetrics('metrics-seriesB', [
+      { key: 'unallocatedBefore', label: 'Unallocated options before Series B' },
+      { key: 'allocatedOutstanding', label: 'Allocated options outstanding before B' },
+      { key: 'sharesNeeded', label: 'New option shares needed' },
+      { key: 'pctFullyDiluted', label: 'Unallocated pool as % of FD after B' },
+      { key: 'founderOwnershipAfter', label: 'Each founder ownership after B (%)' },
+      { key: 'pps', label: 'Series B price per share ($)' }
+    ], 'III', null);
+    document.getElementById('stretch-iii').value = p.stretch;
+  }
+
+  function renderPartIV() {
+    document.getElementById('founder-email').value = state.parts.IV.text;
+    updateSentenceCounter();
+  }
+
+  function countSentences(text) {
+    const t = text.trim();
+    if (!t) return 0;
+    return t.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+  }
+
+  function updateSentenceCounter() {
+    const n = countSentences(state.parts.IV.text);
+    const el = document.getElementById('sentence-counter');
+    el.textContent = n + ' sentence' + (n === 1 ? '' : 's');
+    el.classList.toggle('warn', n > 5);
+    if (n > 5) el.textContent += ' — consider trimming (soft limit: 5)';
+  }
+
+  function scheduleSentenceCounter() {
+    clearTimeout(sentenceTimer);
+    sentenceTimer = setTimeout(updateSentenceCounter, 250);
+  }
+
+  function renderReview() {
+    const items = getCompletenessItems();
+    document.getElementById('completeness-checklist').innerHTML = items.map(it => `
+      <li><span class="icon">${it.ok ? '✅' : '⬜'}</span> ${it.label}</li>
+    `).join('');
+    document.getElementById('review-content').innerHTML = buildHumanReviewHTML();
+  }
+
+  function getCompletenessItems() {
+    const namesOk = state.group.filter(m => m.name.trim()).length >= 2;
+    const honorOk = state.honor;
+    const partIOk = state.parts.I.formation.holders.every(h => parseNum(h.common) > 0);
+    const emailOk = state.parts.IV.text.trim().length > 20;
+    return [
+      { ok: namesOk, label: 'At least 2 group members named' },
+      { ok: honorOk, label: 'Honor certification checked' },
+      { ok: partIOk, label: 'Part I formation shares entered' },
+      { ok: emailOk, label: 'Part IV founder email drafted' }
+    ];
+  }
+
+  function renderAll() {
+    renderSetup();
+    renderPartI();
+    renderScenarioTabs();
+    renderScenarioPanel();
+    renderComparison();
+    renderPartIII();
+    renderPartIV();
+    if (activePanel === 'review') renderReview();
+    document.getElementById('version-display').textContent = VERSION;
+  }
+
+  function setPanel(id, sectionId) {
+    activePanel = id;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    document.querySelectorAll('[data-panel]').forEach(b => {
+      b.classList.toggle('active', b.dataset.panel === id);
+    });
+    if (id === 'review') renderReview();
+    updateJumpNav();
+    renderPanelFooters();
+    if (sectionId) {
+      requestAnimationFrame(() => scrollToSection(sectionId));
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function scrollToSection(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function partIndex(id) {
+    return PART_NAV.findIndex(p => p.id === id);
+  }
+
+  function updateJumpNav() {
+    const sectionsEl = document.getElementById('jump-sections');
+    const current = PART_NAV.find(p => p.id === activePanel);
+    document.querySelectorAll('#jump-parts .jump-tag').forEach(b => {
+      b.classList.toggle('active', b.dataset.panel === activePanel);
+    });
+    document.querySelectorAll('nav.part-nav button').forEach(b => {
+      b.classList.toggle('active', b.dataset.panel === activePanel);
+    });
+    if (current && current.sections && current.sections.length > 1) {
+      sectionsEl.hidden = false;
+      sectionsEl.innerHTML = current.sections.map(s => `
+        <button type="button" class="jump-tag sub" data-section="${s.id}" data-panel="${current.id}">${s.label}</button>
+      `).join('');
+    } else {
+      sectionsEl.hidden = true;
+      sectionsEl.innerHTML = '';
+    }
+    syncJumpNavOffset();
+  }
+
+  function renderPanelFooters() {
+    document.querySelectorAll('.panel-footer-nav').forEach(footer => {
+      const id = footer.dataset.footer;
+      const idx = partIndex(id);
+      const prev = idx > 0 ? PART_NAV[idx - 1] : null;
+      const next = idx < PART_NAV.length - 1 ? PART_NAV[idx + 1] : null;
+      footer.innerHTML = `
+        ${prev ? `<button type="button" class="jump-tag" data-panel="${prev.id}">← ${prev.label}</button>` : '<span></span>'}
+        ${next ? `<button type="button" class="jump-tag" data-panel="${next.id}">${next.label} →</button>` : '<span></span>'}
+      `;
+    });
+  }
+
+  function syncJumpNavOffset() {
+    const header = document.querySelector('.site-header');
+    const jump = document.getElementById('jump-nav');
+    if (header && jump) {
+      jump.style.top = header.offsetHeight + 'px';
+      document.documentElement.style.setProperty('--scroll-offset', (header.offsetHeight + jump.offsetHeight + 12) + 'px');
+    }
+  }
+
+  function getByPath(path) {
+    const keys = path.split('.');
+    const root = /^(I|II|III|IV)\./.test(path) ? state.parts : state;
+    return keys.reduce((o, k) => (o != null ? o[k] : undefined), root);
+  }
+
+  function parseGridAttr(attr) {
+    const parts = attr.split('.');
+    const field = parts.pop();
+    const idx = +parts.pop();
+    const path = parts.join('.');
+    return { path, idx, field };
+  }
+
+  function gridConfigForPath(path) {
+    if (GRID_BY_PATH[path]) return GRID_BY_PATH[path];
+    if (/^II\.scenarios\.[^.]+\.holders$/.test(path)) {
+      return { id: 'grid-scenario', cols: ['common', 'seedPref', 'seriesAPref'] };
+    }
+    return null;
+  }
+
+  function gridInputInRow(row, col) {
+    const inputs = row.querySelectorAll('input[data-grid]');
+    for (const inp of inputs) {
+      const segs = inp.dataset.grid.split('.');
+      if (segs[segs.length - 1] === col) return inp;
+    }
+    return null;
+  }
+
+  function syncHoldersFromDOM(path) {
+    const cfg = gridConfigForPath(path);
+    const holders = getByPath(path);
+    if (!cfg || !holders) return;
+    const table = document.querySelector('#' + cfg.id + ' table.cap-table');
+    if (!table) return;
+    holders.forEach((h, i) => {
+      const row = table.querySelector(`tr[data-grid-row="${i}"]`);
+      if (!row) return;
+      cfg.cols.forEach(c => {
+        const inp = gridInputInRow(row, c);
+        if (inp) h[c] = inp.value;
+      });
+      const nameInp = row.querySelector('input[data-grid$=".name"]');
+      if (nameInp) h.name = nameInp.value;
+    });
+  }
+
+  function readLiveHolders(containerId, holders, cols) {
+    const table = document.querySelector('#' + containerId + ' table.cap-table');
+    if (!table) return holders;
+    return holders.map((h, i) => {
+      const row = table.querySelector(`tr[data-grid-row="${i}"]`);
+      if (!row) return h;
+      const live = Object.assign({}, h);
+      cols.forEach(c => {
+        const inp = gridInputInRow(row, c);
+        if (inp) live[c] = inp.value;
+      });
+      return live;
+    });
+  }
+
+  function setByPath(path, val) {
+    const keys = path.split('.');
+    let o = state;
+    for (let i = 0; i < keys.length - 1; i++) o = o[keys[i]];
+    o[keys[keys.length - 1]] = val;
+  }
+
+  function bindEvents() {
+    document.addEventListener('click', e => {
+      const panelBtn = e.target.closest('[data-panel]');
+      if (panelBtn && !panelBtn.dataset.section && panelBtn.tagName === 'BUTTON') {
+        setPanel(panelBtn.dataset.panel);
+        return;
+      }
+      const sectionBtn = e.target.closest('[data-section]');
+      if (sectionBtn) {
+        const panel = sectionBtn.dataset.panel;
+        const section = sectionBtn.dataset.section;
+        if (activePanel !== panel) setPanel(panel, section);
+        else scrollToSection(section);
+        document.querySelectorAll('#jump-sections .jump-tag').forEach(b => {
+          b.classList.toggle('active', b.dataset.section === section);
+        });
+      }
+    });
+
+    window.addEventListener('resize', syncJumpNavOffset);
+
+    document.getElementById('btn-add-member').addEventListener('click', () => {
+      if (state.group.length < 4) { state.group.push({ name: '', netid: '' }); scheduleSave(); renderSetup(); }
+    });
+    document.getElementById('btn-remove-member').addEventListener('click', () => {
+      if (state.group.length > 2) { state.group.pop(); scheduleSave(); renderSetup(); }
+    });
+
+    document.getElementById('honor-check').addEventListener('change', e => {
+      state.honor = e.target.checked; scheduleSave();
+    });
+
+    document.getElementById('btn-export').addEventListener('click', exportProgress);
+    document.getElementById('btn-import').addEventListener('click', () => document.getElementById('import-file').click());
+    document.getElementById('import-file').addEventListener('change', importProgress);
+
+    document.getElementById('btn-resync-ii').addEventListener('click', () => {
+      if (!confirm('Overwrite all three Part II scenarios with a copy of your Part I Series A cap table?')) return;
+      SCENARIO_KEYS.forEach(k => { state.parts.II.scenarios[k] = copySeriesAForScenario(k); });
+      scheduleSave(); renderScenarioTabs(); renderScenarioPanel();
+    });
+
+    document.getElementById('btn-generate').addEventListener('click', generateSubmission);
+    document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+    document.getElementById('main').addEventListener('input', onInput);
+    document.getElementById('main').addEventListener('change', e => {
+      if (e.target.matches('select[data-je]')) onInput(e);
+    });
+    document.getElementById('main').addEventListener('blur', onBlur, true);
+    document.getElementById('main').addEventListener('click', onClick);
+  }
+
+  function onBlur(e) {
+    const t = e.target;
+    if (!t.matches('input[inputmode="numeric"], input[inputmode="decimal"]') || !t.value) return;
+    const n = parseNum(t.value);
+    if (!n) return;
+    const formatted = formatNum(n);
+    if (t.value !== formatted) {
+      t.value = formatted;
+      if (t.dataset.grid) {
+        const { path, idx, field } = parseGridAttr(t.dataset.grid);
+        getByPath(path)[idx][field] = formatted;
+        scheduleSave();
+        scheduleGridRefresh(path);
+      } else if (t.dataset.je) {
+        const [part, sub, idx, field] = t.dataset.je.split('.');
+        state.parts[part][sub].je[+idx][field] = formatted;
+        scheduleSave();
+        scheduleJERefresh(JE_CONTAINERS[sub] || ('je-' + sub));
+      }
+    }
+  }
+
+  function onInput(e) {
+    const t = e.target;
+    if (t.dataset.member !== undefined) {
+      const [i, field] = t.dataset.member.split('.');
+      state.group[+i][field] = t.value;
+      scheduleSave(); return;
+    }
+    if (t.dataset.je) {
+      const [part, sub, idx, field] = t.dataset.je.split('.');
+      state.parts[part][sub].je[+idx][field] = t.value;
+      scheduleSave();
+      scheduleJERefresh(JE_CONTAINERS[sub] || ('je-' + sub));
+      return;
+    }
+    if (t.dataset.grid) {
+      handleGridInput(t);
+      return;
+    }
+    if (t.dataset.metric) {
+      const segs = t.dataset.metric.split('.');
+      if (segs.length === 3) {
+        state.parts[segs[0]][segs[1]][segs[2]] = t.value;
+      } else if (segs.length === 2) {
+        state.parts[segs[0]][segs[1]] = t.value;
+      }
+      scheduleSave(); return;
+    }
+    if (t.dataset.scenarioField) {
+      state.parts.II.scenarios[activeScenario][t.dataset.scenarioField] = t.value;
+      scheduleSave(); return;
+    }
+    if (t.dataset.comparison) {
+      const [sc, key] = t.dataset.comparison.split('.');
+      state.parts.II.comparison[sc][key] = t.value;
+      scheduleSave(); return;
+    }
+    if (t.id === 'judgment-lever') { state.parts.II.judgmentLever = t.value; scheduleSave(); return; }
+    if (t.id === 'judgment-pool') { state.parts.II.judgmentPool = t.value; scheduleSave(); return; }
+    if (t.id === 'stretch-iii') { state.parts.III.stretch = t.value; scheduleSave(); return; }
+    if (t.id === 'founder-email') { state.parts.IV.text = t.value; scheduleSave(); scheduleSentenceCounter(); return; }
+  }
+
+  function rerenderGridForPath(path) {
+    if (path === 'I.formation.holders') renderGrid('grid-formation', state.parts.I.formation.holders, ['common'], ['Common shares'], path, false);
+    else if (path === 'I.seed.holders') renderGrid('grid-seed', state.parts.I.seed.holders, ['common', 'seedPref'], ['Common', 'Seed Pref'], path, false);
+    else if (path === 'I.seriesA.holders') renderGrid('grid-seriesA', state.parts.I.seriesA.holders, ['common', 'seedPref', 'seriesAPref'], ['Common', 'Seed Pref', 'Series A Pref'], path, true);
+    else if (path.startsWith('II.scenarios')) renderScenarioPanel();
+    else if (path === 'III.holders') renderGrid('grid-seriesB', state.parts.III.holders,
+      ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated'],
+      ['Common', 'Seed Pref', 'A Pref', 'B Pref', 'Opts (alloc)', 'Opts (unalloc)'], path, true);
+  }
+
+  function onClick(e) {
+    const t = e.target.closest('button');
+    if (!t) return;
+    if (t.dataset.scenario) { activeScenario = t.dataset.scenario; renderScenarioTabs(); renderScenarioPanel(); return; }
+    if (t.dataset.jeAdd) {
+      const [part, sub] = t.dataset.jeAdd.split('.');
+      state.parts[part][sub].je.push({ account: 'Cash', dr: '', cr: '' });
+      scheduleSave();
+      renderJE(JE_CONTAINERS[sub] || ('je-' + sub), sub, part);
+    }
+    if (t.dataset.jeRemove) {
+      const [part, sub, idx] = t.dataset.jeRemove.split('.');
+      if (state.parts[part][sub].je.length > 1) {
+        state.parts[part][sub].je.splice(+idx, 1);
+        scheduleSave();
+        renderJE(JE_CONTAINERS[sub] || ('je-' + sub), sub, part);
+      }
+    }
+    if (t.dataset.gridAdd) {
+      const path = t.dataset.gridAdd;
+      const arr = getByPath(path);
+      const cols = path.includes('seriesB') || path === 'III.holders'
+        ? ['common','seedPref','seriesAPref','seriesBPref','optionsAllocated','optionsUnallocated']
+        : ['common','seedPref','seriesAPref'];
+      arr.push(defaultHolder('New holder', cols));
+      scheduleSave(); rerenderGridForPath(path);
+    }
+    if (t.dataset.gridRemove) {
+      const [path, idx] = [t.dataset.gridRemove.replace(/\.[^.]+$/, ''), +t.dataset.gridRemove.split('.').pop()];
+      const arr = getByPath(path);
+      if (arr.length > 2) { arr.splice(idx, 1); scheduleSave(); rerenderGridForPath(path); }
+    }
+  }
+
+  function exportProgress() {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'houzz-ps1.ps1work.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function importProgress(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (parsed.schema !== SCHEMA) { alert('Invalid file: wrong schema.'); return; }
+        if (!confirm('Import will overwrite all current work on this device. Continue?')) return;
+        state = mergeDefaults(parsed);
+        scheduleSave(); renderAll();
+      } catch (err) { alert('Could not read file.'); }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function getLastNames() {
+    return state.group.filter(m => m.name.trim()).map(m => {
+      const parts = m.name.trim().split(/\s+/);
+      return parts[parts.length - 1].replace(/[^a-zA-Z]/g, '');
+    }).filter(Boolean);
+  }
+
+  function buildPayload() {
+    return { schema: SCHEMA, group: state.group, honor: state.honor, parts: state.parts, meta: { ...state.meta, submittedAt: new Date().toISOString(), workbenchVersion: VERSION } };
+  }
+
+  function buildHumanReviewHTML() {
+  let h = '<h3>Group</h3><p>' + state.group.filter(m => m.name).map(m => esc(m.name) + ' (' + esc(m.netid) + ')').join(', ') + '</p>';
+  h += '<h3>Part I — Formation</h3>' + gridHTML(state.parts.I.formation.holders, ['common'], ['Common']);
+  h += '<h3>Part I — Seed</h3>' + gridHTML(state.parts.I.seed.holders, ['common','seedPref'], ['Common','Seed Pref']);
+  h += '<h3>Part I — Series A</h3>' + gridHTML(state.parts.I.seriesA.holders, ['common','seedPref','seriesAPref'], ['Common','Seed Pref','Series A Pref']);
+  h += '<h3>Part IV — Email</h3><p style="white-space:pre-wrap;">' + esc(state.parts.IV.text) + '</p>';
+  return h;
+  }
+
+  function gridHTML(holders, cols, labels) {
+    const pcts = computeOwnership(holders, cols);
+    let h = '<table class="cap-table" style="width:100%;border-collapse:collapse;font-size:14px;"><tr><th>Holder</th>';
+    labels.forEach(l => { h += '<th>' + l + '</th>'; });
+    h += '<th>Ownership</th></tr>';
+    holders.forEach((row, i) => {
+      h += '<tr><td>' + esc(row.name) + '</td>';
+      cols.forEach(c => { h += '<td style="text-align:right;">' + (row[c] ? formatNum(parseNum(row[c])) : '—') + '</td>'; });
+      h += '<td style="text-align:right;">' + formatPct(pcts[i]) + '</td></tr>';
+    });
+    return h + '</table>';
+  }
+
+  async function generateSubmission() {
+    const items = getCompletenessItems();
+    if (!items.every(i => i.ok)) {
+      if (!confirm('Some items are incomplete. Generate anyway?')) return;
+    }
+    if (!state.honor) { alert('Please check the honor certification on the Setup panel.'); setPanel('setup'); return; }
+    const payload = buildPayload();
+    const json = JSON.stringify(payload, null, 2);
+    const hash = await sha256(json);
+    const lastNames = getLastNames();
+    const fn = 'PS1_Submission_' + (lastNames.slice(0, 2).join('_') || 'Group') + '.html';
+    const human = buildFullSubmissionHTML(payload, hash);
+    const blob = new Blob([human], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fn;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function buildFullSubmissionHTML(payload, hash) {
+    const ts = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+    const json = JSON.stringify(payload, null, 2);
+    const p = payload.parts;
+    let body = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>PS1 Submission — MGT 816</title>
+<style>body{font-family:Georgia,serif;max-width:900px;margin:2rem auto;padding:0 1.5rem;color:#1a1a1a;font-size:14px;}
+h1{color:#1F4E79;}h2{color:#1F4E79;border-bottom:2px solid #D5E8F0;padding-bottom:0.25rem;margin-top:2rem;}
+table{width:100%;border-collapse:collapse;margin:0.75rem 0;}th,td{border:1px solid #ccc;padding:0.4rem 0.5rem;text-align:left;}
+th{background:#1F4E79;color:#fff;}td.num{text-align:right;}footer{margin-top:3rem;font-size:12px;color:#666;border-top:1px solid #ccc;padding-top:1rem;}
+.email{white-space:pre-wrap;background:#f8f9fa;padding:1rem;border-left:4px solid #1F4E79;}</style></head><body>
+<h1>Problem Set 1 Submission</h1>
+<p><strong>MGT 816 · Fall 2026</strong><br>Group: ${payload.group.filter(m=>m.name).map(m=>esc(m.name)).join(', ')}</p>`;
+
+    body += sectionSubmissionPartI(p);
+    body += sectionSubmissionPartII(p.II);
+    body += sectionSubmissionPartIII(p.III);
+    body += `<h2>Part IV — Founder Email</h2><div class="email">${esc(p.IV.text)}</div>`;
+    body += `<footer><p>Generated: ${ts} ET · Workbench v${VERSION} · Schema ${SCHEMA}</p>
+<p>Integrity hash (SHA-256 of JSON payload): <code>${hash}</code></p></footer>
+<script type="application/json" id="payload">${json.replace(/<\//g, '<\\/')}<\/script>
+</body></html>`;
+    return body;
+  }
+
+  function sectionSubmissionPartI(p) {
+    let h = '<h2>Part I</h2>';
+    h += '<h3>Formation cap table</h3>' + gridHTML(p.I.formation.holders, ['common'], ['Common']);
+    h += '<h3>Seed cap table</h3>' + gridHTML(p.I.seed.holders, ['common','seedPref'], ['Common','Seed Pref']);
+    h += '<h3>Series A cap table</h3>' + gridHTML(p.I.seriesA.holders, ['common','seedPref','seriesAPref'], ['Common','Seed Pref','Series A Pref']);
+    return h;
+  }
+
+  function sectionSubmissionPartII(ii) {
+    let h = '<h2>Part II — Scenarios</h2>';
+    SCENARIO_KEYS.forEach(k => {
+      h += '<h3>' + SCENARIO_LABELS[k] + '</h3>' + gridHTML(ii.scenarios[k].holders, ['common','seedPref','seriesAPref'], ['Common','Seed Pref','Series A Pref']);
+    });
+    h += '<h3>Comparison</h3><table><tr><th>Metric</th>' + SCENARIO_KEYS.map(k => '<th>' + SCENARIO_LABELS[k] + '</th>').join('') + '</tr>';
+    COMPARISON_METRICS.forEach(m => {
+      h += '<tr><td>' + m.label + '</td>' + SCENARIO_KEYS.map(k => '<td class="num">' + esc(ii.comparison[k][m.key] || '—') + '</td>').join('') + '</tr>';
+    });
+    h += '</table><h3>Judgment</h3><p><strong>Lever:</strong> ' + esc(ii.judgmentLever) + '</p><p><strong>Pool cost:</strong> ' + esc(ii.judgmentPool) + '</p>';
+    return h;
+  }
+
+  function sectionSubmissionPartIII(iii) {
+    let h = '<h2>Part III — Series B</h2>' + gridHTML(iii.holders,
+      ['common','seedPref','seriesAPref','seriesBPref','optionsAllocated','optionsUnallocated'],
+      ['Common','Seed Pref','A Pref','B Pref','Opts alloc','Opts unalloc']);
+    h += '<p><strong>Stretch work:</strong></p><p style="white-space:pre-wrap;">' + esc(iii.stretch) + '</p>';
+    return h;
+  }
+
+  initScenarios();
+  bindEvents();
+  renderAll();
+  updateJumpNav();
+  renderPanelFooters();
+  requestAnimationFrame(syncJumpNavOffset);
+})();
+  </script>
+</body>
+</html>

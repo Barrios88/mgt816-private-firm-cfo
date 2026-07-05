@@ -1,0 +1,51 @@
+---
+title: "Cases"
+---
+
+Two cases anchor the term. Memos are due on Canvas at **1:00 pm** on the discussion day.
+
+## Case 1: FeedBurner
+
+**"Lather, Rinse, Repeat": FeedBurner's Serial Founding Team** (HBS 9-809-089)
+
+| | |
+|:--|:--|
+| **Assigned** | Wednesday, September 2 |
+| **Due** | Wednesday, September 16 at 1:00 pm |
+| **Discussed** | Wednesday, September 16 |
+| **Groups** | Up to 4 students; 4 pages or less plus calculations |
+
+**Case packet:** HBS coursepack / Canvas (licensed — not hosted on this site).
+
+**Interactive discussion site:** <span class="locked-link">Unlocks after class on September 16</span>  
+→ [Feedburner discussion site](discussion-sites/feedburner/) *(available after the 4:10 pm section)*
+
+---
+
+## Case 2: Solstice Robotics
+
+**Solstice Robotics: Three Inboxes and a Tender Offer** (original course case — tax consequences of employee stock options)
+
+| | |
+|:--|:--|
+| **Assigned** | Monday, September 21 (Canvas) |
+| **Due** | Wednesday, September 30 at 1:00 pm |
+| **Discussed** | Wednesday, September 30 |
+| **Groups** | Up to 4 students; 4 pages or less plus calculations |
+
+**Case packet:** Canvas only (graded memo).
+
+**Interactive discussion site:** <span class="locked-link">Unlocks after class on September 30</span>  
+→ [Solstice discussion site](discussion-sites/solstice/) *(available after the 4:10 pm section)*
+
+---
+
+## Memo format
+
+- Answer the questions distributed with each case
+- One submission per group on Canvas
+- Due at **1:00 pm** — start of the first section — on the discussion day
+
+## FreshBites 409A mini-case
+
+Ungraded self-check distributed with Session 5 prep. Suitable for public posting when available in `materials/`.

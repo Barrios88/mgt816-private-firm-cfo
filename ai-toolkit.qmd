@@ -1,0 +1,107 @@
+---
+title: "AI Toolkit"
+---
+
+The AI-assisted forecasting module (Sessions 6–7 and Problem Set 2) uses a **structured scaffold**: four AI roles, copy-ready prompts, a graded verification log, and five manual checks. AI is required on PS2; every number you submit must be human-certified.
+
+## AI-for-FP&A ground rules
+
+1. **The AI never touches your Excel file.** Paste text in; implement schedules yourself.
+2. **Four roles, four jobs:** Analyst → Skeptic → Builder → Board Red-Team (plus a Drafter for the memo).
+3. **Every external benchmark** must be traced to the professor's benchmark sheet or stamped **UNVERIFIED** in your log.
+4. **Every number in your memo** must exist in your model — unverifiable numbers cost points.
+5. **The final exam is closed book, no AI** — the backstop that keeps incentives honest.
+
+---
+
+## Four role cards
+
+### Analyst — driver extraction
+
+**Bias / blind spot:** Over-extracts plausible-sounding drivers not in the case text.
+
+**Verification:** Cross-check every extracted assumption against the case narrative.
+
+### Skeptic — assumption benchmarking
+
+**Bias / blind spot:** Cites benchmarks confidently without real sources.
+
+**Verification:** Provenance rule — source every external number or stamp UNVERIFIED.
+
+### Builder — schedule logic drafting
+
+**Bias / blind spot:** Outputs formulas that look right but violate timing rules (ramp, lag, hiring).
+
+**Verification:** Hand-recompute one month; tie out beginning + adds − churn = ending.
+
+### Board Red-Team — forecast critique
+
+**Bias / blind spot:** Asks generic board questions instead of finding internal inconsistencies.
+
+**Verification:** Run a one-variable data table on the AI's "most sensitive driver" claim.
+
+---
+
+## Copy-ready prompts
+
+Use these in any chatbot (free tier is sufficient). Paste your case facts between `###` delimiters.
+
+### P1 — Driver identification (Analyst)
+
+```
+You are an FP&A analyst at an early-stage SaaS company. Below is our planning case, delimited by ###. Extract every quantitative assumption into a table with columns: driver name | value | unit | financial statement line it feeds | controllable by management (Y/N). Then present the driver tree from sales capacity to ending ARR as an indented list. Do not invent any assumption that is not in the text; instead, end with a list titled "OPEN QUESTIONS" for anything the case leaves unspecified. ### [paste case_facts.txt] ###
+```
+
+### P2 — Assumption benchmarking (Skeptic)
+
+```
+You are a skeptical FP&A reviewer. Here is our assumption table: [paste]. For each assumption, classify it as aggressive / typical / conservative for a Series-A B2B SaaS company in 2026, with one sentence of reasoning. Wherever you invoke an external benchmark, name the source and your confidence in it, and tag the line "VERIFY BEFORE USE." Finish by naming the three assumptions that, if wrong, do the most damage to year-end cash, and why.
+```
+
+### P3 — Schedule drafting (Builder)
+
+```
+Build a monthly FY2027 customer-count schedule from these assumptions: [paste relevant rows]. Output (a) a 12-column table with beginning balance, new logos, churned logos, ending balance; and (b) for each row, the formula logic in plain words so I can implement it in Excel myself. Explicitly flag any month where a ramp, training lag, or hiring rule changes the calculation. Do not give me Excel formulas with cell references — I own the spreadsheet.
+```
+
+### P4 — Scenario building
+
+```
+Create base, upside, and downside scenarios by varying ONLY these four drivers: [list]. For each scenario, give the driver values and a one-sentence rationale grounded in the case facts — no new facts. Present as a table I can paste into my assumptions sheet. Then state which single driver you believe moves December cash the most; I will test your claim with a data table and report back.
+```
+
+### P5 — Forecast critique (Board Red-Team)
+
+```
+You are a board director with a venture background reviewing a Series-A company's annual operating plan. Here are our forecast outputs: [paste one-pager numbers]. Ask the five hardest questions you would ask in the board meeting. Then identify any internal inconsistencies — revenue growth vs. sales headcount, CAC vs. marketing spend, support ratio vs. customer count, commission expense vs. bookings. Be direct; do not soften.
+```
+
+### P6 — Board narrative (Drafter)
+
+```
+Draft a 250-word board narrative from ONLY the following verified numbers: [paste]. Structure: the headline, the base case, the single biggest risk, and the pre-agreed trigger that would cause us to re-forecast. If a sentence would require a number I did not give you, leave a bracketed placeholder instead of inventing one.
+```
+
+---
+
+## Five manual checks
+
+Each must appear in your PS2 verification log:
+
+1. **Extraction fidelity** — every AI-listed assumption traced to the case text.
+2. **Roll-forward integrity** — beginning + additions − churn = ending, all 12 months; cash walk ties to net income ± working capital.
+3. **Benchmark provenance** — every external number sourced or stamped UNVERIFIED.
+4. **Sensitivity replication** — your data table confirms or refutes the AI's "most sensitive driver" claim.
+5. **Column recompute** — hand-recompute December, top to bottom.
+
+---
+
+## Downloads
+
+| File | Status |
+|:-----|:-------|
+| [Verification log template](files/verification_log_template.xlsx) | *Coming with PS2 model pack* |
+| Benchmark sheet | *Coming with Redline Labs model pack* |
+| Prompt cards (PDF) | *Optional — content is on this page* |
+
+Workshop kit and model pack are distributed on **Canvas** when PS2 launches (Monday, September 28).

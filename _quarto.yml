@@ -1,0 +1,47 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - discussion-sites/**
+    - ps1/**
+
+website:
+  title: "MGT 816"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Schedule
+        href: schedule.qmd
+      - text: Syllabus
+        href: syllabus.qmd
+      - text: Materials
+        href: materials.qmd
+      - text: Assignments
+        href: assignments.qmd
+      - text: Cases
+        href: cases.qmd
+      - text: AI Toolkit
+        href: ai-toolkit.qmd
+      - text: Course Info
+        href: course-info.qmd
+    right:
+      - icon: box-arrow-up-right
+        href: "CANVAS_URL_PLACEHOLDER"
+        aria-label: Canvas
+  page-footer:
+    center: "MGT 816 · The Private Firm CFO · Yale School of Management · Fall 2026"
+
+format:
+  html:
+    theme:
+      - cosmo
+      - assets/theme-yale.scss
+    toc: false
+    code-copy: true
+    smooth-scroll: true
+
+execute:
+  freeze: auto

@@ -1,0 +1,50 @@
+---
+title: "Assignments"
+---
+
+Two graded problem sets, done in groups. One submission per group, due on Canvas at **1:00 pm** — the start of the first section — regardless of which section you attend.
+
+## Problem Set 1: Building the Cap Table {#ps1}
+
+Follow Houzz from formation through a priced Series B: journal entries, cap tables round by round, an option-pool negotiation, and a recommendation to the founders.
+
+| | |
+|:--|:--|
+| **Out** | Wednesday, September 9 (Session 2) |
+| **Due** | Wednesday, September 23 at 1:00 pm |
+| **Groups** | 2–4 students; one submission per group |
+| **Points** | 40 — Part I 18 · Part II 10 · Part III 8 · Part IV 4 |
+
+### How to do it
+
+Work in the **[PS1 digital workbench](ps1/index.html)** — the assignment lives there in full: the case narrative, pre-built cap-table grids and journal-entry widgets, and the submission generator.
+
+1. Open the workbench and enter your group (2–4 names + NetIDs).
+2. Work through Parts I–IV. Progress **autosaves to this browser only** — use *Export progress* / *Import progress* to hand off within your group.
+3. When every part is complete, *Generate submission sheet* downloads one HTML file — **upload that file to Canvas** by the deadline.
+
+The workbench provides structure and arithmetic hygiene (ownership percentages, balance warnings) — it does **not** check answers. Every number entered is your group's own work; AI may be used as a study aid, but you must be able to reproduce and defend every figure.
+
+### Downloads
+
+- [Assignment (PDF)](files/ps1_assignment.pdf) — the same case and questions in print form, with exhibits; use it to read offline or as the traditional submission path if you can't use the workbench
+- [Excel scratch template (optional)](files/ps1_student_template.xlsx) — blank tabs mirroring the four parts, for those who prefer to rough out the math in a spreadsheet first
+
+---
+
+## Problem Set 2: AI-Assisted Forecasting {#ps2}
+
+Build a driver-based operating forecast for Redline Labs with AI tools doing the analyst work — and you certifying every number against the verification log.
+
+| | |
+|:--|:--|
+| **Out** | Monday, September 28 (Session 7) |
+| **Due** | Monday, October 12 at 1:00 pm |
+| **Groups** | Same groups as PS1 |
+| **Points** | 40 |
+
+Materials (case facts, driver data, starter workbook) are distributed with the Session 7 workshop kit. *Posted here when released.*
+
+---
+
+**Solutions and grading guides are on Canvas only** — they are never posted on this site.

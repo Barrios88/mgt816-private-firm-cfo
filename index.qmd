@@ -1,0 +1,32 @@
+---
+title: "MGT 816 — The Private Firm CFO"
+---
+
+## Accounting and Finance Strategies
+
+This course equips students with the core set of tools and strategies related to accounting and financial reporting from the perspective of a Chief Financial Officer at a private, entrepreneurial company. The class focuses on accounting-based financial metrics, financial reporting, and managerial accounting, with an emphasis on structuring the accounting system from the start-up phase through to exit.
+
+The course follows the life of the company — from financial infrastructure through capitalization, equity compensation, forecasting, board reporting, revenue recognition, fundraising, and exits. Two cases anchor the term: a Harvard Business School case on a serial founding team, and an original case on the tax consequences of employee stock options.
+
+### What you will take from the course
+
+Public-company finance is well covered elsewhere in the curriculum. The private firm is different: there is no market price, no analyst following, and little mandated disclosure, and the owners — founders, employees, and funds — hold claims with different rights and different incentives. The CFO sits where those claims meet.
+
+By the end of the term you will have built the working documents of that seat yourself: a capitalization table constructed from formation through a priced Series A; a driver-based operating forecast, built with AI tools doing the analyst work and you certifying every number; a board memo on equity compensation and its tax consequences; and a critique of a board reporting package.
+
+::: {.hero-buttons}
+[Schedule](schedule.qmd)
+[Syllabus PDF](files/syllabus.pdf)
+[Canvas](CANVAS_URL_PLACEHOLDER){target="_blank"}
+[Materials](materials.qmd)
+:::
+
+### This week
+
+::: {.this-week}
+**Week of September 2.** First class Wednesday, September 2 — Case 1 (FeedBurner) assigned; memo due Wednesday, September 16 at 1:00 pm.
+
+**Coming up:** CFO Toolkit Bootcamp Friday, September 4 (required Monday-makeup class).
+:::
+
+*Update the "This week" block above after each class day (2 lines).*

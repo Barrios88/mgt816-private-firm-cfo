@@ -1,0 +1,11 @@
+/.quarto/
+/_site/
+/.luarc.json
+__pycache__/
+*.pyc
+.DS_Store
+*_files/
+/.venv/
+
+**/*.quarto_ipynb
+/_freeze/

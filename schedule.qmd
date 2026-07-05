@@ -1,0 +1,78 @@
+---
+title: "Schedule"
+---
+
+All deliverables are due on Canvas at **1:00 pm** — the start of the first section — regardless of which section you attend.
+
+```{python}
+#| echo: false
+#| output: asis
+import yaml
+from datetime import datetime
+from pathlib import Path
+
+with open("schedule.yml") as f:
+    sessions = yaml.safe_load(f)
+
+def fmt_date(entry):
+    d = entry.get("date")
+    if not d:
+        return ""
+    dt = datetime.strptime(str(d), "%Y-%m-%d")
+    if entry.get("exam") and entry.get("date_end"):
+        end = datetime.strptime(str(entry["date_end"]), "%Y-%m-%d")
+        return f"{dt.strftime('%a %b %-d')}–{end.strftime('%-d, %Y')}"
+    return dt.strftime("%a %b %-d, %Y")
+
+def fmt_prep(prep):
+    if not prep:
+        return "—"
+    parts = []
+    for item in prep:
+        text = item.get("text", "")
+        url = item.get("url")
+        if url:
+            parts.append(f'<a href="{url}">{text}</a>')
+        else:
+            parts.append(text)
+    return "<br>".join(parts)
+
+def fmt_out_due(entry):
+    bits = []
+    if entry.get("out"):
+        bits.append(f'<em>Out:</em> {entry["out"]}')
+    if entry.get("due"):
+        bits.append(f'<span class="due-badge">DUE: {entry["due"]}, 1:00 pm</span>')
+    if entry.get("assignment"):
+        bits.append(f'<a href="{entry["assignment"]}">Assignment</a>')
+    if entry.get("workbench"):
+        bits.append(f'<a href="{entry["workbench"]}">PS1 workbench</a>')
+    return "<br>".join(bits) if bits else "—"
+
+def fmt_slides(entry):
+  if entry.get("slides"):
+      return f'<a href="{entry["slides"]}">Slides</a>'
+  return '<span class="locked-link">After class</span>'
+
+print("| Date | Session / Topic | Prepare | Out / Due | Slides |")
+print("|:-----|:----------------|:--------|:----------|:-------|")
+
+for entry in sessions:
+    sess = entry.get("session")
+    sess_label = f"**{sess}.** " if sess is not None else ""
+    topic = entry.get("topic", "")
+    note = entry.get("note")
+    if note:
+        topic += f" *({note})*"
+    if entry.get("laptop_required"):
+        topic += " *(laptops required)*"
+    print(
+        f"| {fmt_date(entry)} "
+        f"| {sess_label}{topic} "
+        f"| {fmt_prep(entry.get('prep', []))} "
+        f"| {fmt_out_due(entry)} "
+        f"| {fmt_slides(entry)} |"
+    )
+```
+
+See also: [Materials](materials.qmd) · [Assignments](assignments.qmd) · [Syllabus](syllabus.qmd) · [Cases](cases.qmd)
