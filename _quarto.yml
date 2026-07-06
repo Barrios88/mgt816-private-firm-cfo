@@ -19,7 +19,7 @@ website:
         href: syllabus.qmd
       - text: Materials
         href: materials.qmd
-      - text: Assignments
+      - text: Problem Sets
         href: assignments.qmd
       - text: Cases
         href: cases.qmd

@@ -75,4 +75,4 @@ for entry in sessions:
     )
 ```
 
-See also: [Materials](materials.qmd) · [Assignments](assignments.qmd) · [Syllabus](syllabus.qmd) · [Cases](cases.qmd)
+See also: [Materials](materials.qmd) · [Problem Sets](assignments.qmd) · [Syllabus](syllabus.qmd) · [Cases](cases.qmd)

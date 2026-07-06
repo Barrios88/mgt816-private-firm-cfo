@@ -17,7 +17,7 @@ By the end of the term you will have built the working documents of that seat yo
 ::: {.hero-buttons}
 [Schedule](schedule.qmd)
 [Syllabus PDF](files/syllabus.pdf)
-[Assignments](assignments.qmd)
+[Problem Sets](assignments.qmd)
 [Canvas](CANVAS_URL_PLACEHOLDER){target="_blank"}
 [Materials](materials.qmd)
 :::
