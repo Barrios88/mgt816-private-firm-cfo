@@ -17,6 +17,7 @@ By the end of the term you will have built the working documents of that seat yo
 ::: {.hero-buttons}
 [Schedule](schedule.qmd)
 [Syllabus PDF](files/syllabus.pdf)
+[Assignments](assignments.qmd)
 [Canvas](CANVAS_URL_PLACEHOLDER){target="_blank"}
 [Materials](materials.qmd)
 :::
@@ -26,7 +27,7 @@ By the end of the term you will have built the working documents of that seat yo
 ::: {.this-week}
 **Week of September 2.** First class Wednesday, September 2 — Case 1 (FeedBurner) assigned; memo due Wednesday, September 16 at 1:00 pm.
 
-**Coming up:** CFO Toolkit Bootcamp Friday, September 4 (required Monday-makeup class).
+**Coming up:** CFO Toolkit Bootcamp Friday, September 4 (required Monday-makeup class). [Problem Set 1](assignments.qmd#ps1) goes out Wednesday, September 9 — done in the [digital workbench](ps1/index.html).
 :::
 
 *Update the "This week" block above after each class day (2 lines).*
