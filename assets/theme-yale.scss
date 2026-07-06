@@ -125,3 +125,24 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 420px;
   }
 }
+
+/* Mobile: wide tables scroll inside themselves instead of breaking the page */
+@media (max-width: 768px) {
+  main table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hero-buttons a,
+  .syllabus-actions a {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+/* Keep anchor jumps clear of the sticky navbar */
+:target {
+  scroll-margin-top: 4.5rem;
+}

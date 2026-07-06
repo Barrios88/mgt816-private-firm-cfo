@@ -12,7 +12,7 @@ Two things live on this page: the **CFO AI Skills** — eight skill files you ke
   border: 1.5px solid #1F4E79; border-radius: 6px; font-size: 1rem;
 }
 .skills-controls .hint { font-size: 0.85rem; color: #4A4A4A; margin-top: 0.3rem; }
-.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(310px, 100%), 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
 .skill-card {
   border: 1px solid #d9dee5; border-left: 4px solid #1F4E79; border-radius: 8px;
   padding: 1rem 1.1rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
