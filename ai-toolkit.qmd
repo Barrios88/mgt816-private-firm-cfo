@@ -2,7 +2,223 @@
 title: "AI Toolkit"
 ---
 
-The AI-assisted forecasting module (Sessions 6–7 and Problem Set 2) uses a **structured scaffold**: four AI roles, copy-ready prompts, a graded verification log, and five manual checks. AI is required on PS2; every number you submit must be human-certified.
+This course treats AI the way a working CFO does: **AI does the analyst work; you certify every number.** This page carries the two halves of that promise — the **CFO AI Skills library** you take with you after the course, and the **PS2 forecasting scaffold** used in Sessions 6–7.
+
+```{=html}
+<style>
+.skills-controls { margin: 1rem 0 1.25rem; }
+.skills-controls input {
+  width: 100%; max-width: 480px; padding: 0.55rem 0.9rem;
+  border: 1.5px solid #1F4E79; border-radius: 6px; font-size: 1rem;
+}
+.skills-controls .hint { font-size: 0.85rem; color: #4A4A4A; margin-top: 0.3rem; }
+.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+.skill-card {
+  border: 1px solid #d9dee5; border-left: 4px solid #1F4E79; border-radius: 8px;
+  padding: 1rem 1.1rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column;
+}
+.skill-card h3 { margin: 0 0 0.15rem; font-size: 1.05rem; color: #1F4E79; }
+.skill-card .sess { font-size: 0.78rem; color: #4A4A4A; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
+.skill-card .lede { font-size: 0.92rem; margin-bottom: 0.55rem; }
+.skill-card ul { font-size: 0.87rem; margin: 0 0 0.6rem; padding-left: 1.1rem; }
+.skill-card ul li { margin-bottom: 0.15rem; }
+.skill-card .reach { font-size: 0.84rem; color: #4A4A4A; font-style: italic; margin-bottom: 0.65rem; }
+.skill-card .dl { margin-top: auto; }
+.skill-card .dl a {
+  display: inline-block; background: #1F4E79; color: #fff; text-decoration: none;
+  padding: 0.35rem 0.8rem; border-radius: 5px; font-size: 0.85rem;
+}
+.skill-card .dl a:hover { background: #163a5c; }
+.skill-card .dl .meta { font-size: 0.75rem; color: #4A4A4A; margin-left: 0.5rem; }
+.skill-index td { font-size: 0.9rem; }
+.no-match { display: none; font-style: italic; color: #4A4A4A; }
+</style>
+```
+
+## The CFO AI Skills library
+
+Eight professional AI skill packages, distilled from this course. Each one packages the frameworks, formulas, decision trees, and red flags of its sessions into a **skill file (`SKILL.md`) plus working templates** — a co-pilot for the jobs you will actually hold one to five years out: first finance hire, founder, VC/PE associate, operator. They are built to keep working long after the term ends, and each ends with concrete ways to extend it with your own firm's data and policies.
+
+Every skill carries the course's integrity rule in its bones: it shows every formula, never invents a number it wasn't given, stamps unsourced benchmarks `UNVERIFIED`, and tells you when to stop and call a CPA, a lawyer, or a banker. **These teach methods with invented examples — they contain no problem-set or case answers.**
+
+### How to use a skill
+
+1. **Download** the package below (a folder: `SKILL.md` + `resources/`).
+2. **Install it in your AI tool:**
+   - **Claude (claude.ai):** create a Project, upload `SKILL.md` as project knowledge or paste it into the project instructions; upload the resource files alongside.
+   - **Claude Code / Agent SDK:** drop the whole folder into `~/.claude/skills/` — it becomes an invocable skill.
+   - **Any other AI tool:** paste `SKILL.md` as your first message ("act per these instructions") — it is self-contained.
+3. **Use the `resources/` templates directly** — they are working checklists, calculators, and log templates you can fill in with or without the AI.
+4. **Keep the discipline:** the skill drafts, *you* certify. Every package ships a verification-log template — use it whenever a number matters.
+
+### Find your skill
+
+```{=html}
+<div class="skills-controls">
+  <input type="text" id="skill-filter" placeholder="Filter skills… (try: runway, SAFE, AMT, QSBS, ASC 606, board, earn-out)" aria-label="Filter skills">
+  <div class="hint">Type to filter the cards below by name, topic, or keyword. Or browse the index table.</div>
+</div>
+```
+
+| Skill | The job it does | From sessions | |
+|:------|:----------------|:--------------|:--|
+| [Startup Finance Infrastructure & Runway](#skill-startup-finance) | Stand up the finance function; always know the out-of-cash date | S00 · S01 | [zip](files/skills/startup-finance-infrastructure.zip) |
+| [Cap Table & Financing-Round Modeler](#skill-cap-table) | Model rounds, convert SAFEs/notes, run the exit waterfall | S00 · S02 · S11 · PS1 | [zip](files/skills/cap-table-and-financing-rounds.zip) |
+| [Entity Choice, QSBS & Worker Classification](#skill-entity-tax) | Pick the entity, capture QSBS, classify workers correctly | S03 | [zip](files/skills/entity-tax-and-worker-structure.zip) |
+| [Equity Compensation Tax & Accounting Advisor](#skill-equity-comp) | Options, restricted stock, AMT, 83(b) — from both chairs | S04 · S05 · S08 | [zip](files/skills/equity-comp-tax-advisor.zip) |
+| [Driver-Based Forecast with AI Verification](#skill-forecast) | Build a forecast with AI as analyst, you as certifier | S06 · S07 · PS2 | [zip](files/skills/driver-forecast-and-ai-verification.zip) |
+| [Revenue Recognition & Margins (ASC 606)](#skill-rev-rec) | Recognize revenue correctly; read the bookings-revenue gap | S09 | [zip](files/skills/revenue-recognition-and-margins.zip) |
+| [Board Package & Audit Readiness](#skill-board) | Draft, run, and red-team board packages; prep audit #1 | S10 | [zip](files/skills/board-package-and-audit-readiness.zip) |
+| [Exit & M&A Deal Structuring](#skill-exit) | Run the sale process; the peg, the earn-out, the step-up | S12 | [zip](files/skills/exit-and-ma-deal-structuring.zip) |
+
+**[Download all eight (one zip)](files/skills/mgt816-cfo-ai-skills-all.zip)**
+
+```{=html}
+<div class="skill-grid" id="skill-grid">
+
+<div class="skill-card" id="skill-startup-finance" data-keywords="burn runway out-of-cash cash accrual chart of accounts close controls bookkeeping quickbooks credibility audit unaudited first finance hire">
+  <h3>Startup Finance Infrastructure &amp; Runway</h3>
+  <div class="sess">Built from S00 Bootcamp · S01 CFO &amp; Infrastructure</div>
+  <div class="lede">Stand up a young company's finance function and read its cash clock.</div>
+  <ul>
+    <li>Gross/net burn, runway, and the out-of-cash date — plus which lever actually buys more time</li>
+    <li>Cash-vs-accrual switch trigger, chart of accounts, software stack</li>
+    <li>Controls triad and the six-step monthly close, sized for a 10-person company</li>
+    <li>The "credibility engineer" play when a counterparty demands financials you don't have</li>
+  </ul>
+  <div class="reach">Reach for it when: you're the first finance hire, a board asks "when do we run out?", or an acquirer wants three years of audited statements you don't have.</div>
+  <div class="dl"><a href="files/skills/startup-finance-infrastructure.zip">Download</a><span class="meta">SKILL.md + 7 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-cap-table" data-keywords="cap table pre-money post-money price per share option pool shuffle dilution SAFE convertible note valuation cap warrant liquidation preference waterfall participating term sheet anti-dilution">
+  <h3>Cap Table &amp; Financing-Round Modeler</h3>
+  <div class="sess">Built from S00 · S02 Cap Table Lab · S11 Fundraising · PS1</div>
+  <div class="lede">Build and defend a cap table through priced rounds — and know who gets what at exit.</div>
+  <ul>
+    <li>Priced-round algebra, the option-pool shuffle, and the <em>effective</em> pre-money</li>
+    <li>SAFE and convertible-note conversion (caps, discounts, MFN) into the round</li>
+    <li>Liquidation waterfalls: preferences, participation, the conversion crossover</li>
+    <li>Term-sheet triage — the five terms worth your negotiating capital</li>
+  </ul>
+  <div class="reach">Reach for it when: a term sheet lands, SAFEs are stacking up, or the board is weighing two exit offers and common's share is unclear.</div>
+  <div class="dl"><a href="files/skills/cap-table-and-financing-rounds.zip">Download</a><span class="meta">SKILL.md + 7 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-entity-tax" data-keywords="C-corp LLC entity choice QSBS 1202 qualified small business stock W-2 1099 contractor employee classification exempt non-exempt overtime misclassification incorporation">
+  <h3>Entity Choice, QSBS &amp; Worker Classification</h3>
+  <div class="sess">Built from S03 Legal &amp; People Infrastructure</div>
+  <div class="lede">The formation decisions that get made once and bind the company for a decade.</div>
+  <ul>
+    <li>C-corp vs. LLC after-tax showdown, the indifference rate, and the deferral flip</li>
+    <li>QSBS §1202 under both regimes (post-July-2025 and grandfathered) — and the clock rules</li>
+    <li>W-2 vs. 1099 (the IRS control test) and exempt vs. non-exempt (the FLSA gates)</li>
+    <li>Pricing the misclassification bill before an auditor does</li>
+  </ul>
+  <div class="reach">Reach for it when: you're incorporating, converting an LLC at a term sheet, or about to write "contractor" on an offer that walks like an employee.</div>
+  <div class="dl"><a href="files/skills/entity-tax-and-worker-structure.zip">Download</a><span class="meta">SKILL.md + 7 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-equity-comp" data-keywords="stock options ISO NQSO RSU restricted stock 83b AMT bargain element vesting exercise tender 409A ASC 718 QSBS equity compensation withholding">
+  <h3>Equity Compensation Tax &amp; Accounting Advisor</h3>
+  <div class="sess">Built from S04 FeedBurner · S05 Equity Comp · S08 Solstice</div>
+  <div class="lede">What a grant really costs and pays — from the employee's chair and the CFO's, at once.</div>
+  <ul>
+    <li>ISO vs. NQSO on every axis, and the fine print that ruins people (90-day windows, the 3-month statute)</li>
+    <li>The 5-line AMT worksheet for exercise-and-hold, with the phaseout shadow bracket</li>
+    <li>83(b) elections, QSBS clocks, and the exercise-funding bridge</li>
+    <li>ASC 718 entries and why the 409A price sits below the preferred price</li>
+  </ul>
+  <div class="reach">Reach for it when: you (or your team) get a grant, an exercise deadline, a tender offer — or you're the controller who has to withhold and book it.</div>
+  <div class="dl"><a href="files/skills/equity-comp-tax-advisor.zip">Download</a><span class="meta">SKILL.md + 9 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-forecast" data-keywords="forecast budget driver model AOP operating plan unit economics CAC LTV NRR churn payback scenario sensitivity tornado verification log board one-pager FP&A">
+  <h3>Driver-Based Forecast with AI Verification</h3>
+  <div class="sess">Built from S06 KPIs &amp; Budgeting · S07 AI Workshop · PS2</div>
+  <div class="lede">Build an operating forecast with AI doing the analyst work — and you certifying every number.</div>
+  <ul>
+    <li>The four-role protocol (Analyst → Skeptic → Builder → Red-Team) with the six copy-ready prompts</li>
+    <li>The Five Manual Checks and the verification log — the discipline that makes AI use defensible</li>
+    <li>The unit-economics stack: CAC, NRR, LTV:CAC, payback vs. runway, burn multiple</li>
+    <li>Scenarios run through drivers, and a board one-pager where every number ties to a cell</li>
+  </ul>
+  <div class="reach">Reach for it when: you own the annual plan, inherit an AI-built model you must present, or need to defend unit economics in a raise.</div>
+  <div class="dl"><a href="files/skills/driver-forecast-and-ai-verification.zip">Download</a><span class="meta">SKILL.md + 8 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-rev-rec" data-keywords="revenue recognition ASC 606 deferred revenue bookings billings ARR MRR ACV TCV GMV take rate gross net principal agent margin commission capitalization">
+  <h3>Revenue Recognition &amp; Margins (ASC 606)</h3>
+  <div class="sess">Built from S09 Revenue Recognition</div>
+  <div class="lede">Turn contracts and a billing export into numbers an auditor and a diligence team will accept.</div>
+  <ul>
+    <li>The revenue bridge: bookings → billings → GAAP revenue → deferred revenue</li>
+    <li>The ASC 606 five-step model as a scorecard, contract by contract</li>
+    <li>Gross vs. net (principal/agent) and why GMV is a KPI, never revenue</li>
+    <li>The margin ladder and commission capitalization done right</li>
+  </ul>
+  <div class="reach">Reach for it when: sales says $12M, the model says $9M, the auditor says $7.4M — and the CEO wants to know which is "real."</div>
+  <div class="dl"><a href="files/skills/revenue-recognition-and-margins.zip">Download</a><span class="meta">SKILL.md + 7 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-board" data-keywords="board package board deck KPI dashboard investor update variance runway governance fiduciary directors meeting executive session audit PBC prepared by client vanity metrics">
+  <h3>Board Package &amp; Audit Readiness</h3>
+  <div class="sess">Built from S10 Boards &amp; Audit (leans on S06 · S07 · S09)</div>
+  <div class="lede">Draft, run, and red-team a board package — and be ready when the first audit comes.</div>
+  <ul>
+    <li>The package spine: cash-burn-runway first, KPIs vs. plan, base/best/worst, asks</li>
+    <li>Picking the ~6 board KPIs — and the three kill tests for vanity and destructive metrics</li>
+    <li>The six-flaw red-team scan for any deck or investor update</li>
+    <li>Board composition by stage, the meeting rhythm, and the first-audit PBC list</li>
+  </ul>
+  <div class="reach">Reach for it when: "board meeting in two weeks, can you pull the package together?" — or you're the one reading the deck before wiring money.</div>
+  <div class="dl"><a href="files/skills/board-package-and-audit-readiness.zip">Download</a><span class="meta">SKILL.md + 9 templates</span></div>
+</div>
+
+<div class="skill-card" id="skill-exit" data-keywords="exit M&A sale sell-side LOI CIM diligence data room working capital peg true-up earn-out seller note rollover stock asset step-up 338(h)(10) IPO S-1 lock-up">
+  <h3>Exit &amp; M&amp;A Deal Structuring</h3>
+  <div class="sess">Built from S12 Exits (closes loops from S02 · S03 · S10 · S11)</div>
+  <div class="lede">The purchase price is not the price — manage what actually lands in the bank.</div>
+  <ul>
+    <li>The sell-side funnel from teaser to close, with the gates that destroy value if skipped</li>
+    <li>The working-capital peg and dollar-for-dollar true-up, computed cold</li>
+    <li>Earn-outs, seller notes, and rollover equity — matched to the disagreement they solve</li>
+    <li>Stock vs. asset sale, the buyer's step-up shield, and the IPO decision framework</li>
+  </ul>
+  <div class="reach">Reach for it when: an LOI lands, a buyer proposes an earn-out, or the board is split between selling and going public.</div>
+  <div class="dl"><a href="files/skills/exit-and-ma-deal-structuring.zip">Download</a><span class="meta">SKILL.md + 7 templates</span></div>
+</div>
+
+</div>
+<p class="no-match" id="no-match">No skills match that filter — try a broader term, or browse the index table above.</p>
+<script>
+(function () {
+  var input = document.getElementById('skill-filter');
+  if (!input) return;
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.skill-card'));
+  var noMatch = document.getElementById('no-match');
+  input.addEventListener('input', function () {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function (c) {
+      var hay = (c.textContent + ' ' + (c.getAttribute('data-keywords') || '')).toLowerCase();
+      var hit = !q || hay.indexOf(q) !== -1;
+      c.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    });
+    noMatch.style.display = shown ? 'none' : 'block';
+  });
+})();
+</script>
+```
+
+**A note on trust.** These skills teach *methods*. They are deliberately built so that no problem-set, case, or lab answer appears anywhere in them — every worked example uses invented numbers. And they inherit the course's non-negotiable: an AI's draft is a draft. The one thing that can't be outsourced is your certification.
+
+---
+
+# The PS2 forecasting scaffold
+
+The AI-assisted forecasting module (Sessions 6–7 and Problem Set 2) uses a **structured scaffold**: four AI roles, copy-ready prompts, a graded verification log, and five manual checks. AI is required on PS2; every number you submit must be human-certified. *(The full protocol, generalized for professional use, lives in the [Driver-Based Forecast skill](#skill-forecast) above.)*
 
 ## AI-for-FP&A ground rules
 
