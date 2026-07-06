@@ -27,6 +27,11 @@
     *, *::before, *::after { box-sizing: border-box; }
     html { font-size: var(--base); scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media (max-width: 768px) {
+      header.site-header { position: static; }
+      nav.part-nav { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.6rem; }
+      nav.part-nav button { flex-shrink: 0; }
+    }
     body {
       margin: 0;
       font-family: var(--font);
@@ -262,11 +267,7 @@
     }
     #import-file { display: none; }
     .jump-nav {
-      position: sticky;
-      z-index: 90;
       background: rgba(250, 250, 248, 0.96);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
       padding: 0.65rem 0 0.75rem;
       margin: -1.5rem 0 1.25rem;
@@ -1184,10 +1185,9 @@
 
   function syncJumpNavOffset() {
     const header = document.querySelector('.site-header');
-    const jump = document.getElementById('jump-nav');
-    if (header && jump) {
-      jump.style.top = header.offsetHeight + 'px';
-      document.documentElement.style.setProperty('--scroll-offset', (header.offsetHeight + jump.offsetHeight + 12) + 'px');
+    if (header) {
+      const sticky = getComputedStyle(header).position === 'sticky';
+      document.documentElement.style.setProperty('--scroll-offset', ((sticky ? header.offsetHeight : 0) + 12) + 'px');
     }
   }
 
