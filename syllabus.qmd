@@ -37,7 +37,7 @@ Official syllabus — MGT 816 · Fall 2026
 
 ### Course description
 
-This course equips students with the core set of tools and strategies related to accounting and financial reporting from the perspective of a Chief Financial Officer at a private, entrepreneurial company. The class focuses on accounting-based financial metrics, financial reporting, and managerial accounting, with an emphasis on structuring the accounting system from the start-up phase through to exit.
+This course is about running the numbers at a private, entrepreneurial company — the job of its Chief Financial Officer. We cover accounting-based financial metrics, financial reporting, and managerial accounting, and we build the accounting system the way a company does: from the start-up phase through to exit.
 
 **Prerequisites:** Financial Accounting and Corporate Finance.
 

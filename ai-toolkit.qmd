@@ -66,7 +66,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
 | [Startup Finance Infrastructure & Runway](#skill-startup-finance) | Stand up the finance function; always know the out-of-cash date | S00 · S01 | [zip](files/skills/startup-finance-infrastructure.zip) |
 | [Cap Table & Financing-Round Modeler](#skill-cap-table) | Model rounds, convert SAFEs/notes, run the exit waterfall | S00 · S02 · S11 · PS1 | [zip](files/skills/cap-table-and-financing-rounds.zip) |
 | [Entity Choice, QSBS & Worker Classification](#skill-entity-tax) | Pick the entity, capture QSBS, classify workers correctly | S03 | [zip](files/skills/entity-tax-and-worker-structure.zip) |
-| [Equity Compensation Tax & Accounting Advisor](#skill-equity-comp) | Options, restricted stock, AMT, 83(b) — from both chairs | S04 · S05 · S08 | [zip](files/skills/equity-comp-tax-advisor.zip) |
+| [Equity Compensation Tax & Accounting Advisor](#skill-equity-comp) | Options, restricted stock, AMT, 83(b) — for the employee and the company | S04 · S05 · S08 | [zip](files/skills/equity-comp-tax-advisor.zip) |
 | [Driver-Based Forecast with AI Verification](#skill-forecast) | Build a forecast with AI as analyst, you as certifier | S06 · S07 · PS2 | [zip](files/skills/driver-forecast-and-ai-verification.zip) |
 | [Revenue Recognition & Margins (ASC 606)](#skill-rev-rec) | Recognize revenue correctly; read the bookings-revenue gap | S09 | [zip](files/skills/revenue-recognition-and-margins.zip) |
 | [Board Package & Audit Readiness](#skill-board) | Draft, run, and red-team board packages; prep audit #1 | S10 | [zip](files/skills/board-package-and-audit-readiness.zip) |
@@ -122,7 +122,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
 <div class="skill-card" id="skill-equity-comp" data-keywords="stock options ISO NQSO RSU restricted stock 83b AMT bargain element vesting exercise tender 409A ASC 718 QSBS equity compensation withholding">
   <h3>Equity Compensation Tax &amp; Accounting Advisor</h3>
   <div class="sess">Built from S04 FeedBurner · S05 Equity Comp · S08 Solstice</div>
-  <div class="lede">What a grant really costs and pays — from the employee's chair and the CFO's.</div>
+  <div class="lede">What a grant really costs and pays — for the employee and for the company.</div>
   <ul>
     <li>ISO vs. NQSO on every axis, and the fine print that ruins people (90-day windows, the 3-month statute)</li>
     <li>The 5-line AMT worksheet for exercise-and-hold, with the phaseout shadow bracket</li>
