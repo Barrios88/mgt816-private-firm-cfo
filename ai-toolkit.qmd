@@ -2,7 +2,7 @@
 title: "AI Toolkit"
 ---
 
-This course treats AI the way a working CFO does: **AI does the analyst work; you certify every number.** This page carries the two halves of that promise — the **CFO AI Skills library** you take with you after the course, and the **PS2 forecasting scaffold** used in Sessions 6–7.
+Two things live on this page: the **CFO AI Skills** — eight skill files you keep after the course — and the **PS2 forecasting scaffold** from Sessions 6–7. Both run on the same rule: AI does the analyst work; you certify every number.
 
 ```{=html}
 <style>
@@ -36,21 +36,21 @@ This course treats AI the way a working CFO does: **AI does the analyst work; yo
 </style>
 ```
 
-## The CFO AI Skills library
+## The CFO AI Skills
 
-Eight professional AI skill packages, distilled from this course. Each one packages the frameworks, formulas, decision trees, and red flags of its sessions into a **skill file (`SKILL.md`) plus working templates** — a co-pilot for the jobs you will actually hold one to five years out: first finance hire, founder, VC/PE associate, operator. They are built to keep working long after the term ends, and each ends with concrete ways to extend it with your own firm's data and policies.
+Eight skills, one per block of the course. Each is a folder: a `SKILL.md` that teaches an AI assistant the methods from class — the formulas, the decision rules, the red flags — plus the working templates that go with them. They are written for the jobs you will hold one to five years out: first finance hire, founder, fund associate, operator. The course ends in October; the skills don't. Each one closes with instructions for extending it with your own firm's numbers and policies.
 
-Every skill carries the course's integrity rule in its bones: it shows every formula, never invents a number it wasn't given, stamps unsourced benchmarks `UNVERIFIED`, and tells you when to stop and call a CPA, a lawyer, or a banker. **These teach methods with invented examples — they contain no problem-set or case answers.**
+The course rule is built into every one. The skill shows its formulas, refuses to invent a number it wasn't given, stamps unsourced benchmarks `UNVERIFIED`, and names the moment to call a CPA, a lawyer, or a banker. Every worked example uses invented numbers. None of them contains a problem-set or case answer — don't bother looking.
 
 ### How to use a skill
 
-1. **Download** the package below (a folder: `SKILL.md` + `resources/`).
-2. **Install it in your AI tool:**
-   - **Claude (claude.ai):** create a Project, upload `SKILL.md` as project knowledge or paste it into the project instructions; upload the resource files alongside.
-   - **Claude Code / Agent SDK:** drop the whole folder into `~/.claude/skills/` — it becomes an invocable skill.
-   - **Any other AI tool:** paste `SKILL.md` as your first message ("act per these instructions") — it is self-contained.
-3. **Use the `resources/` templates directly** — they are working checklists, calculators, and log templates you can fill in with or without the AI.
-4. **Keep the discipline:** the skill drafts, *you* certify. Every package ships a verification-log template — use it whenever a number matters.
+1. **Download** the zip. Inside: `SKILL.md` and a `resources/` folder.
+2. **Install it:**
+   - **Claude (claude.ai):** create a Project; upload `SKILL.md` and the resource files as project knowledge, or paste `SKILL.md` into the project instructions.
+   - **Claude Code / Agent SDK:** drop the folder into `~/.claude/skills/`. Done.
+   - **Any other AI tool:** paste `SKILL.md` as your first message. It is self-contained.
+3. **The `resources/` templates work on their own** — checklists, calculators, and log templates you can fill in with or without the AI.
+4. **The skill drafts; you certify.** Every package ships a verification-log template. Use it whenever a number matters.
 
 ### Find your skill
 
@@ -122,7 +122,7 @@ Every skill carries the course's integrity rule in its bones: it shows every for
 <div class="skill-card" id="skill-equity-comp" data-keywords="stock options ISO NQSO RSU restricted stock 83b AMT bargain element vesting exercise tender 409A ASC 718 QSBS equity compensation withholding">
   <h3>Equity Compensation Tax &amp; Accounting Advisor</h3>
   <div class="sess">Built from S04 FeedBurner · S05 Equity Comp · S08 Solstice</div>
-  <div class="lede">What a grant really costs and pays — from the employee's chair and the CFO's, at once.</div>
+  <div class="lede">What a grant really costs and pays — from the employee's chair and the CFO's.</div>
   <ul>
     <li>ISO vs. NQSO on every axis, and the fine print that ruins people (90-day windows, the 3-month statute)</li>
     <li>The 5-line AMT worksheet for exercise-and-hold, with the phaseout shadow bracket</li>
@@ -212,7 +212,7 @@ Every skill carries the course's integrity rule in its bones: it shows every for
 </script>
 ```
 
-**A note on trust.** These skills teach *methods*. They are deliberately built so that no problem-set, case, or lab answer appears anywhere in them — every worked example uses invented numbers. And they inherit the course's non-negotiable: an AI's draft is a draft. The one thing that can't be outsourced is your certification.
+**One warning.** An AI running one of these skills is still an AI: it will be confidently wrong on schedule. The skills are built to catch that — every one ships a verification-log template — but the log only works if you use it. The draft is the machine's; the number is yours.
 
 ---
 
