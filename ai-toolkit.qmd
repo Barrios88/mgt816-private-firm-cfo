@@ -2,7 +2,7 @@
 title: "AI Toolkit"
 ---
 
-Two things live on this page: the **CFO AI Skills** — eight skill files you keep after the course — and the **PS2 forecasting scaffold** from Sessions 6–7. Both run on the same rule: AI does the analyst work; you certify every number.
+Two things here: the **CFO AI Skills** — eight skill files you keep after the course — and the **PS2 forecasting scaffold** from Sessions 6–7. The rule is the same for both: AI does the analyst work; you certify every number.
 
 ```{=html}
 <style>
@@ -218,7 +218,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
 
 # The PS2 forecasting scaffold
 
-The AI-assisted forecasting module (Sessions 6–7 and Problem Set 2) uses a **structured scaffold**: four AI roles, copy-ready prompts, a graded verification log, and five manual checks. AI is required on PS2; every number you submit must be human-certified. *(The full protocol, generalized for professional use, lives in the [Driver-Based Forecast skill](#skill-forecast) above.)*
+The AI-assisted forecasting module (Sessions 6–7 and Problem Set 2) uses a **structured scaffold**: four AI roles, copy-ready prompts, a graded verification log, and five manual checks. AI is required on PS2; every number you submit must be human-certified. *(The [Driver-Based Forecast skill](#skill-forecast) above generalizes the full protocol for use after the course.)*
 
 ## AI-for-FP&A ground rules
 
@@ -320,4 +320,4 @@ Each must appear in your PS2 verification log:
 | [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
 | [Prompt card (PDF)](files/ps2/prompt_card.pdf) | The P1–P6 prompts, print form — content is also on this page |
 
-The full workshop kit and Model Pack live on the [Problem Sets page](assignments.qmd#ps2); submissions should be uploaded to Canvas for grading.
+The full workshop kit and Model Pack are on the [Problem Sets page](assignments.qmd#ps2); submissions should be uploaded to Canvas for grading.

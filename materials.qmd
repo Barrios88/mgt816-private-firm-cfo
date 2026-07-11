@@ -45,4 +45,4 @@ for entry in sessions:
     print()
 ```
 
-Problem sets have their own page: **[Problem Sets](assignments.qmd)** — the PS1 and PS2 digital workbenches, both assignment PDFs, the PS1 Excel template, and the full PS2 Model Pack live there. Solutions and grading guides are on **Canvas only**.
+Problem sets have their own page: everything — both digital workbenches, both assignment PDFs, the PS1 Excel template, and the full PS2 Model Pack — is on **[Problem Sets](assignments.qmd)**. Solutions and grading guides are on **Canvas only**.
