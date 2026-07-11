@@ -37,6 +37,7 @@
     - label: "PS1 Excel scratch template (optional)"
       path: files/ps1_student_template.xlsx
   workbench: ps1/index.html
+  workbench_label: "PS1 workbench"
   assignment: assignments.html#ps1
 
 - session: 3
@@ -86,19 +87,24 @@
   slides: null
   handouts: []
   workbench: ps1/index.html
+  workbench_label: "PS1 workbench"
   assignment: assignments.html#ps1
 
 - session: 7
   date: 2026-09-28
   topic: "AI-assisted forecasting workshop (laptops required)"
   prep:
-    - text: "Download the workshop kit (Canvas)"
+    - text: "Download the workshop kit (Problem Sets page)"
+      url: assignments.html#ps2
     - text: "Read the one-page AI-for-FP&A ground rules"
     - text: "Verify an AI login"
   out: "PS2 (due Oct 12)"
   due: null
   slides: null
   handouts: []
+  workbench: ps2/index.html
+  workbench_label: "PS2 workbench"
+  assignment: assignments.html#ps2
   laptop_required: true
 
 - session: 8
@@ -143,6 +149,7 @@
   due: "PS2"
   slides: null
   handouts: []
+  assignment: assignments.html#ps2
 
 - session: 12
   date: 2026-10-14

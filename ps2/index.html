@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PS2 Workbench — The AI-Assisted Forecast (Redline Labs) · MGT 816</title>
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --accent: #1F4E79;
+      --accent-light: #D5E8F0;
+      --accent-pale: #eef4f8;
+      --border: #d4dce4;
+      --card: #ffffff;
+      --warn: #b8860b;
+      --warn-bg: #fff8e6;
+      --success: #2e7d32;
+      --computed-bg: #D5E8F0;
+      --radius: 10px;
+      --shadow: 0 2px 12px rgba(31, 78, 121, 0.08);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --max-w: 1100px;
+      --base: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-size: var(--base); scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media (max-width: 768px) {
+      header.site-header { position: static; }
+      nav.part-nav { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.6rem; }
+      nav.part-nav button { flex-shrink: 0; }
+    }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    a { color: var(--accent); }
+    header.site-header {
+      background: var(--accent);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+    }
+    .header-inner h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+    .header-inner .sub { font-size: 0.85rem; opacity: 0.9; margin-top: 0.15rem; }
+    nav.part-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.65rem;
+      padding-bottom: 0.5rem;
+    }
+    nav.part-nav button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    nav.part-nav button:hover { background: rgba(255,255,255,0.28); }
+    nav.part-nav button.active { background: #fff; color: var(--accent); font-weight: 600; }
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      padding: 0.4rem 0;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-top: 0.35rem;
+    }
+    .save-indicator { opacity: 0.9; }
+    .save-indicator.saved { color: #a8e6a8; }
+    .toolbar-btn {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .toolbar-btn:hover { background: rgba(255,255,255,0.32); }
+    main { max-width: var(--max-w); margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+    .deadline-banner {
+      background: linear-gradient(135deg, var(--accent-pale), var(--accent-light));
+      border-left: 5px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .deadline-banner strong { color: var(--accent); }
+    .panel { display: none; animation: fadeIn 0.25s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .panel.active { animation: none; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 0.5rem; color: var(--accent); font-size: 1.35rem; font-weight: 650; }
+    .card h3 { margin: 1.25rem 0 0.5rem; font-size: 1.05rem; color: var(--text); }
+    .card .hint { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+    .narrative {
+      background: var(--accent-pale);
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .narrative p { margin: 0 0 0.6rem; }
+    .narrative p:last-child { margin-bottom: 0; }
+    .instr {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      background: #fbfcfd;
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+    }
+    .instr p { margin: 0 0 0.5rem; }
+    .instr p:last-child { margin-bottom: 0; }
+    .instr ol, .instr ul { margin: 0.4rem 0 0.4rem 0; padding-left: 1.4rem; }
+    .instr li { margin-bottom: 0.3rem; }
+    .instr .lbl { font-weight: 700; color: var(--accent); }
+    .draft-box {
+      border: 1px solid #bbb;
+      background: #f6f6f4;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 0.75rem 0 1rem;
+      font-style: italic;
+      font-size: 0.92rem;
+    }
+    .draft-box .draft-head { font-style: normal; font-weight: 700; margin-bottom: 0.5rem; }
+    .honor-box {
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      background: #fff;
+    }
+    .honor-box label { display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; font-weight: 500; }
+    .honor-box input { margin-top: 0.25rem; width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+    .member-grid { display: grid; gap: 0.75rem; }
+    @media (min-width: 600px) { .member-grid { grid-template-columns: 1fr 1fr; } }
+    .field-row { display: flex; flex-direction: column; gap: 0.25rem; }
+    .field-row label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    input[type="text"], input[type="number"], textarea, select {
+      font: inherit;
+      padding: 0.5rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      width: 100%;
+    }
+    input[type="text"] { font-variant-numeric: tabular-nums; }
+    textarea { min-height: 6rem; resize: vertical; }
+    input.empty-required, textarea.empty-required, select.empty-required { border-color: #c62828; background: #fff5f5; }
+    table.data-table, table.ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 0.75rem 0;
+    }
+    table.data-table th, table.ref-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 0.5rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    table.data-table td, table.ref-table td {
+      padding: 0.35rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    table.ref-table td.num, table.ref-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    table.ref-table tr:nth-child(even) td { background: #f8f9fa; }
+    table.data-table input, table.data-table select { min-width: 4.5rem; text-align: right; }
+    table.data-table td.warn-cell { min-width: 12rem; text-align: left; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .badge-warn { background: var(--warn-bg); color: var(--warn); border: 1px solid #e6c200; }
+    .badge-ok { background: #e8f5e9; color: var(--success); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+    button.btn {
+      font: inherit;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button.btn:hover { background: var(--accent-pale); border-color: var(--accent); }
+    button.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+    button.btn-primary:hover { background: #163a5c; }
+    button.btn-danger { color: #c62828; border-color: #ef9a9a; }
+    button.btn-sm { padding: 0.3rem 0.6rem; font-size: 0.82rem; }
+    .metric-fields { display: grid; gap: 0.75rem; }
+    @media (min-width: 500px) { .metric-fields { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 800px) { .metric-fields.cols-3 { grid-template-columns: repeat(3, 1fr); } }
+    .scenario-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1rem;
+      background: #fcfdfe;
+    }
+    .scenario-card h4 { margin: 0 0 0.6rem; color: var(--accent); font-size: 1.05rem; }
+    .checkbox-list { list-style: none; padding: 0; margin: 0.5rem 0; }
+    .checkbox-list li { padding: 0.35rem 0; }
+    .checkbox-list label { display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; font-size: 0.92rem; }
+    .checkbox-list input { margin-top: 0.2rem; width: 1.05rem; height: 1.05rem; flex-shrink: 0; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1.5px dashed var(--border);
+      background: #fff;
+      color: var(--muted);
+    }
+    .chip.lit { border-style: solid; border-color: var(--success); background: #e8f5e9; color: var(--success); }
+    .counter-line { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
+    .sentence-counter { font-size: 0.85rem; color: var(--muted); margin-top: 0.35rem; }
+    .privacy-note { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1.5rem; }
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li { padding: 0.4rem 0; display: flex; gap: 0.5rem; align-items: center; }
+    .checklist .icon { width: 1.25rem; text-align: center; }
+    .review-block { margin-bottom: 1.5rem; }
+    .review-block h3 { color: var(--accent); margin-bottom: 0.5rem; }
+    footer.site-footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    #import-file { display: none; }
+    .jump-nav {
+      background: rgba(250, 250, 248, 0.96);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 0 0.75rem;
+      margin: -1.5rem 0 1.25rem;
+      box-shadow: 0 2px 8px rgba(31, 78, 121, 0.06);
+    }
+    .jump-nav-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.4rem;
+    }
+    .jump-row { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+    .jump-row.jump-sub { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); }
+    .jump-tag {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.38rem 0.85rem; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 600;
+      border: 1.5px solid var(--border); background: #fff; color: var(--accent);
+      cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+    .jump-tag:hover { background: var(--accent-pale); border-color: var(--accent); }
+    .jump-tag.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .jump-tag .pts {
+      font-size: 0.68rem; opacity: 0.8; font-weight: 500;
+      background: rgba(255,255,255,0.2); padding: 0.05rem 0.35rem; border-radius: 999px;
+    }
+    .jump-tag:not(.active) .pts { background: var(--accent-light); color: var(--accent); opacity: 1; }
+    .jump-tag.sub { font-size: 0.78rem; padding: 0.3rem 0.7rem; font-weight: 500; border-style: dashed; }
+    .jump-tag.sub.active { background: var(--accent-light); color: var(--accent); border-color: var(--accent); border-style: solid; }
+    .panel-footer-nav {
+      display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
+      margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .panel-footer-nav .jump-tag { font-size: 0.85rem; }
+    .section-anchor { scroll-margin-top: var(--scroll-offset, 9rem); }
+    h3.section-anchor { margin-top: 1.5rem; padding-top: 0.25rem; }
+    @media print {
+      .jump-nav, .panel-footer-nav, header.site-header, .btn-row, .toolbar-btn, nav.part-nav, .privacy-note { display: none !important; }
+      .panel { display: block !important; }
+      body { background: #fff; }
+      .card { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <h1>Problem Set 2 — The AI-Assisted Forecast (Redline Labs)</h1>
+      <div class="sub">MGT 816 · The Private Firm CFO · Fall 2026 · AI-assisted forecast, human-certified</div>
+      <nav class="part-nav" aria-label="Problem set sections">
+        <button type="button" data-panel="setup" class="active">Setup</button>
+        <button type="button" data-panel="A">Part A</button>
+        <button type="button" data-panel="B">Part B</button>
+        <button type="button" data-panel="C">Part C</button>
+        <button type="button" data-panel="log">Verification Log</button>
+        <button type="button" data-panel="review">Review</button>
+      </nav>
+      <div class="status-bar">
+        <span class="save-indicator" id="save-indicator" aria-live="polite">Not saved yet</span>
+        <button type="button" class="toolbar-btn" id="btn-export">Export progress</button>
+        <button type="button" class="toolbar-btn" id="btn-import">Import progress</button>
+        <input type="file" id="import-file" accept=".json,.ps2work.json,application/json">
+        <a href="../index.html" class="toolbar-btn" style="text-decoration:none;">&#8962; Course home</a>
+        <a href="../assignments.html" class="toolbar-btn" style="text-decoration:none;">&larr; Assignments</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <nav class="jump-nav" id="jump-nav" aria-label="Jump to part or section">
+      <div class="jump-nav-label">Jump to</div>
+      <div class="jump-row" id="jump-parts">
+        <button type="button" class="jump-tag active" data-panel="setup">Setup</button>
+        <button type="button" class="jump-tag" data-panel="A">Part A<span class="pts">8 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="B">Part B<span class="pts">18 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="C">Part C<span class="pts">10 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="log">Verification Log<span class="pts">4 pts</span></button>
+        <button type="button" class="jump-tag" data-panel="review">Review</button>
+      </div>
+      <div class="jump-row jump-sub" id="jump-sections" hidden></div>
+    </nav>
+
+    <!-- ================= SETUP ================= -->
+    <section class="panel active" id="panel-setup" aria-labelledby="setup-heading">
+      <div class="deadline-banner" role="status">
+        <strong>Due Monday, October 12, 2026 at 1:00 pm</strong> on Canvas — one submission per group (2&ndash;4 students).
+        Submit <strong>three files</strong>: your Excel workbook, a one-page board-memo PDF, and the HTML file this workbench generates.
+      </div>
+      <div class="card section-anchor" id="setup-overview">
+        <h2>The assignment</h2>
+        <p>This problem set finishes and polishes the Redline Labs FY2027 forecast you began in the Session&nbsp;7 workshop. Your workshop <code>starter.xlsx</code> is the starting state; treat the workshop build as a <em>v0</em> &mdash; nothing in it is certified until you have tied each cell back to a driver and to the model's five checksum cells.</p>
+        <div class="narrative">
+          <p><strong>Redline Labs, in one paragraph.</strong> Redline Labs sells an AI contract-review copilot to mid-market law firms; it was founded by a former DocuSigner VP of Product. Pricing is hybrid: a $2,500/month platform fee per firm plus usage billed at $2 per document above a 1,000-document monthly allowance. Firms grow their document volume as they mature, 40% of new firms prepay a year in advance at a discount, and the cost of an AI inference falls every quarter. All the exact assumptions live in <code>case_facts.txt</code> and <code>drivers.csv</code>; use those as your source of truth.</p>
+        </div>
+        <div class="instr">
+          <p><span class="lbl">AI policy.</span> AI is required on this problem set. Every number in your workbook and memo must be human-certified &mdash; you must be able to reproduce and defend each figure without the AI. The closed-book final exam tests the same mechanics (churn, NRR, LTV, driver logic, the cash and deferred-revenue walks) without AI.</p>
+          <p><span class="lbl">The &minus;2 rule.</span> Any number that appears in your memo but cannot be traced to a cell in your model loses 2 points, each.</p>
+        </div>
+        <p class="hint">Worth 40 points: Part A (8) &middot; Part B (18) &middot; Part C (10) &middot; Verification Appendix (4). Both problem sets count (40 + 40).</p>
+      </div>
+      <div class="card section-anchor" id="setup-group">
+        <h2 id="setup-heading">Group setup</h2>
+        <p class="hint">Enter every group member. You need at least 2 and at most 4 names. Put every member's name on all three files.</p>
+        <div class="member-grid" id="member-grid"></div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-sm" id="btn-add-member">+ Add member</button>
+          <button type="button" class="btn btn-sm btn-danger" id="btn-remove-member">&minus; Remove last</button>
+        </div>
+        <div class="honor-box">
+          <label>
+            <input type="checkbox" id="honor-check" data-bind="honor">
+            <span>I certify on behalf of my group that AI was used as required on this problem set, and that every number in our workbook and memo is our own work &mdash; human-certified. We can reproduce and defend each figure without the AI. We understand the final exam is closed-book and tests the same mechanics without AI.</span>
+          </label>
+        </div>
+      </div>
+      <div class="card section-anchor" id="setup-howto">
+        <h2>How this workbench works</h2>
+        <ul>
+          <li><strong>It collects; it does not grade.</strong> The workbench records your Part A figures, your five <code>Checks</code>-tab certifications, your scenario and sensitivity outputs, and your Verification Log. It formats percentages and dollars and flags a few structural things &mdash; it never tells you whether a number is correct.</li>
+          <li><strong>The model stays in Excel.</strong> Part B is built in your workbook. Here you certify the five checksum values <em>your</em> model produced.</li>
+          <li><strong>Autosave on this device only.</strong> Progress saves to your browser. Use Export/Import to move work within your group.</li>
+          <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page.</li>
+        </ul>
+      </div>
+      <div class="panel-footer-nav" data-footer="setup"></div>
+    </section>
+
+    <!-- ================= PART A ================= -->
+    <section class="panel" id="panel-A" aria-labelledby="part-a-heading">
+      <div class="card">
+        <h2 id="part-a-heading">Part A &mdash; Unit-economics warm-up <span class="badge" style="background:var(--accent-light);color:var(--accent);">8 pts</span></h2>
+
+        <h3 id="part-a1" class="section-anchor">A1 &mdash; Churn, logo retention, and NRR <span class="badge" style="background:var(--accent-light);color:var(--accent);">5 pts</span></h3>
+        <div class="instr">
+          <p>Exhibit&nbsp;A is Redline's <span class="lbl">trailing FY2026 book</span>: the monthly recurring-revenue (MRR) movement and logo movement for the six months July&ndash;December 2026. (This is history, provided for the warm-up; it is a separate dataset from the FY2027 forecast you build in Part&nbsp;B.) Using <strong>only</strong> the figures in Exhibit&nbsp;A:</p>
+          <ol>
+            <li>For each of the six months, compute the <strong>monthly logo churn rate</strong> and the <strong>monthly logo retention rate</strong>.</li>
+            <li>For each month, compute the <strong>gross MRR churn rate</strong> and <strong>gross revenue retention (GRR)</strong>.</li>
+            <li>For each month, compute <strong>net revenue retention (NRR)</strong>. Then compute the <strong>compounded NRR for the full six-month window</strong>. State the NRR formula you used and be explicit about what it includes and excludes.</li>
+            <li>In one or two sentences, explain how NRR exceeds 100% even though the book loses roughly 1.5% of its logos every month. Point to the specific line of Exhibit&nbsp;A that drives the result.</li>
+          </ol>
+        </div>
+
+        <h4 style="margin:1rem 0 0.25rem;">Exhibit A &mdash; Redline Labs, trailing FY2026 book (Jul&ndash;Dec 2026)</h4>
+        <p class="hint">Read-only reference. This is the public data for the warm-up.</p>
+        <div class="table-wrap">
+          <table class="ref-table" aria-label="Exhibit A MRR movement">
+            <thead>
+              <tr><th>Month</th><th class="num">Beginning</th><th class="num">New</th><th class="num">Expansion</th><th class="num">Contraction</th><th class="num">Churned</th><th class="num">Ending</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Jul 2026</td><td class="num">560,000</td><td class="num">66,000</td><td class="num">14,000</td><td class="num">(3,500)</td><td class="num">(8,400)</td><td class="num">628,100</td></tr>
+              <tr><td>Aug 2026</td><td class="num">628,100</td><td class="num">71,000</td><td class="num">15,500</td><td class="num">(3,800)</td><td class="num">(8,900)</td><td class="num">701,900</td></tr>
+              <tr><td>Sep 2026</td><td class="num">701,900</td><td class="num">80,000</td><td class="num">17,200</td><td class="num">(4,100)</td><td class="num">(11,300)</td><td class="num">783,700</td></tr>
+              <tr><td>Oct 2026</td><td class="num">783,700</td><td class="num">86,000</td><td class="num">19,000</td><td class="num">(4,400)</td><td class="num">(11,700)</td><td class="num">872,600</td></tr>
+              <tr><td>Nov 2026</td><td class="num">872,600</td><td class="num">96,000</td><td class="num">21,000</td><td class="num">(4,700)</td><td class="num">(14,600)</td><td class="num">970,300</td></tr>
+              <tr><td>Dec 2026</td><td class="num">970,300</td><td class="num">106,000</td><td class="num">23,500</td><td class="num">(5,000)</td><td class="num">(14,800)</td><td class="num">1,080,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table class="ref-table" aria-label="Exhibit A logo movement">
+            <thead>
+              <tr><th>Month</th><th class="num">Beginning</th><th class="num">New</th><th class="num">Churned</th><th class="num">Ending</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Jul 2026</td><td class="num">200</td><td class="num">24</td><td class="num">3</td><td class="num">221</td></tr>
+              <tr><td>Aug 2026</td><td class="num">221</td><td class="num">26</td><td class="num">3</td><td class="num">244</td></tr>
+              <tr><td>Sep 2026</td><td class="num">244</td><td class="num">30</td><td class="num">4</td><td class="num">270</td></tr>
+              <tr><td>Oct 2026</td><td class="num">270</td><td class="num">32</td><td class="num">4</td><td class="num">298</td></tr>
+              <tr><td>Nov 2026</td><td class="num">298</td><td class="num">36</td><td class="num">5</td><td class="num">329</td></tr>
+              <tr><td>Dec 2026</td><td class="num">329</td><td class="num">40</td><td class="num">5</td><td class="num">364</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:1.25rem 0 0.25rem;">Your monthly grid</h4>
+        <p class="hint">Enter your computed rates as percentages. On leaving a cell the field adds a % sign. Amber flag if a month's logo churn + logo retention do not add to 100.</p>
+        <div class="table-wrap">
+          <table class="data-table" id="a1-grid" aria-label="A1 monthly rate grid">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Logo churn %</th>
+                <th>Logo retention %</th>
+                <th>Gross MRR churn %</th>
+                <th>GRR %</th>
+                <th>NRR %</th>
+                <th class="warn-cell">Identity check</th>
+              </tr>
+            </thead>
+            <tbody id="a1-grid-body"></tbody>
+          </table>
+        </div>
+
+        <div class="metric-fields" style="margin-top:1rem;">
+          <div class="field-row">
+            <label for="a1-compounded">Compounded NRR, full six-month window (%)</label>
+            <input type="text" id="a1-compounded" data-bind="parts.A1.compoundedNrrPct" data-fmt="pct" placeholder="e.g., 12.3%">
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:0.75rem;">
+          <label for="a1-formula">NRR formula you used &mdash; be explicit about what it includes and excludes</label>
+          <textarea id="a1-formula" data-bind="parts.A1.nrrFormula" placeholder="State the formula and its inclusions/exclusions."></textarea>
+        </div>
+        <div class="field-row" style="margin-top:0.75rem;">
+          <label for="a1-expansion">How NRR exceeds 100% while the book loses ~1.5% of its logos each month (point to the specific Exhibit A line)</label>
+          <textarea id="a1-expansion" data-bind="parts.A1.expansionExplanation" placeholder="One or two sentences."></textarea>
+        </div>
+
+        <h3 id="part-a2" class="section-anchor">A2 &mdash; Spot the AI's errors <span class="badge" style="background:var(--accent-light);color:var(--accent);">3 pts</span></h3>
+        <div class="instr">
+          <p>A group member asked an AI to summarize Exhibit&nbsp;A. It returned the draft below. <strong>It contains exactly two mistakes</strong> &mdash; one is a <strong>formula error</strong>, the other is a <strong>hallucinated benchmark</strong>. Find both.</p>
+        </div>
+        <div class="draft-box">
+          <div class="draft-head">AI-generated draft &mdash; Redline retention, FY2026 book (for review).</div>
+          <p>Redline's book expanded steadily through the back half of 2026. Logo churn held near 1.5% per month across the window, so logo retention averaged roughly 98.5%. Gross revenue retention stayed just under 98%, because a handful of accounts contracted and a few churned, but usage expansion from maturing firms more than offset both. December net revenue retention was <strong>111.3%</strong>, calculated as ending recurring revenue ($1,080,000) divided by beginning recurring revenue ($970,300) &mdash; a very strong result driven by the tenure-based usage curve. For context, according to the OpenView 2026 SaaS Benchmarks Report (Table&nbsp;9, p.&nbsp;47), the median net revenue retention for Series&nbsp;A legal-technology companies was precisely <strong>118.6%</strong> last year, so Redline is tracking modestly below the peer median but well above the 100% line that separates expanding from shrinking books.</p>
+        </div>
+        <div class="instr">
+          <ol>
+            <li>Identify the two errors. Name which is the formula error and which is the hallucinated benchmark.</li>
+            <li>Correct each one. For the formula error, give the corrected figure and the correct formula. For the hallucinated benchmark, state precisely why it cannot stand and what you would do with it (cite the provenance rule from <code>ground_rules.pdf</code>).</li>
+          </ol>
+        </div>
+        <h4 style="margin:1rem 0 0.25rem;">Formula error</h4>
+        <div class="field-row" style="margin-bottom:0.75rem;">
+          <label for="a2-fe-identify">Identify the formula error (what did the draft get wrong?)</label>
+          <textarea id="a2-fe-identify" data-bind="parts.A2.formulaError.identify" placeholder="Name the error and where it appears in the draft."></textarea>
+        </div>
+        <div class="metric-fields">
+          <div class="field-row">
+            <label for="a2-fe-figure">Corrected figure (%)</label>
+            <input type="text" id="a2-fe-figure" data-bind="parts.A2.formulaError.correctedFigurePct" data-fmt="pct" placeholder="e.g., 12.3%">
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:0.75rem;">
+          <label for="a2-fe-formula">The correct formula</label>
+          <textarea id="a2-fe-formula" data-bind="parts.A2.formulaError.correctFormula" placeholder="State the correct formula in words or symbols."></textarea>
+        </div>
+        <h4 style="margin:1.25rem 0 0.25rem;">Hallucinated benchmark</h4>
+        <div class="field-row" style="margin-bottom:0.75rem;">
+          <label for="a2-hb-identify">Identify the hallucinated benchmark</label>
+          <textarea id="a2-hb-identify" data-bind="parts.A2.hallucinatedBenchmark.identify" placeholder="Which claim is unsupported, and how do you know?"></textarea>
+        </div>
+        <div class="field-row">
+          <label for="a2-hb-treatment">Treatment &mdash; why it cannot stand and what you would do with it (cite the provenance rule)</label>
+          <textarea id="a2-hb-treatment" data-bind="parts.A2.hallucinatedBenchmark.treatment" placeholder="Apply the provenance rule from ground_rules.pdf."></textarea>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="A"></div>
+    </section>
+
+    <!-- ================= PART B ================= -->
+    <section class="panel" id="panel-B" aria-labelledby="part-b-heading">
+      <div class="card">
+        <h2 id="part-b-heading">Part B &mdash; The build <span class="badge" style="background:var(--accent-light);color:var(--accent);">18 pts</span></h2>
+        <div class="instr">
+          <p>Complete the FY2027 monthly (Jan&ndash;Dec 2027) driver-based model you started in the workshop, in your Excel workbook. Build directly on the <code>starter.xlsx</code> skeleton (tabs <code>Assumptions</code>, <code>Customer &amp; Revenue</code>, <code>Headcount</code>, <code>Income Statement</code>, <code>Cash Walk</code>, <code>Deferred Revenue</code>, <code>Benchmarks</code>, <code>Checks</code>). Every driver comes from <code>case_facts.txt</code> / <code>drivers.csv</code>; honor every rounding convention stated there so your build ties out exactly.</p>
+          <p><span class="lbl">B1. Customer and headcount schedules (6 pts).</span> Build the monthly customer schedule (beginning firms + new logos &minus; churned = ending firms), splitting new firms into monthly-billing and annual-prepay cohorts, and tracking each cohort up the three-step tenure usage curve. Build the monthly headcount schedule &mdash; AEs (with the one-month ramp), customer-success managers (at the stated ratio, hired one month early), engineers (with the 60/40 support-vs-core split), and execs. Your <code>Checks</code> tab has five named checksum cells (<code>CHK1</code>&ndash;<code>CHK5</code>); <code>CHK1</code> (December ending active firms) and <code>CHK3</code> (December total headcount) must tie out exactly. <em>The workshop starter is unverified &mdash; audit every row against its driver and against the stated ratios before you trust it.</em></p>
+          <p><span class="lbl">B2. Income statement and cash walk (6 pts).</span> Build the monthly income statement (platform revenue, usage revenue, COGS &mdash; inference, hosting, and CSM payroll &mdash; gross profit, S&amp;M, R&amp;D, G&amp;A, operating income) and the monthly cash walk from the $6.6M opening balance (collections in, cash costs out, including commissions paid quarterly). <code>CHK2</code> (FY2027 total revenue) and <code>CHK5</code> (December ending cash) must tie out.</p>
+          <p><span class="lbl">B3. Deferred-revenue roll-forward (3 pts).</span> Build the monthly deferred-revenue schedule for the annual-prepay cohort (beginning balance + new prepay billings &minus; revenue recognized = ending balance). <code>CHK4</code> (December deferred-revenue balance) must tie out. In one sentence, explain the cash-vs-revenue wedge this account creates.</p>
+          <p><span class="lbl">B4. Model hygiene (3 pts).</span> All assumptions live on the <code>Assumptions</code> tab and are referenced by cell &mdash; no hardcoded numbers buried inside formulas; every rate and quantity carries a labeled unit; schedules read left-to-right by month with clean beginning/ending links. A grader should be able to change one assumption cell and watch the model re-flow.</p>
+        </div>
+
+        <h3 id="part-b-checks" class="section-anchor">Certify the five <code>Checks</code>-tab values</h3>
+        <p class="hint">These come from <strong>your model's <code>Checks</code> tab</strong>. Enter what your workbook produced. The workbench does not know the correct values and never validates them.</p>
+        <div class="metric-fields">
+          <div class="field-row">
+            <label for="chk1">CHK1 &mdash; December ending active firms (count)</label>
+            <input type="text" id="chk1" data-bind="parts.B.chk.CHK1" data-fmt="int" placeholder="whole number">
+          </div>
+          <div class="field-row">
+            <label for="chk3">CHK3 &mdash; December total headcount (count)</label>
+            <input type="text" id="chk3" data-bind="parts.B.chk.CHK3" data-fmt="int" placeholder="whole number">
+          </div>
+          <div class="field-row">
+            <label for="chk2">CHK2 &mdash; FY2027 total revenue ($)</label>
+            <input type="text" id="chk2" data-bind="parts.B.chk.CHK2" data-fmt="money2" placeholder="dollars, 2 decimals">
+          </div>
+          <div class="field-row">
+            <label for="chk4">CHK4 &mdash; December deferred-revenue balance ($)</label>
+            <input type="text" id="chk4" data-bind="parts.B.chk.CHK4" data-fmt="money2" placeholder="dollars, 2 decimals">
+          </div>
+          <div class="field-row">
+            <label for="chk5">CHK5 &mdash; December ending cash ($)</label>
+            <input type="text" id="chk5" data-bind="parts.B.chk.CHK5" data-fmt="money2" placeholder="dollars, 2 decimals">
+          </div>
+        </div>
+
+        <h3 id="part-b-hygiene" class="section-anchor">Model-hygiene attestation (B4)</h3>
+        <p class="hint">Check each box that is true of your workbook. This mirrors the B4 checklist; it is an attestation, not a grade.</p>
+        <ul class="checkbox-list">
+          <li><label><input type="checkbox" data-bind="parts.B.hygiene.assumptionsTab"><span>All assumptions live on the <code>Assumptions</code> tab and are referenced by cell.</span></label></li>
+          <li><label><input type="checkbox" data-bind="parts.B.hygiene.noHardcodes"><span>No hardcoded numbers are buried inside formulas.</span></label></li>
+          <li><label><input type="checkbox" data-bind="parts.B.hygiene.unitsLabeled"><span>Every rate and quantity carries a labeled unit.</span></label></li>
+          <li><label><input type="checkbox" data-bind="parts.B.hygiene.reflows"><span>Change one assumption cell and the whole model re-flows.</span></label></li>
+        </ul>
+
+        <h3 id="part-b-audit" class="section-anchor">Starter audit &mdash; corrections you made</h3>
+        <p class="hint">The workshop <code>starter.xlsx</code> is a v0 and is unverified. Describe the corrections you made when auditing it against the drivers and stated ratios.</p>
+        <div class="field-row">
+          <label for="b-audit">Corrections made to the starter</label>
+          <textarea id="b-audit" data-bind="parts.B.starterAudit" placeholder="What did you find wrong in the starter, and what did you change?"></textarea>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="B"></div>
+    </section>
+
+    <!-- ================= PART C ================= -->
+    <section class="panel" id="panel-C" aria-labelledby="part-c-heading">
+      <div class="card">
+        <h2 id="part-c-heading">Part C &mdash; Scenarios, sensitivity, and the board memo <span class="badge" style="background:var(--accent-light);color:var(--accent);">10 pts</span></h2>
+
+        <h3 id="part-c1" class="section-anchor">C1 &mdash; Three scenarios, through the drivers <span class="badge" style="background:var(--accent-light);color:var(--accent);">4 pts</span></h3>
+        <div class="instr">
+          <p>Build <strong>base</strong>, <strong>upside</strong>, and <strong>downside</strong> scenarios by changing <strong>only</strong> these four drivers on your <code>Assumptions</code> tab: (i) new-logo quota per AE, (ii) logo churn rate, (iii) documents/firm/month, and (iv) inference cost/document. Scenarios must flow <strong>through the drivers</strong> so the model re-emits every output; do <strong>not</strong> plug scenario numbers into the output rows. For each scenario, report end-of-FY2027 cash and months of runway, and give a one-sentence, case-grounded rationale for each driver value (no new facts).</p>
+        </div>
+        <div id="c1-scenarios"></div>
+
+        <h3 id="part-c2" class="section-anchor">C2 &mdash; Sensitivity <span class="badge" style="background:var(--accent-light);color:var(--accent);">2 pts</span></h3>
+        <div class="instr">
+          <p>Produce a one-variable sensitivity table (or tornado) showing how December ending cash responds to each of the four drivers, holding the others at base. <strong>Rank the four drivers</strong> by their effect on December cash, and confirm the ranking with your own Excel data table &mdash; not with the AI's assertion.</p>
+        </div>
+        <p class="hint">Rank 1 = largest effect on December cash. Each rank 1&ndash;4 is used once; the workbench flags a duplicate rank in amber. The &Delta;-December-cash column is optional.</p>
+        <div class="table-wrap">
+          <table class="data-table" id="c2-table" aria-label="C2 sensitivity ranks">
+            <thead>
+              <tr><th>Driver</th><th>Rank (1&ndash;4)</th><th>&Delta; December cash ($, optional)</th></tr>
+            </thead>
+            <tbody id="c2-body"></tbody>
+          </table>
+        </div>
+        <div id="c2-rank-warn" aria-live="polite" style="margin:0.35rem 0;"></div>
+        <ul class="checkbox-list">
+          <li><label><input type="checkbox" data-bind="parts.C2.confirmedOwnDataTable"><span>We confirmed this ranking with our own Excel data table (not the AI's assertion).</span></label></li>
+        </ul>
+
+        <h3 id="part-c3" class="section-anchor">C3 &mdash; One-page board memo <span class="badge" style="background:var(--accent-light);color:var(--accent);">4 pts</span></h3>
+        <div class="instr">
+          <p>Using <code>one_pager_template.pptx</code>, write a <strong>one-page</strong> board memo. State the <strong>headline</strong>, the <strong>base case</strong>, the <strong>single biggest risk</strong>, and a <strong>pre-agreed re-forecast trigger</strong> (the driver and threshold that would make you re-plan). Attach the one-pager exhibit: the active-firm/ARR trajectory chart, the base/upside/downside end-of-year cash table, the top-five assumptions with sensitivity ranks, and your six-KPI dashboard row.</p>
+          <p><span class="lbl">The memo stays in the PDF.</span> The board memo is not entered here &mdash; it is the one-page PDF you export from <code>one_pager_template.pptx</code> and upload with your workbook. <span class="lbl">The &minus;2 rule applies:</span> every number in the memo must exist in a model cell.</p>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="C"></div>
+    </section>
+
+    <!-- ================= VERIFICATION LOG ================= -->
+    <section class="panel" id="panel-log" aria-labelledby="log-heading">
+      <div class="card">
+        <h2 id="log-heading">Verification Appendix &mdash; the log <span class="badge" style="background:var(--accent-light);color:var(--accent);">4 pts</span></h2>
+        <div class="instr">
+          <p>Submit your completed verification log (as a tab in your workbook and rendered in your PDF; this workbench also captures it). The log documents, row by row: the prompt used &rarr; the AI's claim &rarr; the check you performed &rarr; the result (confirmed / corrected / rejected) &rarr; the change you made to the model.</p>
+          <p><span class="lbl">Completeness (2 pts).</span> The log covers the Five Manual Checks: extraction fidelity, roll-forward integrity, benchmark provenance, sensitivity replication, and the December column recompute.</p>
+          <p><span class="lbl">Documented catches (2 pts).</span> At least <strong>two</strong> entries show a real AI error you caught and corrected (a hallucinated benchmark, an invented assumption, a ramp/lag slip, or an internal inconsistency), <em>or</em> affirmative evidence of a check run clean if the AI happened not to err on that line.</p>
+        </div>
+
+        <h3 class="section-anchor" id="log-coverage">Five Manual Checks &mdash; coverage</h3>
+        <p class="hint">A chip lights when at least one row is tagged to that check and has a prompt, an AI claim, and a check performed. This tracks coverage, not correctness.</p>
+        <div class="chips" id="log-chips"></div>
+        <div class="counter-line" id="log-counter"></div>
+
+        <h3 class="section-anchor" id="log-table-anchor">The log</h3>
+        <div class="table-wrap">
+          <table class="data-table" id="log-table" aria-label="Verification log">
+            <thead>
+              <tr>
+                <th style="min-width:11rem;">Check tag</th>
+                <th style="min-width:9rem;">Round / role</th>
+                <th style="min-width:12rem;">Prompt used</th>
+                <th style="min-width:12rem;">AI claim</th>
+                <th style="min-width:12rem;">Check performed</th>
+                <th style="min-width:9rem;">Result</th>
+                <th style="min-width:12rem;">Change made to model</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="log-body"></tbody>
+          </table>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-sm" id="btn-add-log">+ Add log row</button>
+        </div>
+      </div>
+      <div class="panel-footer-nav" data-footer="log"></div>
+    </section>
+
+    <!-- ================= REVIEW ================= -->
+    <section class="panel" id="panel-review" aria-labelledby="review-heading">
+      <div class="card">
+        <h2 id="review-heading">Review &amp; submit</h2>
+        <p class="hint">Check completeness, then generate your submission file. Upload it to Canvas alongside your Excel workbook and your one-page board-memo PDF.</p>
+        <ul class="checklist section-anchor" id="completeness-checklist"></ul>
+        <div class="btn-row section-anchor" id="review-submit" style="margin-top:1.25rem;">
+          <button type="button" class="btn btn-primary" id="btn-generate">Generate submission sheet</button>
+          <button type="button" class="btn" id="btn-print">Print / Save as PDF</button>
+        </div>
+        <div id="review-content" class="review-block" style="margin-top:2rem;"></div>
+      </div>
+      <div class="panel-footer-nav" data-footer="review"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>Privacy:</strong> This page stores data only in your browser (localStorage). No analytics, no server, no network calls.</p>
+    <p>MGT 816 · Yale School of Management · Fall 2026 · Workbench v<span id="version-display"></span></p>
+  </footer>
+
+  <script>
+(function () {
+  'use strict';
+
+  const SCHEMA = 'ps2-2026-v1';
+  const WORKBENCH_VERSION = 'ps2-workbench-1.0';
+  const DISPLAY_VERSION = '1.0';
+  const STORAGE_KEY = 'mgt816-ps2-2026';
+  const SAVE_DEBOUNCE = 500;
+
+  const A1_MONTHS = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const A1_FIELDS = ['logoChurnPct', 'logoRetentionPct', 'grossMrrChurnPct', 'grrPct', 'nrrPct'];
+  const SCENARIO_NAMES = ['base', 'upside', 'downside'];
+  const SCENARIO_LABELS = { base: 'Base', upside: 'Upside', downside: 'Downside' };
+  const DRIVERS = ['quotaPerAE', 'churnRate', 'docsPerFirmMonth', 'inferenceCostPerDoc'];
+  const DRIVER_LABELS = {
+    quotaPerAE: 'New-logo quota per AE',
+    churnRate: 'Logo churn rate',
+    docsPerFirmMonth: 'Documents / firm / month',
+    inferenceCostPerDoc: 'Inference cost / document'
+  };
+  const CHECK_TAGS = [
+    { value: 'C1', label: 'Check 1 — Extraction fidelity' },
+    { value: 'C2', label: 'Check 2 — Roll-forward integrity' },
+    { value: 'C3', label: 'Check 3 — Benchmark provenance' },
+    { value: 'C4', label: 'Check 4 — Sensitivity replication' },
+    { value: 'C5', label: 'Check 5 — December column recompute' },
+    { value: 'other', label: 'Other' }
+  ];
+  const RESULT_OPTS = ['confirmed', 'corrected', 'rejected'];
+
+  const PART_NAV = [
+    { id: 'setup', label: 'Setup', sections: [
+      { id: 'setup-overview', label: 'Overview' },
+      { id: 'setup-group', label: 'Group' },
+      { id: 'setup-howto', label: 'How it works' }
+    ]},
+    { id: 'A', label: 'Part A', pts: 8, sections: [
+      { id: 'part-a1', label: 'A1 · Retention' },
+      { id: 'part-a2', label: 'A2 · AI errors' }
+    ]},
+    { id: 'B', label: 'Part B', pts: 18, sections: [
+      { id: 'part-b-checks', label: 'Checks' },
+      { id: 'part-b-hygiene', label: 'Hygiene' },
+      { id: 'part-b-audit', label: 'Starter audit' }
+    ]},
+    { id: 'C', label: 'Part C', pts: 10, sections: [
+      { id: 'part-c1', label: 'C1 · Scenarios' },
+      { id: 'part-c2', label: 'C2 · Sensitivity' },
+      { id: 'part-c3', label: 'C3 · Memo' }
+    ]},
+    { id: 'log', label: 'Verification Log', pts: 4, sections: [] },
+    { id: 'review', label: 'Review', sections: [] }
+  ];
+
+  let state = loadState();
+  let saveTimer = null;
+  let activePanel = 'setup';
+
+  function emptyMonth(m) {
+    return { month: m, logoChurnPct: '', logoRetentionPct: '', grossMrrChurnPct: '', grrPct: '', nrrPct: '' };
+  }
+  function emptyScenario(name) {
+    return { name: name, quotaPerAE: '', churnRate: '', docsPerFirmMonth: '', inferenceCostPerDoc: '', decEndingCash: '', runwayMonths: '', rationale: '' };
+  }
+  function emptyLogRow(tag) {
+    return { check: tag || '', roundRole: '', prompt: '', aiClaim: '', checkPerformed: '', result: 'confirmed', changeMade: '' };
+  }
+
+  function defaultState() {
+    return {
+      schema: SCHEMA,
+      group: [{ name: '', netid: '' }, { name: '', netid: '' }],
+      honor: false,
+      parts: {
+        A1: {
+          months: A1_MONTHS.map(emptyMonth),
+          compoundedNrrPct: '',
+          nrrFormula: '',
+          expansionExplanation: ''
+        },
+        A2: {
+          formulaError: { identify: '', correctedFigurePct: '', correctFormula: '' },
+          hallucinatedBenchmark: { identify: '', treatment: '' }
+        },
+        B: {
+          chk: { CHK1: '', CHK2: '', CHK3: '', CHK4: '', CHK5: '' },
+          hygiene: { assumptionsTab: false, noHardcodes: false, unitsLabeled: false, reflows: false },
+          starterAudit: ''
+        },
+        C1: { scenarios: SCENARIO_NAMES.map(emptyScenario) },
+        C2: {
+          ranks: { quotaPerAE: '', churnRate: '', docsPerFirmMonth: '', inferenceCostPerDoc: '' },
+          deltaCash: { quotaPerAE: '', churnRate: '', docsPerFirmMonth: '', inferenceCostPerDoc: '' },
+          confirmedOwnDataTable: false
+        },
+        log: { rows: CHECK_TAGS.slice(0, 5).map(t => emptyLogRow(t.value)) }
+      },
+      meta: { version: WORKBENCH_VERSION, generatedAt: null, lastSaved: null }
+    };
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.schema === SCHEMA) return mergeDefaults(parsed);
+      }
+    } catch (e) { /* fresh start */ }
+    return defaultState();
+  }
+
+  function mergeDefaults(parsed) {
+    const merged = deepMerge(defaultState(), parsed);
+    // Guarantee fixed-length structures.
+    if (!Array.isArray(merged.parts.A1.months) || merged.parts.A1.months.length !== 6) {
+      merged.parts.A1.months = A1_MONTHS.map((m, i) => Object.assign(emptyMonth(m), (parsed.parts && parsed.parts.A1 && parsed.parts.A1.months && parsed.parts.A1.months[i]) || {}, { month: m }));
+    } else {
+      merged.parts.A1.months.forEach((mo, i) => { mo.month = A1_MONTHS[i]; });
+    }
+    if (!Array.isArray(merged.parts.C1.scenarios) || merged.parts.C1.scenarios.length !== 3) {
+      merged.parts.C1.scenarios = SCENARIO_NAMES.map((n, i) => Object.assign(emptyScenario(n), (parsed.parts && parsed.parts.C1 && parsed.parts.C1.scenarios && parsed.parts.C1.scenarios[i]) || {}, { name: n }));
+    } else {
+      merged.parts.C1.scenarios.forEach((sc, i) => { sc.name = SCENARIO_NAMES[i]; });
+    }
+    if (!Array.isArray(merged.parts.log.rows)) merged.parts.log.rows = defaultState().parts.log.rows;
+    if (!Array.isArray(merged.group) || merged.group.length < 2) merged.group = defaultState().group;
+    return merged;
+  }
+
+  function deepMerge(target, source) {
+    if (source === null || typeof source !== 'object') return source;
+    const out = Array.isArray(target) ? target.slice() : Object.assign({}, target);
+    Object.keys(source).forEach(k => {
+      if (source[k] && typeof source[k] === 'object' && !Array.isArray(source[k])) {
+        out[k] = deepMerge(out[k] || {}, source[k]);
+      } else {
+        out[k] = source[k];
+      }
+    });
+    return out;
+  }
+
+  // ---------- persistence ----------
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    const el = document.getElementById('save-indicator');
+    if (!el.classList.contains('saved')) el.textContent = 'Edited';
+    el.classList.remove('saved');
+    saveTimer = setTimeout(persistState, SAVE_DEBOUNCE);
+  }
+
+  function persistState() {
+    state.meta.lastSaved = new Date().toISOString();
+    const payload = JSON.stringify(state);
+    const el = document.getElementById('save-indicator');
+    const write = () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, payload);
+        el.textContent = 'Saved ✓ (device only)';
+        el.classList.add('saved');
+      } catch (err) {
+        el.textContent = 'Save failed — export your work';
+      }
+    };
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(write, { timeout: 2000 });
+    else setTimeout(write, 0);
+  }
+
+  // ---------- helpers ----------
+  function esc(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function parseNum(val) {
+    if (val === '' || val === null || val === undefined) return NaN;
+    const n = Number(String(val).replace(/[,%$\s]/g, ''));
+    return isNaN(n) ? NaN : n;
+  }
+  function fmtInt(val) {
+    const n = parseNum(val);
+    if (isNaN(n)) return val;
+    return Math.round(n).toLocaleString('en-US');
+  }
+  function fmtMoney2(val) {
+    const n = parseNum(val);
+    if (isNaN(n)) return val;
+    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtPct(val) {
+    if (val === '' || val === null || val === undefined) return val;
+    const cleaned = String(val).replace(/[%\s]/g, '');
+    if (cleaned === '' || isNaN(Number(cleaned))) return val;
+    return cleaned + '%';
+  }
+  function applyFmt(kind, val) {
+    if (kind === 'int') return fmtInt(val);
+    if (kind === 'money2') return fmtMoney2(val);
+    if (kind === 'pct') return fmtPct(val);
+    return val;
+  }
+
+  function getByPath(path) {
+    return path.split('.').reduce((o, k) => (o === null || o === undefined ? undefined : o[k]), state);
+  }
+  function setByPath(path, val) {
+    const keys = path.split('.');
+    let o = state;
+    for (let i = 0; i < keys.length - 1; i++) o = o[keys[i]];
+    o[keys[keys.length - 1]] = val;
+  }
+
+  // ---------- rendering ----------
+  function renderMembers() {
+    const grid = document.getElementById('member-grid');
+    grid.innerHTML = state.group.map((m, i) => `
+      <div class="field-row">
+        <label>Member ${i + 1} — Full name</label>
+        <input type="text" data-bind="group.${i}.name" value="${esc(m.name)}" placeholder="First Last">
+      </div>
+      <div class="field-row">
+        <label>NetID</label>
+        <input type="text" data-bind="group.${i}.netid" value="${esc(m.netid)}" placeholder="abc123">
+      </div>
+    `).join('');
+  }
+
+  function renderA1Grid() {
+    const body = document.getElementById('a1-grid-body');
+    body.innerHTML = state.parts.A1.months.map((mo, i) => `
+      <tr data-a1-row="${i}">
+        <td>${esc(mo.month)} 2026</td>
+        ${A1_FIELDS.map(f => `<td><input type="text" inputmode="decimal" data-bind="parts.A1.months.${i}.${f}" data-fmt="pct" value="${esc(mo[f])}" placeholder="e.g., 12.3%"></td>`).join('')}
+        <td class="warn-cell" id="a1-warn-${i}"></td>
+      </tr>
+    `).join('');
+  }
+
+  function renderC1() {
+    const wrap = document.getElementById('c1-scenarios');
+    wrap.innerHTML = state.parts.C1.scenarios.map((sc, i) => `
+      <div class="scenario-card">
+        <h4>${SCENARIO_LABELS[sc.name] || esc(sc.name)}</h4>
+        <div class="metric-fields cols-3">
+          <div class="field-row"><label>New-logo quota per AE</label>
+            <input type="text" data-bind="parts.C1.scenarios.${i}.quotaPerAE" value="${esc(sc.quotaPerAE)}" placeholder="driver value"></div>
+          <div class="field-row"><label>Logo churn rate</label>
+            <input type="text" data-bind="parts.C1.scenarios.${i}.churnRate" value="${esc(sc.churnRate)}" placeholder="driver value"></div>
+          <div class="field-row"><label>Documents / firm / month</label>
+            <input type="text" data-bind="parts.C1.scenarios.${i}.docsPerFirmMonth" value="${esc(sc.docsPerFirmMonth)}" placeholder="driver value"></div>
+          <div class="field-row"><label>Inference cost / document</label>
+            <input type="text" data-bind="parts.C1.scenarios.${i}.inferenceCostPerDoc" value="${esc(sc.inferenceCostPerDoc)}" placeholder="driver value"></div>
+          <div class="field-row"><label>End-of-FY2027 cash ($)</label>
+            <input type="text" inputmode="decimal" data-bind="parts.C1.scenarios.${i}.decEndingCash" data-fmt="money2" value="${esc(sc.decEndingCash)}" placeholder="dollars"></div>
+          <div class="field-row"><label>Runway (months)</label>
+            <input type="text" inputmode="decimal" data-bind="parts.C1.scenarios.${i}.runwayMonths" value="${esc(sc.runwayMonths)}" placeholder="months"></div>
+        </div>
+        <div class="field-row" style="margin-top:0.6rem;">
+          <label>Rationale &mdash; one sentence per driver choice (case-grounded, no new facts)</label>
+          <textarea data-bind="parts.C1.scenarios.${i}.rationale" placeholder="Why these four driver values for the ${esc(SCENARIO_LABELS[sc.name] || sc.name)} case?">${esc(sc.rationale)}</textarea>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderC2() {
+    const body = document.getElementById('c2-body');
+    body.innerHTML = DRIVERS.map(d => `
+      <tr>
+        <td style="text-align:left;">${DRIVER_LABELS[d]}</td>
+        <td>
+          <select data-bind="parts.C2.ranks.${d}" data-c2rank>
+            <option value="">—</option>
+            ${[1, 2, 3, 4].map(n => `<option value="${n}"${String(state.parts.C2.ranks[d]) === String(n) ? ' selected' : ''}>${n}</option>`).join('')}
+          </select>
+        </td>
+        <td><input type="text" inputmode="decimal" data-bind="parts.C2.deltaCash.${d}" data-fmt="money2" value="${esc(state.parts.C2.deltaCash[d])}" placeholder="optional"></td>
+      </tr>
+    `).join('');
+  }
+
+  function renderLog() {
+    const body = document.getElementById('log-body');
+    body.innerHTML = state.parts.log.rows.map((r, i) => `
+      <tr data-log-row="${i}">
+        <td>
+          <select data-bind="parts.log.rows.${i}.check">
+            <option value="">—</option>
+            ${CHECK_TAGS.map(t => `<option value="${t.value}"${r.check === t.value ? ' selected' : ''}>${t.label}</option>`).join('')}
+          </select>
+        </td>
+        <td><input type="text" data-bind="parts.log.rows.${i}.roundRole" value="${esc(r.roundRole)}" placeholder="round / role"></td>
+        <td><textarea rows="2" data-bind="parts.log.rows.${i}.prompt" placeholder="prompt used">${esc(r.prompt)}</textarea></td>
+        <td><textarea rows="2" data-bind="parts.log.rows.${i}.aiClaim" placeholder="AI claim">${esc(r.aiClaim)}</textarea></td>
+        <td><textarea rows="2" data-bind="parts.log.rows.${i}.checkPerformed" placeholder="check performed">${esc(r.checkPerformed)}</textarea></td>
+        <td>
+          <select data-bind="parts.log.rows.${i}.result">
+            ${RESULT_OPTS.map(o => `<option value="${o}"${r.result === o ? ' selected' : ''}>${o}</option>`).join('')}
+          </select>
+        </td>
+        <td><textarea rows="2" data-bind="parts.log.rows.${i}.changeMade" placeholder="change made">${esc(r.changeMade)}</textarea></td>
+        <td><button type="button" class="btn btn-sm btn-danger" data-log-remove="${i}">&times;</button></td>
+      </tr>
+    `).join('');
+  }
+
+  function syncInputsFromState() {
+    document.querySelectorAll('[data-bind]').forEach(el => {
+      const v = getByPath(el.dataset.bind);
+      if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = (v === null || v === undefined) ? '' : v;
+    });
+    document.getElementById('honor-check').checked = !!state.honor;
+  }
+
+  // ---------- live hygiene updates ----------
+  function updateA1Identity() {
+    state.parts.A1.months.forEach((mo, i) => {
+      const cell = document.getElementById('a1-warn-' + i);
+      if (!cell) return;
+      const cFilled = mo.logoChurnPct !== '' && mo.logoChurnPct !== null;
+      const rFilled = mo.logoRetentionPct !== '' && mo.logoRetentionPct !== null;
+      if (!cFilled || !rFilled) { cell.innerHTML = ''; return; }
+      const c = parseNum(mo.logoChurnPct), r = parseNum(mo.logoRetentionPct);
+      if (isNaN(c) || isNaN(r)) { cell.innerHTML = ''; return; }
+      if (Math.abs((c + r) - 100) > 0.05) {
+        cell.innerHTML = '<span class="badge badge-warn">churn + retention &ne; 100</span>';
+      } else {
+        cell.innerHTML = '<span class="badge badge-ok">&#10003; 100</span>';
+      }
+    });
+  }
+
+  function updateC2Ranks() {
+    const warn = document.getElementById('c2-rank-warn');
+    const vals = DRIVERS.map(d => String(state.parts.C2.ranks[d] || '')).filter(v => v !== '');
+    const dup = vals.length !== new Set(vals).size;
+    warn.innerHTML = dup ? '<span class="badge badge-warn">Each rank 1&ndash;4 should be used once &mdash; you have a duplicate.</span>' : '';
+  }
+
+  function updateLogCoverage() {
+    const chips = document.getElementById('log-chips');
+    const lit = {};
+    CHECK_TAGS.forEach(t => { if (t.value !== 'other') lit[t.value] = false; });
+    state.parts.log.rows.forEach(r => {
+      if (lit.hasOwnProperty(r.check) && String(r.prompt).trim() && String(r.aiClaim).trim() && String(r.checkPerformed).trim()) {
+        lit[r.check] = true;
+      }
+    });
+    chips.innerHTML = CHECK_TAGS.filter(t => t.value !== 'other').map(t =>
+      `<span class="chip${lit[t.value] ? ' lit' : ''}">${lit[t.value] ? '&#10003; ' : ''}${t.label}</span>`
+    ).join('');
+    const catches = state.parts.log.rows.filter(r => r.result === 'corrected' || r.result === 'rejected').length;
+    const covered = Object.values(lit).filter(Boolean).length;
+    document.getElementById('log-counter').textContent =
+      covered + ' of 5 checks covered · ' + catches + ' corrected/rejected ' + (catches === 1 ? 'entry' : 'entries');
+  }
+
+  function refreshLiveUpdatesFor(path) {
+    if (path.indexOf('parts.A1.months') === 0) updateA1Identity();
+    else if (path.indexOf('parts.C2.ranks') === 0) updateC2Ranks();
+    else if (path.indexOf('parts.log.rows') === 0) updateLogCoverage();
+  }
+
+  // ---------- navigation ----------
+  function setPanel(id, sectionId) {
+    activePanel = id;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    document.querySelectorAll('[data-panel]').forEach(b => {
+      if (b.tagName === 'BUTTON') b.classList.toggle('active', b.dataset.panel === id);
+    });
+    if (id === 'review') renderReview();
+    updateJumpNav();
+    renderPanelFooters();
+    if (sectionId) requestAnimationFrame(() => scrollToSection(sectionId));
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function scrollToSection(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function partIndex(id) { return PART_NAV.findIndex(p => p.id === id); }
+  function updateJumpNav() {
+    const sectionsEl = document.getElementById('jump-sections');
+    const current = PART_NAV.find(p => p.id === activePanel);
+    document.querySelectorAll('#jump-parts .jump-tag').forEach(b => b.classList.toggle('active', b.dataset.panel === activePanel));
+    document.querySelectorAll('nav.part-nav button').forEach(b => b.classList.toggle('active', b.dataset.panel === activePanel));
+    if (current && current.sections && current.sections.length > 1) {
+      sectionsEl.hidden = false;
+      sectionsEl.innerHTML = current.sections.map(s =>
+        `<button type="button" class="jump-tag sub" data-section="${s.id}" data-panel="${current.id}">${s.label}</button>`
+      ).join('');
+    } else {
+      sectionsEl.hidden = true; sectionsEl.innerHTML = '';
+    }
+    syncJumpNavOffset();
+  }
+  function renderPanelFooters() {
+    document.querySelectorAll('.panel-footer-nav').forEach(footer => {
+      const idx = partIndex(footer.dataset.footer);
+      const prev = idx > 0 ? PART_NAV[idx - 1] : null;
+      const next = idx < PART_NAV.length - 1 ? PART_NAV[idx + 1] : null;
+      footer.innerHTML =
+        (prev ? `<button type="button" class="jump-tag" data-panel="${prev.id}">&larr; ${prev.label}</button>` : '<span></span>') +
+        (next ? `<button type="button" class="jump-tag" data-panel="${next.id}">${next.label} &rarr;</button>` : '<span></span>');
+    });
+  }
+  function syncJumpNavOffset() {
+    const header = document.querySelector('.site-header');
+    if (header) {
+      const sticky = getComputedStyle(header).position === 'sticky';
+      document.documentElement.style.setProperty('--scroll-offset', ((sticky ? header.offsetHeight : 0) + 12) + 'px');
+    }
+  }
+
+  // ---------- review ----------
+  function getCompletenessItems() {
+    const p = state.parts;
+    const namesOk = state.group.filter(m => m.name.trim()).length >= 2;
+    const honorOk = state.honor;
+    const a1Ok = p.A1.months.every(mo => A1_FIELDS.every(f => String(mo[f]).trim() !== '')) && String(p.A1.compoundedNrrPct).trim() !== '';
+    const a2Ok = String(p.A2.formulaError.identify).trim() !== '' && String(p.A2.formulaError.correctedFigurePct).trim() !== '' && String(p.A2.hallucinatedBenchmark.identify).trim() !== '';
+    const chkOk = ['CHK1', 'CHK2', 'CHK3', 'CHK4', 'CHK5'].every(k => String(p.B.chk[k]).trim() !== '');
+    const c1Ok = p.C1.scenarios.every(sc => String(sc.decEndingCash).trim() !== '' && String(sc.runwayMonths).trim() !== '' && String(sc.rationale).trim() !== '');
+    const ranks = DRIVERS.map(d => String(p.C2.ranks[d] || '')).filter(v => v !== '');
+    const c2Ok = ranks.length === 4 && new Set(ranks).size === 4;
+    const catches = p.log.rows.filter(r => (r.result === 'corrected' || r.result === 'rejected') && String(r.aiClaim).trim() && String(r.changeMade).trim()).length;
+    const logCovered = ['C1', 'C2', 'C3', 'C4', 'C5'].filter(tag =>
+      p.log.rows.some(r => r.check === tag && String(r.prompt).trim() && String(r.aiClaim).trim() && String(r.checkPerformed).trim())
+    ).length;
+    return [
+      { ok: namesOk, label: 'At least 2 group members named' },
+      { ok: honorOk, label: 'Honor / AI certification checked' },
+      { ok: a1Ok, label: 'A1 monthly grid and compounded NRR filled' },
+      { ok: a2Ok, label: 'A2 formula error and hallucinated benchmark answered' },
+      { ok: chkOk, label: 'All five CHK values certified' },
+      { ok: c1Ok, label: 'All three scenarios: cash, runway, and rationale entered' },
+      { ok: c2Ok, label: 'Sensitivity ranks 1–4 assigned uniquely' },
+      { ok: logCovered === 5, label: 'Verification Log covers all five manual checks (' + logCovered + '/5)' },
+      { ok: catches >= 2, label: 'At least 2 documented catches (corrected/rejected with claim + change)' }
+    ];
+  }
+
+  function renderReview() {
+    const items = getCompletenessItems();
+    document.getElementById('completeness-checklist').innerHTML = items.map(it =>
+      `<li><span class="icon">${it.ok ? '✅' : '⬜'}</span> ${it.label}</li>`
+    ).join('');
+    document.getElementById('review-content').innerHTML = buildHumanBodyHTML(buildPayload());
+  }
+
+  // ---------- events ----------
+  function bindEvents() {
+    document.addEventListener('click', e => {
+      const panelBtn = e.target.closest('[data-panel]');
+      if (panelBtn && !panelBtn.dataset.section && panelBtn.tagName === 'BUTTON') { setPanel(panelBtn.dataset.panel); return; }
+      const sectionBtn = e.target.closest('[data-section]');
+      if (sectionBtn) {
+        const panel = sectionBtn.dataset.panel, section = sectionBtn.dataset.section;
+        if (activePanel !== panel) setPanel(panel, section); else scrollToSection(section);
+        document.querySelectorAll('#jump-sections .jump-tag').forEach(b => b.classList.toggle('active', b.dataset.section === section));
+      }
+    });
+    window.addEventListener('resize', syncJumpNavOffset);
+
+    document.getElementById('btn-add-member').addEventListener('click', () => {
+      if (state.group.length < 4) { state.group.push({ name: '', netid: '' }); scheduleSave(); renderMembers(); }
+    });
+    document.getElementById('btn-remove-member').addEventListener('click', () => {
+      if (state.group.length > 2) { state.group.pop(); scheduleSave(); renderMembers(); }
+    });
+
+    document.getElementById('btn-export').addEventListener('click', exportProgress);
+    document.getElementById('btn-import').addEventListener('click', () => document.getElementById('import-file').click());
+    document.getElementById('import-file').addEventListener('change', importProgress);
+
+    document.getElementById('btn-add-log').addEventListener('click', () => {
+      state.parts.log.rows.push(emptyLogRow(''));
+      scheduleSave(); renderLog(); updateLogCoverage();
+    });
+
+    document.getElementById('btn-generate').addEventListener('click', generateSubmission);
+    document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+    const main = document.getElementById('main');
+    main.addEventListener('input', onInput);
+    main.addEventListener('change', e => { if (e.target.matches('select[data-bind], input[type="checkbox"][data-bind]')) onInput(e); });
+    main.addEventListener('blur', onBlur, true);
+    main.addEventListener('click', onClick);
+  }
+
+  function onInput(e) {
+    const t = e.target;
+    const bind = t.dataset.bind;
+    if (bind === undefined) return;
+    const v = (t.type === 'checkbox') ? t.checked : t.value;
+    setByPath(bind, v);
+    scheduleSave();
+    refreshLiveUpdatesFor(bind);
+  }
+
+  function onBlur(e) {
+    const t = e.target;
+    if (!t.dataset || !t.dataset.fmt || !t.dataset.bind || !t.value) return;
+    const formatted = applyFmt(t.dataset.fmt, t.value);
+    if (formatted !== t.value) {
+      t.value = formatted;
+      setByPath(t.dataset.bind, formatted);
+      scheduleSave();
+      refreshLiveUpdatesFor(t.dataset.bind);
+    }
+  }
+
+  function onClick(e) {
+    const rm = e.target.closest('[data-log-remove]');
+    if (rm) {
+      const idx = +rm.dataset.logRemove;
+      if (state.parts.log.rows.length > 1) {
+        state.parts.log.rows.splice(idx, 1);
+        scheduleSave(); renderLog(); updateLogCoverage();
+      }
+    }
+  }
+
+  // ---------- export / import ----------
+  function exportProgress() {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'redline-ps2.ps2work.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  function importProgress(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!parsed || parsed.schema !== SCHEMA) { alert('Invalid file: wrong or missing schema (' + SCHEMA + ' expected).'); return; }
+        if (!confirm('Import will overwrite all current work on this device. Continue?')) return;
+        state = mergeDefaults(parsed);
+        renderAll(); scheduleSave();
+      } catch (err) { alert('Could not read file.'); }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+
+  // ---------- submission ----------
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  function getLastNames() {
+    return state.group.filter(m => m.name.trim()).map(m => {
+      const parts = m.name.trim().split(/\s+/);
+      return parts[parts.length - 1].replace(/[^a-zA-Z]/g, '');
+    }).filter(Boolean);
+  }
+  function buildPayload() {
+    return {
+      schema: SCHEMA,
+      group: state.group,
+      honor: state.honor,
+      parts: state.parts,
+      meta: { version: WORKBENCH_VERSION, generatedAt: new Date().toISOString(), lastSaved: state.meta.lastSaved }
+    };
+  }
+
+  function dash(v) { return (v === null || v === undefined || String(v).trim() === '') ? '&mdash;' : esc(v); }
+
+  function buildHumanBodyHTML(payload) {
+    const p = payload.parts;
+    let h = '';
+    h += '<div class="review-block"><h3>Group</h3><p>' +
+      (payload.group.filter(m => m.name).map(m => esc(m.name) + ' (' + esc(m.netid) + ')').join(', ') || '&mdash;') +
+      '</p><p>Honor / AI certification: ' + (payload.honor ? 'checked' : 'not checked') + '</p></div>';
+
+    // A1
+    h += '<div class="review-block"><h3>Part A1 — Retention grid</h3>';
+    h += '<div class="table-wrap"><table class="ref-table"><thead><tr><th>Month</th>' +
+      '<th class="num">Logo churn %</th><th class="num">Logo retention %</th><th class="num">Gross MRR churn %</th><th class="num">GRR %</th><th class="num">NRR %</th></tr></thead><tbody>';
+    p.A1.months.forEach(mo => {
+      h += '<tr><td>' + esc(mo.month) + ' 2026</td>' +
+        A1_FIELDS.map(f => '<td class="num">' + dash(mo[f]) + '</td>').join('') + '</tr>';
+    });
+    h += '</tbody></table></div>';
+    h += '<p><strong>Compounded 6-month NRR:</strong> ' + dash(p.A1.compoundedNrrPct) + '</p>';
+    h += '<p><strong>NRR formula:</strong> ' + dash(p.A1.nrrFormula) + '</p>';
+    h += '<p><strong>Why NRR > 100%:</strong> ' + dash(p.A1.expansionExplanation) + '</p></div>';
+
+    // A2
+    h += '<div class="review-block"><h3>Part A2 — AI errors</h3>';
+    h += '<p><strong>Formula error — identify:</strong> ' + dash(p.A2.formulaError.identify) + '</p>';
+    h += '<p><strong>Corrected figure:</strong> ' + dash(p.A2.formulaError.correctedFigurePct) + '</p>';
+    h += '<p><strong>Correct formula:</strong> ' + dash(p.A2.formulaError.correctFormula) + '</p>';
+    h += '<p><strong>Hallucinated benchmark — identify:</strong> ' + dash(p.A2.hallucinatedBenchmark.identify) + '</p>';
+    h += '<p><strong>Treatment:</strong> ' + dash(p.A2.hallucinatedBenchmark.treatment) + '</p></div>';
+
+    // B
+    h += '<div class="review-block"><h3>Part B — Certified checks</h3>';
+    h += '<div class="table-wrap"><table class="ref-table"><thead><tr><th>Check</th><th>Meaning</th><th class="num">Value</th></tr></thead><tbody>';
+    const chkMeaning = {
+      CHK1: 'December ending active firms', CHK2: 'FY2027 total revenue', CHK3: 'December total headcount',
+      CHK4: 'December deferred-revenue balance', CHK5: 'December ending cash'
+    };
+    ['CHK1', 'CHK2', 'CHK3', 'CHK4', 'CHK5'].forEach(k => {
+      h += '<tr><td>' + k + '</td><td>' + chkMeaning[k] + '</td><td class="num">' + dash(p.B.chk[k]) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+    h += '<p><strong>Hygiene attestation:</strong> ' +
+      ['assumptionsTab', 'noHardcodes', 'unitsLabeled', 'reflows'].map(k => k + ': ' + (p.B.hygiene[k] ? 'yes' : 'no')).join(' · ') + '</p>';
+    h += '<p><strong>Starter audit:</strong> ' + dash(p.B.starterAudit) + '</p></div>';
+
+    // C1
+    h += '<div class="review-block"><h3>Part C1 — Scenarios</h3>';
+    h += '<div class="table-wrap"><table class="ref-table"><thead><tr><th>Scenario</th>' +
+      DRIVERS.map(d => '<th>' + DRIVER_LABELS[d] + '</th>').join('') +
+      '<th class="num">End-FY2027 cash</th><th class="num">Runway (mo)</th></tr></thead><tbody>';
+    p.C1.scenarios.forEach(sc => {
+      h += '<tr><td>' + esc(SCENARIO_LABELS[sc.name] || sc.name) + '</td>' +
+        DRIVERS.map(d => '<td>' + dash(sc[d]) + '</td>').join('') +
+        '<td class="num">' + dash(sc.decEndingCash) + '</td><td class="num">' + dash(sc.runwayMonths) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+    p.C1.scenarios.forEach(sc => {
+      h += '<p><strong>' + esc(SCENARIO_LABELS[sc.name] || sc.name) + ' rationale:</strong> ' + dash(sc.rationale) + '</p>';
+    });
+    h += '</div>';
+
+    // C2
+    h += '<div class="review-block"><h3>Part C2 — Sensitivity</h3>';
+    h += '<div class="table-wrap"><table class="ref-table"><thead><tr><th>Driver</th><th class="num">Rank</th><th class="num">&Delta; December cash</th></tr></thead><tbody>';
+    DRIVERS.forEach(d => {
+      h += '<tr><td>' + DRIVER_LABELS[d] + '</td><td class="num">' + dash(p.C2.ranks[d]) + '</td><td class="num">' + dash(p.C2.deltaCash[d]) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+    h += '<p><strong>Confirmed with own Excel data table:</strong> ' + (p.C2.confirmedOwnDataTable ? 'yes' : 'no') + '</p></div>';
+
+    // Log
+    h += '<div class="review-block"><h3>Verification Log</h3>';
+    h += '<div class="table-wrap"><table class="ref-table"><thead><tr><th>Check</th><th>Round/role</th><th>Prompt</th><th>AI claim</th><th>Check performed</th><th>Result</th><th>Change made</th></tr></thead><tbody>';
+    p.log.rows.forEach(r => {
+      h += '<tr><td>' + dash(r.check) + '</td><td>' + dash(r.roundRole) + '</td><td>' + dash(r.prompt) + '</td><td>' + dash(r.aiClaim) +
+        '</td><td>' + dash(r.checkPerformed) + '</td><td>' + dash(r.result) + '</td><td>' + dash(r.changeMade) + '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    return h;
+  }
+
+  function buildFullSubmissionHTML(payload, hash) {
+    const ts = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+    const json = JSON.stringify(payload, null, 2);
+    const group = payload.group.filter(m => m.name).map(m => esc(m.name)).join(', ') || '(names not entered)';
+    let doc = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>PS2 Submission — MGT 816</title>';
+    doc += '<style>body{font-family:Georgia,serif;max-width:960px;margin:2rem auto;padding:0 1.5rem;color:#1a1a1a;font-size:14px;line-height:1.5;}';
+    doc += 'h1{color:#1F4E79;}h3{color:#1F4E79;border-bottom:2px solid #D5E8F0;padding-bottom:0.25rem;margin-top:2rem;}';
+    doc += 'table.ref-table{width:100%;border-collapse:collapse;margin:0.75rem 0;}';
+    doc += 'table.ref-table th,table.ref-table td{border:1px solid #ccc;padding:0.4rem 0.5rem;text-align:left;}';
+    doc += 'table.ref-table th{background:#1F4E79;color:#fff;}td.num,th.num{text-align:right;}';
+    doc += '.table-wrap{overflow-x:auto;}.review-block{margin-bottom:1.25rem;}';
+    doc += 'footer{margin-top:3rem;font-size:12px;color:#666;border-top:1px solid #ccc;padding-top:1rem;}code{font-family:Menlo,Consolas,monospace;}</style></head><body>';
+    doc += '<h1>Problem Set 2 — Submission</h1>';
+    doc += '<p><strong>MGT 816 · The Private Firm CFO · Fall 2026</strong><br>Redline Labs FY2027 forecast (AI-assisted, human-certified)<br>Group: ' + group + '</p>';
+    doc += buildHumanBodyHTML(payload);
+    doc += '<footer><p>Generated: ' + ts + ' ET · Workbench ' + WORKBENCH_VERSION + ' · Schema ' + SCHEMA + '</p>';
+    doc += '<p>Integrity hash (SHA-256 of JSON payload): <code>' + hash + '</code></p></footer>';
+    doc += '<script type="application/json" id="payload">' + json.replace(/<\//g, '<\\/') + '<\/script>';
+    doc += '</body></html>';
+    return doc;
+  }
+
+  async function generateSubmission() {
+    const items = getCompletenessItems();
+    if (!items.every(i => i.ok)) {
+      if (!confirm('Some items are incomplete. Generate the submission anyway?')) return;
+    }
+    if (!state.honor) { alert('Please check the honor / AI certification on the Setup panel.'); setPanel('setup'); return; }
+    const payload = buildPayload();
+    const json = JSON.stringify(payload, null, 2);
+    const hash = await sha256(json);
+    const lastNames = getLastNames();
+    const fn = 'PS2_Submission_' + (lastNames.slice(0, 2).join('_') || 'Group') + '.html';
+    const blob = new Blob([buildFullSubmissionHTML(payload, hash)], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fn;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // ---------- boot ----------
+  function renderAll() {
+    renderMembers();
+    renderA1Grid();
+    renderC1();
+    renderC2();
+    renderLog();
+    syncInputsFromState();
+    updateA1Identity();
+    updateC2Ranks();
+    updateLogCoverage();
+    if (activePanel === 'review') renderReview();
+    document.getElementById('version-display').textContent = DISPLAY_VERSION;
+  }
+
+  bindEvents();
+  renderAll();
+  updateJumpNav();
+  renderPanelFooters();
+  requestAnimationFrame(syncJumpNavOffset);
+})();
+  </script>
+</body>
+</html>

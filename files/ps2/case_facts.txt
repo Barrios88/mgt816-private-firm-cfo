@@ -1,0 +1,81 @@
+REDLINE LABS — FY2027 OPERATING PLAN (CASE FACTS)
+
+Redline Labs is a synthetic company built for this problem set, so do not go
+looking for it in the wild. It sells an AI contract-review copilot to mid-market
+law firms — software that reads a redline, flags the risky clauses, and drafts
+the markup a junior associate would have written. The founder is a former VP of
+Product at DocuSigner, so the go-to-market is the legal vertical she already
+knew cold. The pricing is the model every AI-SaaS company is running in 2026: a
+subscription base plus metered usage. Your job is to forecast FY2027 on a
+monthly grid, January through December.
+
+Here is everything the plan assumes. Treat it as the contract. If a number you
+need is not written here, do not invent it — flag it and move on.
+
+PRICING. Every active firm pays a platform fee of $2,500 per month. On top of
+that, each firm gets an allowance of 1,000 reviewed documents per month included
+in the base; every document above 1,000 is billed at $2. Documents per firm are
+not flat — they climb with account tenure on a three-step curve. In a firm's
+first six months on the platform it runs 1,030 documents a month; in months 7
+through 12 it runs 1,360; from month 13 on it runs 1,720. Documents are whole
+numbers.
+
+THE STARTING BOOK. On January 1, 2027 there are 54 active firms, all billing
+month-to-month. They are spread across tenure by age: 16 firms are in their
+second month, 14 in their third, 10 in their fourth, 8 in their fifth, and 6 in
+their sixth. The whole opening book sits in the low-usage step and climbs the
+curve as the year runs. Opening deferred revenue is zero.
+
+NEW LOGOS. Redline sells through account executives (AEs). Four AEs are on the
+roster January 1 and are already fully ramped. New AEs join in March, May, July,
+two in September, and one in November. A newly hired AE produces nothing in the
+month of hire — a one-month ramp — and from the following month on carries a
+quota of 3 new firms per month.
+
+CHURN. A firm cannot churn in its first three months: logo churn is 0% for
+months 1 through 3. After that, seasoned firms churn at 1.5% per month.
+"Seasoned" means a monthly-billing firm with tenure of four months or more. Each
+month, churned firms = ROUND(1.5% x the beginning-of-month count of seasoned
+monthly firms, 0). That rounded total is allocated across the seasoned cohorts
+in proportion to cohort size, using the largest-remainder method, with ties
+broken in favor of the oldest cohort. Firms that prepaid annually are under
+contract and do not churn inside FY2027.
+
+PREPAY AND DEFERRED REVENUE. 40% of each month's new firms prepay a full year up
+front; the rest stay monthly. Prepay firms = ROUND(40% x new firms, 0), and the
+remainder bill monthly. A prepay firm is billed 12 x $2,500 with a 10% discount
+— $27,000 — in cash at signing, and Redline recognizes $2,250 of platform
+revenue per month for the following twelve months. Monthly firms simply pay
+$2,500 each month they are active. Roll deferred revenue forward the usual way:
+beginning balance + new prepay billings - revenue recognized = ending balance.
+
+COMMISSIONS. Sales commission is 8% of first-year platform ACV. First-year
+platform ACV is 12 x $2,500 = $30,000, so commission is 8% x 12 x $2,500 =
+$2,400 per new firm. It is expensed when the firm signs but paid in cash
+quarterly, at the end of March, June, September, and December.
+
+COGS. Three pieces. First, inference: every document processed costs money to
+run through the model. That cost starts at $0.18 per document in Q1 and declines
+5% each quarter as the models get cheaper. Second, hosting: a fixed $19,500 per
+month. Third, customer-success payroll: Redline staffs one customer success
+manager (CSM) for every 15 active firms, and it hires them one month early — the
+CSM count for a month is ROUNDUP(next month's ending active firms / 15, 0). CSMs
+are paid $78,000 a year.
+
+OPERATING EXPENSES. Sales & marketing is AE salaries + commissions + demand-
+generation spend. AEs earn $96,000 a year. Demand-gen follows a given monthly
+ramp, from $150,000 in January up to $347,000 in December (the monthly schedule
+is in the model). Engineering runs on its own hiring plan — 9 on payroll in
+January, then 10, 12, 13, 15, 16, 18, 19, 21, 22, 23, and 24 by December — at
+$165,000 each per year; split engineering cost 60% to product support and 40% to
+core R&D, both inside R&D opex. G&A is four executives at $240,000 each per year
+plus rent of $28,000 a month.
+
+TIMING AND MECHANICS. Compute every monthly quantity — revenue, usage, COGS,
+headcount ratios — on end-of-month active firm counts. There are no taxes, no
+depreciation, and no capital expenditure in FY2027, so net income equals
+operating income. Redline starts the year with $6,600,000 of cash.
+
+That is the plan. Build the monthly forecast, keep every assumption isolated on
+one tab, label your units, and let the schedules — not hardcoded numbers buried
+inside formulas — do the work.

@@ -40,10 +40,11 @@ for entry in sessions:
         print("- Handouts: *none*")
     wb = entry.get("workbench")
     if wb:
-        print(f"- [PS1 digital workbench]({wb}) — complete and submit here")
+        wb_label = entry.get("workbench_label", "Workbench")
+        print(f"- [{wb_label}]({wb}) — complete and submit here")
     print()
 ```
 
 **Naming convention:** `materials/sNN_slides.pdf`, `materials/sNN_handout.pdf` (e.g., `s02_slides.pdf`).
 
-Problem sets have their own page: **[Problem Sets](assignments.qmd)** — the PS1 digital workbench, assignment PDF, and Excel template live there. Solutions and grading guides are on **Canvas only**.
+Problem sets have their own page: **[Problem Sets](assignments.qmd)** — the PS1 and PS2 digital workbenches, both assignment PDFs, the PS1 Excel template, and the full PS2 Model Pack live there. Solutions and grading guides are on **Canvas only**.

@@ -46,7 +46,8 @@ def fmt_out_due(entry):
     if entry.get("assignment"):
         bits.append(f'<a href="{entry["assignment"]}">Assignment</a>')
     if entry.get("workbench"):
-        bits.append(f'<a href="{entry["workbench"]}">PS1 workbench</a>')
+        wb_label = entry.get("workbench_label", "Workbench")
+        bits.append(f'<a href="{entry["workbench"]}">{wb_label}</a>')
     return "<br>".join(bits) if bits else "—"
 
 def fmt_slides(entry):

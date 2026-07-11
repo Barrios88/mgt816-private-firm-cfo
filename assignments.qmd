@@ -34,16 +34,38 @@ The workbench provides structure and arithmetic hygiene (ownership percentages, 
 
 ## Problem Set 2: AI-Assisted Forecasting {#ps2}
 
-Build a driver-based operating forecast for Redline Labs with AI tools doing the analyst work — and you certifying every number against the verification log.
+Build a driver-based FY2027 operating forecast for Redline Labs, an AI contract-review startup, with AI tools doing the analyst work — and you certifying every number against the model and the verification log. Part A is a unit-economics warm-up (churn, retention, NRR, and spotting the AI's errors); Part B is the Excel build; Part C is scenarios, sensitivity, and a one-page board memo.
 
 | | |
 |:--|:--|
 | **Out** | Monday, September 28 (Session 7) |
 | **Due** | Monday, October 12 at 1:00 pm |
-| **Groups** | Same groups as PS1 |
-| **Points** | 40 |
+| **Groups** | Same groups as PS1; one submission per group |
+| **Points** | 40 — Part A 8 · Part B 18 · Part C 10 · Verification Log 4 |
 
-Materials (case facts, driver data, starter workbook) are distributed with the Session 7 workshop kit. *Posted here when released.*
+### How to do it
+
+You hand in **three files**: your Excel model, a one-page board memo, and your workbench submission sheet.
+
+1. Build the model in **Excel**, starting from `starter.xlsx` in the Model Pack below. Part B — the model itself — stays in Excel; clean model hygiene *in Excel* is the point.
+2. Complete Part A, the five checksum certifications, the scenario and sensitivity readouts, and the Verification Log in the **[PS2 digital workbench](ps2/index.html)**. Progress **autosaves to this browser only** — use *Export progress* / *Import progress* to hand off within your group. When it is complete, *Generate submission sheet* downloads one HTML file.
+3. Write the memo one-pager from `one_pager_template.pptx` and export it to a **one-page PDF**.
+4. Put every group member's name on all three files and **upload all three to Canvas** by the deadline.
+
+The workbench provides structure only (percentage formatting, identity warnings, completeness checks) — it does **not** check answers. **AI is required on this problem set**, and every number in your workbook and memo must be **human-certified**: you must be able to reproduce and defend each figure without the AI. Any number in your memo that cannot be traced to a cell in your model loses **2 points, each**.
+
+### Downloads
+
+- [Assignment (PDF)](files/ps2_assignment.pdf) — the full case, questions, and Exhibit A in print form; the workbench mirrors it
+- [Case facts](files/ps2/case_facts.txt) — the Redline Labs business and every stated assumption; your source of truth
+- [Driver data (CSV)](files/ps2/drivers.csv) — the numeric drivers that feed the model
+- [Starter workbook (Excel)](files/ps2/starter.xlsx) — the tab skeleton you build on; treat it as an unverified v0 and audit every row
+- [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) — the peer benchmarks you may cite, with their provenance
+- [Verification log template (Excel)](files/ps2/verification_log.xlsx) — the offline fallback for the log you complete in the workbench
+- [Prompt card (PDF)](files/ps2/prompt_card.pdf) — starter prompts for driving the AI through the build
+- [Ground rules (PDF)](files/ps2/ground_rules.pdf) — the AI-for-FP&A rules, including the benchmark-provenance rule
+- [One-pager template (PowerPoint)](files/ps2/one_pager_template.pptx) — the board-memo layout you export to PDF
+- [Fallback transcripts (ZIP)](files/ps2/fallback_transcripts.zip) — worked AI transcripts to fall back on if AI access fails mid-build
 
 ---
 
