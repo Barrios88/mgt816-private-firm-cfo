@@ -320,4 +320,4 @@ Each must appear in your PS2 verification log:
 | [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
 | [Prompt card (PDF)](files/ps2/prompt_card.pdf) | The P1–P6 prompts, print form — content is also on this page |
 
-The full workshop kit and Model Pack live on the [Problem Sets page](assignments.qmd#ps2); Canvas carries the graded submissions.
+The full workshop kit and Model Pack live on the [Problem Sets page](assignments.qmd#ps2); submissions should be uploaded to Canvas for grading.
