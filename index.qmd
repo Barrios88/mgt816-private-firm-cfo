@@ -18,7 +18,7 @@ By the end of the term you will have built these working documents yourself: a c
 [Schedule](schedule.qmd)
 [Syllabus PDF](files/syllabus.pdf)
 [Problem Sets](assignments.qmd)
-[Canvas](CANVAS_URL_PLACEHOLDER){target="_blank"}
+[Canvas](https://canvas.yale.edu){target="_blank"}
 [Materials](materials.qmd)
 :::
 
@@ -30,4 +30,3 @@ By the end of the term you will have built these working documents yourself: a c
 **Coming up:** CFO Toolkit Bootcamp Friday, September 4 (required Monday-makeup class). [Problem Set 1](assignments.qmd#ps1) goes out Wednesday, September 9 — done in the [digital workbench](ps1/index.html).
 :::
 
-*Update the "This week" block above after each class day (2 lines).*

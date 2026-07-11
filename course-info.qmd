@@ -8,9 +8,13 @@ Mondays and Wednesdays, Fall-1 2026 (September 2 – October 14).
 
 | Section | Time | Room |
 |:--------|:-----|:-----|
-| 01 | 1:00 – 2:20 pm | *TBD* |
-| 02 | 2:35 – 3:55 pm | *TBD* |
-| G1 | 4:10 – 5:30 pm | *TBD* |
+| 01 | 1:00 – 2:20 pm | — |
+| 02 | 2:35 – 3:55 pm | — |
+| G1 | 4:10 – 5:30 pm | — |
+
+: {tbl-colwidths="[20,45,35]"}
+
+Room assignments will be posted here before the first class.
 
 **One timeline:** All deliverables are due at **1:00 pm** — the start of the first section — regardless of which section you attend.
 
@@ -21,15 +25,15 @@ Mondays and Wednesdays, Fall-1 2026 (September 2 – October 14).
 **Professor John M. Barrios**  
 Yale School of Management
 
-**Office hours:** *TBD — update before semester start*
+**Office hours:** posted here before the first class.
 
 ## Teaching assistant
 
-*Name and email TBD*
+To be announced.
 
 ## Canvas
 
-All graded submissions, licensed cases, problem sets, and polls are on [Canvas](CANVAS_URL_PLACEHOLDER).
+All graded submissions, licensed cases, problem sets, and polls are on [Canvas](https://canvas.yale.edu).
 
 ## Policies
 

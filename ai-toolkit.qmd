@@ -316,8 +316,8 @@ Each must appear in your PS2 verification log:
 
 | File | Status |
 |:-----|:-------|
-| [Verification log template](files/verification_log_template.xlsx) | *Coming with PS2 model pack* |
-| Benchmark sheet | *Coming with Redline Labs model pack* |
-| Prompt cards (PDF) | *Optional — content is on this page* |
+| [Verification log template (Excel)](files/ps2/verification_log.xlsx) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
+| [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
+| [Prompt card (PDF)](files/ps2/prompt_card.pdf) | The P1–P6 prompts, print form — content is also on this page |
 
-Workshop kit and model pack are distributed on **Canvas** when PS2 launches (Monday, September 28).
+The full workshop kit and Model Pack live on the [Problem Sets page](assignments.qmd#ps2); Canvas carries the graded submissions.
