@@ -1,5 +1,6 @@
 ---
 title: "MGT 816 — The Private Firm CFO"
+include-before-body: assets/som-masthead.html
 ---
 
 ## Accounting and Finance Strategies

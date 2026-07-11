@@ -1,7 +1,9 @@
 /*-- scss:defaults --*/
-$primary: #1F4E79;
-$link-color: #1F4E79;
-$navbar-bg: #1F4E79;
+// SOM navy, matched to som.yale.edu
+$som-navy: #002856;
+$primary: $som-navy;
+$link-color: $som-navy;
+$navbar-bg: $som-navy;
 $navbar-fg: #ffffff;
 
 /*-- scss:rules --*/
@@ -145,4 +147,33 @@ h1, h2, h3, h4, h5, h6 {
 /* Keep anchor jumps clear of the sticky navbar */
 :target {
   scroll-margin-top: 4.5rem;
+}
+
+
+/* SOM-style masthead (som.yale.edu banner) */
+.som-masthead {
+  background: #fff;
+  border-bottom: 1px solid #d9dee5;
+}
+.som-masthead__inner {
+  margin: 0;
+  padding: 0.7rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.som-masthead__logo { display: inline-flex; align-items: center; }
+.som-masthead__logo svg { height: 42px; width: auto; display: block; }
+.som-masthead__course {
+  color: $som-navy;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+@media (max-width: 576px) {
+  .som-masthead__logo svg { height: 30px; }
+  .som-masthead__course { display: none; }
 }
