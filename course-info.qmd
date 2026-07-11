@@ -8,13 +8,12 @@ Mondays and Wednesdays, Fall-1 2026 (September 2 – October 14).
 
 | Section | Time | Room |
 |:--------|:-----|:-----|
-| 01 | 1:00 – 2:20 pm | — |
-| 02 | 2:35 – 3:55 pm | — |
-| G1 | 4:10 – 5:30 pm | — |
+| 01 | 1:00 – 2:20 pm | Evans Hall 4430 |
+| 02 | 2:35 – 3:55 pm | Evans Hall 4430 |
+| G1 | 4:10 – 5:30 pm | Evans Hall 4430 |
 
 : {tbl-colwidths="[20,45,35]"}
 
-Room assignments will be posted here before the first class.
 
 **One timeline:** All deliverables are due at **1:00 pm** — the start of the first section — regardless of which section you attend.
 
@@ -27,9 +26,10 @@ Yale School of Management
 
 **Office hours:** posted here before the first class.
 
-## Teaching assistant
+## Course assistant
 
-To be announced.
+**Megan Cunningham**  
+[megan.cunningham@yale.edu](mailto:megan.cunningham@yale.edu)
 
 ## Canvas
 
