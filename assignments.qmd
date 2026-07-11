@@ -54,6 +54,17 @@ You hand in **three files**: your Excel model, a one-page board memo, and your w
 
 The workbench provides structure only (percentage formatting, identity warnings, completeness checks) — it does **not** check answers. **AI is required on this problem set**, and every number in your workbook and memo must be **human-certified**: you must be able to reproduce and defend each figure without the AI. Any number in your memo that cannot be traced to a cell in your model loses **2 points, each**.
 
+::: {.callout-tip title="The AI workflow, in order (prompts P1–P6 on the prompt card)"}
+1. **Extract** — P1, *Analyst*. Paste `case_facts.txt`; take back the driver table and driver tree. Anything not in the case text goes under OPEN QUESTIONS, not into the model.
+2. **Benchmark** — P2, *Skeptic*. Classify each assumption aggressive / typical / conservative. Every external number traces to the benchmark sheet or a checkable source, or it gets stamped **UNVERIFIED** and never becomes a driver.
+3. **Draft schedules** — P3, *Builder*. Take formula logic in plain words and build every cell yourself — the AI never touches the .xlsx. Hand-recompute one month, then confirm beginning + adds − churn = ending across all 12.
+4. **Scenarios** — P4. Vary only the four named drivers. The AI proposes values; your own Excel data table decides which driver moves December cash the most.
+5. **Red-team** — P5, *Board Red-Team*. Paste your one-pager numbers; take the five hardest board questions; recompute December top to bottom.
+6. **Narrate** — P6, *Drafter*. The memo is written from verified numbers only — a bracketed placeholder beats an invented figure (that is the −2 rule).
+
+Log as you go: every AI claim you rely on gets a Verification Log row **the moment you check it**, not reconstructed at the end. The full rules are in `ground_rules.pdf`; the exact prompts are on the prompt card.
+:::
+
 ### Downloads
 
 - [Assignment (PDF)](files/ps2_assignment.pdf) — the full case, questions, and Exhibit A in print form; the workbench mirrors it
