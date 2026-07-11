@@ -39,6 +39,7 @@ format:
     theme:
       - cosmo
       - assets/theme-yale.scss
+    include-before-body: assets/som-masthead.html
     toc: false
     code-copy: true
     smooth-scroll: true
