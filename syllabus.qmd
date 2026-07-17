@@ -63,7 +63,7 @@ The course cannot be taken pass/fail.
 | Problem Set 1 (cap tables) | Wed, Sep 9 | Wed, Sep 23 | 40 |
 | Case 2 memo (Solstice Robotics) | Mon, Sep 21 | Wed, Sep 30 | 37.5 |
 | Problem Set 2 (AI-assisted forecast) | Mon, Sep 28 | Mon, Oct 12 | 40 |
-| Final exam | — | Oct 19–23 exam period | 200 |
+| Final exam | — | Fri, Oct 16, 5:30–8:30 pm | 200 |
 
 ### Use of AI
 

@@ -163,9 +163,9 @@
   handouts: []
 
 - session: null
-  date: 2026-10-19
-  date_end: 2026-10-23
-  topic: "Final exam (Fall-1 examination period)"
+  date: 2026-10-16
+  date_end: null
+  topic: "Final exam, 5:30–8:30 pm, Evans Hall 4400 and 4410 (all sections)"
   prep:
     - text: "One handwritten cheat sheet, 8.5×11, double-sided"
   out: null
