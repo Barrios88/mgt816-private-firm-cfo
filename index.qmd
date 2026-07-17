@@ -18,7 +18,7 @@ By the end of the term you will have built these working documents yourself: a c
 [Schedule](schedule.qmd)
 [Syllabus PDF](files/syllabus.pdf)
 [Problem Sets](assignments.qmd)
-[Canvas](https://canvas.yale.edu){target="_blank"}
+[Canvas](https://yale.instructure.com/courses/122169){target="_blank"}
 [Materials](materials.qmd)
 :::
 

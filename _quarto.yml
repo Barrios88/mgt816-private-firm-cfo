@@ -29,7 +29,7 @@ website:
         href: course-info.qmd
     right:
       - icon: box-arrow-up-right
-        href: "https://canvas.yale.edu"
+        href: "https://yale.instructure.com/courses/122169"
         aria-label: Canvas
   page-footer:
     center: "MGT 816 · The Private Firm CFO · Yale School of Management · Fall 2026"
