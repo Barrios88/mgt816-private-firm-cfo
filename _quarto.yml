@@ -15,6 +15,8 @@ website:
         href: index.qmd
       - text: Schedule
         href: schedule.qmd
+      - text: Readings
+        href: readings.qmd
       - text: Syllabus
         href: syllabus.qmd
       - text: Materials

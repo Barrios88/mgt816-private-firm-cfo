@@ -6,8 +6,10 @@
   topic: "The private-company CFO and the financial infrastructure"
   prep:
     - text: "Fabozzi Ch. 1 (skim)"
+      url: readings.html#textbook
     - text: "a16z podcast: Cash, Growth, and CEO–CFO"
-      url: "https://a16z.com/podcast/"
+      url: "https://a16z.com/podcast/a16z-podcast-cash-growth-and-ceo-heart-cfo/"
+      note: "podcast, ~30 min"
   out: "Case 1 (due Sep 16)"
   due: null
   slides: null
@@ -28,6 +30,7 @@
   topic: "Cap Table Lab — formation through Series A, dilution, option-pool mechanics"
   prep:
     - text: "Fabozzi Ch. 7, pp. 127–130 and 140–143"
+      url: readings.html#textbook
   out: "PS1 (due Sep 23)"
   due: null
   slides: null
@@ -45,7 +48,10 @@
   topic: "Legal and people infrastructure — entity choice, legal documents, worker classification"
   prep:
     - text: "Fabozzi Ch. 3"
+      url: readings.html#textbook
     - text: "QSBS primer (Canvas)"
+      url: "https://yale.instructure.com/courses/122169"
+      note: "2-page handout, posted before Sep 14 — use this updated version, not older web explainers (the law changed July 2025)"
   out: null
   due: null
   slides: null
@@ -55,9 +61,15 @@
   date: 2026-09-16
   topic: "Case 1: FeedBurner — founding teams and splitting the pie"
   prep:
-    - text: "HBS case 9-809-089"
-    - text: "Lebret (2017)"
+    - text: "HBS case 9-809-089 (coursepack)"
+      url: "https://yale.instructure.com/courses/122169"
+      note: "licensed — get it through the HBS coursepack link on Canvas; not hosted on this site"
+    - text: "Lebret (2017), Equity in Startups"
+      url: "https://arxiv.org/abs/1711.00661"
+      note: "free paper — skim the founder-split sections"
     - text: "Gimlet podcast: How to Divide an Imaginary Pie"
+      url: "https://open.spotify.com/episode/4oaJ1PgADNYklMjiiFZc3s"
+      note: "StartUp season 1, episode 3, ~25 min"
   out: null
   due: "Case 1 memo"
   slides: null
@@ -69,7 +81,9 @@
   topic: "Equity compensation — instruments, accounting, and tax (83(b), ISO/NQSO, AMT, 409A, QSBS, ASC 718)"
   prep:
     - text: "Fabozzi Ch. 4"
+      url: readings.html#textbook
     - text: "FreshBites 409A mini-case (self-check)"
+      note: "ungraded; posted on the Materials page when released"
   out: "Case 2 (due Sep 30)"
   due: null
   slides: null
@@ -80,8 +94,12 @@
   topic: "KPIs, budgeting, and forecasting — driver-based planning and unit economics"
   prep:
     - text: "Fabozzi Ch. 2, pp. 15–30, and Ch. 13, pp. 241–257"
-    - text: "HBR: The True Measures of Success"
+      url: readings.html#textbook
+    - text: "HBR: The True Measures of Success (Mauboussin, Oct 2012)"
+      url: "https://hbr.org/2012/10/the-true-measures-of-success"
+      note: "also available through Yale Library's HBR access if you hit the paywall"
     - text: "Pre-class quiz on Canvas"
+      url: "https://yale.instructure.com/courses/122169"
   out: null
   due: "PS1"
   slides: null
@@ -97,7 +115,9 @@
     - text: "Download the workshop kit (Problem Sets page)"
       url: assignments.html#ps2
     - text: "Read the one-page AI-for-FP&A ground rules"
+      url: files/ps2/ground_rules.pdf
     - text: "Verify an AI login"
+      url: ai-toolkit.html
   out: "PS2 (due Oct 12)"
   due: null
   slides: null
@@ -112,6 +132,8 @@
   topic: "Case 2: Solstice Robotics — taxes and employee stock options"
   prep:
     - text: "Solstice Robotics case packet (Canvas)"
+      url: "https://yale.instructure.com/courses/122169"
+      note: "released Sep 21 with Case 2 — Canvas only (graded case)"
   out: null
   due: "Case 2 memo"
   slides: null
@@ -123,6 +145,7 @@
   topic: "Revenue recognition and margins — ASC 606, bookings vs. revenue, SaaS models"
   prep:
     - text: "Fabozzi Ch. 8, pp. 150–160, and Ch. 10, pp. 197–198"
+      url: readings.html#textbook
   out: null
   due: null
   slides: null
@@ -133,7 +156,9 @@
   topic: "Boards, board packages, and audit readiness"
   prep:
     - text: "Sequoia: Preparing a Board Deck"
+      url: "https://articles.sequoiacap.com/preparing-a-board-deck"
     - text: "Feld: The Best Approach to a Board Package"
+      url: "https://feld.com/archives/2013/01/the-best-approach-to-a-board-package/"
   out: null
   due: null
   slides: null
@@ -144,7 +169,10 @@
   topic: "Fundraising — process, term sheets, SAFEs and convertible notes, venture debt"
   prep:
     - text: "Fabozzi Ch. 6, pp. 100–103, and Ch. 7, pp. 133–136"
+      url: readings.html#textbook
     - text: "Bessemer Guide to Venture Debt (skim)"
+      url: "https://ctinnovations.com/wp-content/uploads/2017/06/Bessemer-Guide-to-Venture-Debt.pdf"
+      note: "free white paper (PDF)"
   out: null
   due: "PS2"
   slides: null
@@ -156,7 +184,10 @@
   topic: "Exits — M&A, private equity, IPO readiness; course synthesis and exam guidance"
   prep:
     - text: "Fabozzi Ch. 2, pp. 30–35"
+      url: readings.html#textbook
     - text: "Ramsinghani Ch. 25"
+      url: readings.html#textbook
+      note: "The Business of Venture Capital — see the textbook section of the Readings page"
   out: null
   due: null
   slides: null

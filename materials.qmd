@@ -2,7 +2,7 @@
 title: "Materials"
 ---
 
-Slide decks and handouts are posted **after each class day** (after the 4:10 pm section). Student versions only — scrubbed of licensed case exhibits and third-party images.
+Slide decks and handouts are posted **after each class day** (after the 4:10 pm section). Student versions only — scrubbed of licensed case exhibits and third-party images. Pre-class readings live on the **[Readings](readings.qmd)** page.
 
 ```{python}
 #| echo: false

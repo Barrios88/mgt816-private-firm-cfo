@@ -1,0 +1,73 @@
+---
+title: "Readings"
+---
+
+Everything you need to prepare for each session, with direct links. Only three kinds of items are **not** linked directly from this page, because they are licensed or graded:
+
+- **Textbook chapters** (Fabozzi; Ramsinghani for Session 12) — buy the book or read it through Yale Library ([details below](#textbook)).
+- **The HBS FeedBurner case** — licensed; get it through the coursepack link on [Canvas](https://yale.instructure.com/courses/122169).
+- **The Solstice Robotics case packet** — a graded case, released on [Canvas](https://yale.instructure.com/courses/122169) on September 21.
+
+Everything else — podcasts, articles, guides, workshop materials — is linked here and on the [Schedule](schedule.qmd).
+
+## The textbook {#textbook}
+
+**Frank J. Fabozzi, *Entrepreneurial Finance and Accounting for High-Tech Companies* (MIT Press, 2016)** — the course textbook; chapter and page assignments are listed per session below.
+
+- [MIT Press page](https://mitpress.mit.edu/9780262034982/entrepreneurial-finance-and-accounting-for-high-tech-companies/) (ISBN 978-0-262-03498-2)
+- [Yale Library catalog](https://search.library.yale.edu/catalog?q=Entrepreneurial+Finance+and+Accounting+for+High-Tech+Companies+Fabozzi&search_field=all_fields) — check for the e-book before buying
+
+**Mahendra Ramsinghani, *The Business of Venture Capital* (Wiley)** — Chapter 25 only, for Session 12 (exits).
+
+- [Yale Library catalog](https://search.library.yale.edu/catalog?q=The+Business+of+Venture+Capital+Ramsinghani&search_field=all_fields) — the Wiley e-book is the easiest route for a single chapter
+
+## Readings by session
+
+```{python}
+#| echo: false
+#| output: asis
+import yaml
+from datetime import datetime
+
+with open("schedule.yml") as f:
+    sessions = yaml.safe_load(f)
+
+for entry in sorted(
+    (e for e in sessions if e.get("session") is not None),
+    key=lambda e: str(e["date"]),
+):
+    sess = entry["session"]
+    d = datetime.strptime(str(entry["date"]), "%Y-%m-%d").strftime("%a %b %-d")
+    topic = entry.get("topic", "")
+    prep = entry.get("prep") or []
+    print(f"### Session {sess} — {topic}")
+    print(f"*{d}*")
+    print()
+    if not prep:
+        print("No advance reading — just show up.")
+    for item in prep:
+        text = item.get("text", "")
+        url = item.get("url")
+        note = item.get("note")
+        line = f"[{text}]({url})" if url else f"{text}"
+        if note:
+            line += f" — *{note}*"
+        print(f"- {line}")
+    print()
+```
+
+## Optional background readings
+
+Not required; for students who want to go deeper.
+
+- Fabozzi Chs. 9–11 (the financial statements) and Ch. 26 (IPOs) — [textbook](#textbook)
+- Doidge, Karolyi, and Stulz (2017), [*The U.S. Listing Gap*](https://doi.org/10.1016/j.jfineco.2016.11.002), Journal of Financial Economics
+- Ball and Shivakumar (2008), [*Earnings Quality at Initial Public Offerings*](https://doi.org/10.1016/j.jacceco.2007.12.001), Journal of Accounting and Economics
+- Hellmann and Wasserman (2017), [*The First Deal: The Division of Founder Equity in New Ventures*](https://doi.org/10.1287/mnsc.2016.2474), Management Science
+- Bengtsson and Hand (2009), [*CEO Compensation in Venture-Backed Firms*](https://scholar.google.com/scholar?q=Bengtsson+Hand+CEO+compensation+venture-backed+firms)
+
+Journal links go through the publisher (DOI) — use the [Yale Library proxy](https://library.yale.edu/) or campus network for full text.
+
+---
+
+See also: [Schedule](schedule.qmd) · [Materials](materials.qmd) (slides and handouts) · [Cases](cases.qmd) · [Problem Sets](assignments.qmd)
