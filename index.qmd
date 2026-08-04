@@ -6,13 +6,18 @@ title: "MGT 816 — The Private Firm CFO"
 
 This course is about the CFO role at a private, entrepreneurial company. We cover accounting-based financial metrics, financial reporting, and managerial accounting, and we build the accounting system the way a company does: from the start-up phase through to exit.
 
-The course follows the life of the company — from financial infrastructure through capitalization, equity compensation, forecasting, board reporting, revenue recognition, fundraising, and exits. Two cases and two problem sets give you hands-on practice with the material.
+The sessions run in that order: financial infrastructure, capitalization, equity compensation, forecasting, board reporting, revenue recognition, fundraising, and exits. You do two cases and two problem sets.
 
 ### What you will take from the course
 
 Public-company finance is well covered elsewhere in the curriculum. The private firm is different: there is no market price, no analyst following, and little mandated disclosure, and the owners — founders, employees, and funds — hold claims with different rights and different incentives. The CFO sits where those claims meet.
 
-By the end of the term you will have built these working documents yourself: a capitalization table constructed from formation through a priced Series A; a driver-based operating forecast, built with AI tools doing the analyst work and you certifying every number; a board memo on equity compensation and its tax consequences; and a critique of a board reporting package.
+By the end of the term you will have built these working documents yourself:
+
+- a capitalization table from formation through a priced Series A
+- a driver-based operating forecast, built with AI tools doing the analyst work and you certifying every number
+- a board memo on equity compensation and its tax consequences
+- a critique of a board reporting package
 
 ::: {.hero-buttons}
 [Schedule](schedule.qmd)
@@ -25,7 +30,7 @@ By the end of the term you will have built these working documents yourself: a c
 ### This week
 
 ::: {.this-week}
-**Week of September 2.** First class Wednesday, September 2 — Case 1 (FeedBurner) assigned; memo due Wednesday, September 16 at 1:00 pm.
+**Week of September 2.** First class Wednesday, September 2 — Case 1 (FeedBurner) assigned; memo due on Canvas Wednesday, September 16 at 1:00 pm.
 
 **Coming up:** CFO Toolkit Bootcamp Friday, September 4 (required Monday-makeup class). [Problem Set 1](assignments.qmd#ps1) goes out Wednesday, September 9 — done in the [digital workbench](ps1/index.html).
 :::

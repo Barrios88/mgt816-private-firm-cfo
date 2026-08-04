@@ -2,7 +2,7 @@
 title: "Materials"
 ---
 
-Slide decks and handouts are posted **after each class day** (after the 4:10 pm section). Student versions only — scrubbed of licensed case exhibits and third-party images. Pre-class readings live on the **[Readings](readings.qmd)** page.
+Slide decks and handouts are posted **after each class day** (after the 4:10 pm section). Student versions only — scrubbed of licensed case exhibits and third-party images. Pre-class readings are on the **[Readings](readings.qmd)** page.
 
 ```{python}
 #| echo: false
@@ -29,7 +29,7 @@ for entry in sessions:
     if slides:
         print(f"- [Slide deck (PDF)]({slides})")
     else:
-        print("- Slides: *posted after class*")
+        print("- Slides: *posted after the 4:10 pm section*")
     if handouts:
         for h in handouts:
             if isinstance(h, dict):
@@ -41,7 +41,7 @@ for entry in sessions:
     wb = entry.get("workbench")
     if wb:
         wb_label = entry.get("workbench_label", "Workbench")
-        print(f"- [{wb_label}]({wb}) — complete and submit here")
+        print(f"- [{wb_label}]({wb}) — complete it here, then upload to Canvas")
     print()
 ```
 

@@ -53,7 +53,9 @@ def fmt_out_due(entry):
 def fmt_slides(entry):
   if entry.get("slides"):
       return f'<a href="{entry["slides"]}">Slides</a>'
-  return '<span class="locked-link">After class</span>'
+  if entry.get("exam"):
+      return "—"
+  return '<span class="locked-link">After class day</span>'
 
 print("| Date | Session / Topic | Prepare | Out / Due | Slides |")
 print("|:-----|:----------------|:--------|:----------|:-------|")
@@ -65,8 +67,6 @@ for entry in sessions:
     note = entry.get("note")
     if note:
         topic += f" *({note})*"
-    if entry.get("laptop_required"):
-        topic += " *(laptops required)*"
     print(
         f"| {fmt_date(entry)} "
         f"| {sess_label}{topic} "

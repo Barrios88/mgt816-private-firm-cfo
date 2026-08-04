@@ -22,7 +22,8 @@ Mondays and Wednesdays, Fall-1 2026 (September 2 – October 14).
 ## Instructor
 
 **Professor John M. Barrios**  
-Yale School of Management
+Yale School of Management  
+[john.m.barrios@yale.edu](mailto:john.m.barrios@yale.edu)
 
 **Office hours:** posted here before the first class.
 
@@ -31,15 +32,17 @@ Yale School of Management
 **Megan Cunningham**  
 [megan.cunningham@yale.edu](mailto:megan.cunningham@yale.edu)
 
-## Canvas
+## Canvas and this site
 
-All graded submissions, licensed cases, problem sets, and polls are on [Canvas](https://yale.instructure.com/courses/122169).
+Submit all graded work on [Canvas](https://yale.instructure.com/courses/122169). Canvas also has your grades, the licensed cases, and the pre-class polls.
+
+The problem-set workbenches, assignment PDFs, and templates are on this site — see [Problem Sets](assignments.qmd). Complete the work here, then upload it to Canvas.
 
 ## Policies
 
 ### Participation (45 points)
 
-Based on in-class contribution (especially case discussions), attendance, and short pre-class Canvas polls (~15 of the 45 points). Name tents are required. Polls are graded for completion, not correctness.
+Based on in-class contribution (especially case discussions), attendance, and short Canvas polls tied to the assigned preparation (~15 of the 45 points). Each poll closes at **1:00 pm** on the day of the class it covers, for every section. Name tents are required. Polls are graded for completion, not correctness.
 
 ### Laptop and tablet use
 
@@ -64,16 +67,16 @@ Canvas. Always Canvas for graded work.
 1:00 pm for everyone — the first section's start time.
 
 **Can I attend a different section for one day?**  
-Coordinate with the instructor; deliverable deadlines do not change.
+[Email me](mailto:john.m.barrios@yale.edu) in advance; deliverable deadlines do not change.
 
 **Where are the slides?**  
 On the [Materials](materials.qmd) page after each class day.
 
-**Where is the HBS Feedburner case?**  
+**Where is the HBS FeedBurner case?**  
 HBS coursepack / Canvas — not on this public site (licensed).
 
 **Where is the Solstice case packet?**  
 Canvas — distributed Monday, September 21.
 
 **Do I need a paid AI subscription for PS2?**  
-No. Free tier is sufficient; one working login per group of 3–4 is enough.
+No. Free tier is sufficient; one working login per group is enough.
