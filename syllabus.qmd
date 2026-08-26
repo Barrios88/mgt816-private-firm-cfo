@@ -35,6 +35,12 @@ Official syllabus — MGT 816 · Fall 2026
 
 ## Quick reference (HTML summary)
 
+### Staff
+
+**Professor** John M. Barrios ([john.m.barrios@yale.edu](mailto:john.m.barrios@yale.edu)). **Course assistant** Megan Cunningham ([megan.cunningham@yale.edu](mailto:megan.cunningham@yale.edu)).
+
+**Teaching assistants:** Section 01 — Junghoon Song ([junghoon.song@yale.edu](mailto:junghoon.song@yale.edu)); Section 02 — Keshav Sharma ([keshav.sharma@yale.edu](mailto:keshav.sharma@yale.edu)); Section G1 — Grisel Ramirez ([grisel.ramirez@yale.edu](mailto:grisel.ramirez@yale.edu)).
+
 ### Course description
 
 This course is about the CFO role at a private, entrepreneurial company. We cover accounting-based financial metrics, financial reporting, and managerial accounting, and we build the accounting system the way a company does: from the start-up phase through to exit.

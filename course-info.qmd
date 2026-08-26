@@ -6,13 +6,13 @@ title: "Course Info"
 
 Mondays and Wednesdays, Fall-1 2026 (September 2 – October 14).
 
-| Section | Time | Room |
-|:--------|:-----|:-----|
-| 01 | 1:00 – 2:20 pm | Evans Hall 4430 |
-| 02 | 2:35 – 3:55 pm | Evans Hall 4430 |
-| G1 | 4:10 – 5:30 pm | Evans Hall 4430 |
+| Section | Time | Room | Teaching assistant |
+|:--------|:-----|:-----|:-------------------|
+| 01 | 1:00 – 2:20 pm | Evans Hall 4430 | [Junghoon Song](mailto:junghoon.song@yale.edu) |
+| 02 | 2:35 – 3:55 pm | Evans Hall 4430 | [Keshav Sharma](mailto:keshav.sharma@yale.edu) |
+| G1 | 4:10 – 5:30 pm | Evans Hall 4430 | [Grisel Ramirez](mailto:grisel.ramirez@yale.edu) |
 
-: {tbl-colwidths="[20,45,35]"}
+: {tbl-colwidths="[12,28,28,32]"}
 
 
 **One timeline:** All deliverables are due at **1:00 pm** — the start of the first section — regardless of which section you attend.
