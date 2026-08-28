@@ -15,6 +15,7 @@
       --bg: #eef1f4;
       --card: #fff;
       --ok: #157347;
+      --bad: #b02a37;
       --pick: #286DC0;
     }
     * { box-sizing: border-box; }
@@ -44,7 +45,8 @@
     }
     .msg { color: var(--muted); line-height: 1.4; }
     .msg strong { color: var(--ink); }
-    input[type="search"] {
+    .err { color: var(--bad); font-weight: 650; margin-top: 0.55rem; }
+    input[type="search"], input[type="text"] {
       width: 100%;
       min-height: 2.75rem;
       font: inherit;
@@ -70,7 +72,7 @@
       display: flex; justify-content: space-between; gap: 0.5rem;
       align-items: baseline; margin-bottom: 0.65rem; font-size: 0.9rem;
     }
-    .who button {
+    .who button, .linkish {
       border: 0; background: none; color: var(--navy); font: 650 0.88rem inherit;
       cursor: pointer; text-decoration: underline;
     }
@@ -106,7 +108,7 @@
   <header>
     <div class="kicker">MGT 816 · The Private Firm CFO</div>
     <h1>In-class poll</h1>
-    <div class="sub" id="hdr">Scan. Pick your name. Answer.</div>
+    <div class="sub" id="hdr">Scan. Pick your name. Confirm with your NetID.</div>
   </header>
   <main id="app"></main>
   <script src="firebase-config.js"></script>
@@ -115,7 +117,7 @@
   <script>
 (function () {
   const cfg = window.MGT816_FIREBASE || {};
-  const STORE = "mgt816-live-who";
+  const STORE = "mgt816-live-who-v2";
   const LETTERS = ["A", "B", "C", "D"];
   const appEl = document.getElementById("app");
   const hdr = document.getElementById("hdr");
@@ -125,7 +127,14 @@
   let room = null;
   let roster = [];
   let me = null;
+  let pending = null;
+  let claimErr = "";
+  let claiming = false;
   try { me = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) { me = null; }
+  if (me && (!me.pid || !me.claim)) {
+    me = null;
+    localStorage.removeItem(STORE);
+  }
   const answers = {};
   let filter = "";
 
@@ -154,6 +163,19 @@
   function complete() {
     return openedQs().every(q => answers[q.id]);
   }
+  function normalizeClaim(raw) {
+    let s = String(raw || "").trim().toLowerCase();
+    if (s.endsWith("@yale.edu")) s = s.slice(0, -9);
+    return s;
+  }
+  function clearMe() {
+    me = null;
+    pending = null;
+    claimErr = "";
+    claiming = false;
+    localStorage.removeItem(STORE);
+    Object.keys(answers).forEach(k => delete answers[k]);
+  }
 
   function render() {
     if (!polls) {
@@ -172,7 +194,11 @@
     }
     const bank = sessionBank();
     hdr.textContent = (bank ? bank.id + " · " + bank.title : room.session) + " · Section " + room.section;
-    if (!me || me.section !== room.section) {
+    if (pending && (!me || me.section !== room.section)) {
+      renderClaim();
+      return;
+    }
+    if (!me || me.section !== room.section || !me.claim || !me.pid) {
       renderPick();
       return;
     }
@@ -190,7 +216,8 @@
     html += '<input id="find" type="search" placeholder="Type your last name" autocomplete="off">';
     html += '<ul class="names">';
     list.slice(0, 40).forEach(s => {
-      html += '<li><button type="button" data-id="' + s.id + '">' + s.last + ", " + s.first + "</button></li>";
+      const key = s.pid || s.id;
+      html += '<li><button type="button" data-pid="' + key + '">' + s.last + ", " + s.first + "</button></li>";
     });
     html += "</ul>";
     if (!list.length) html += '<p class="msg">No match. Check the section, or tell the TA you are not on the list.</p>';
@@ -202,13 +229,73 @@
     inp.focus();
     appEl.querySelectorAll(".names button").forEach(btn => {
       btn.addEventListener("click", () => {
-        const s = roster.find(x => x.id === btn.getAttribute("data-id"));
-        if (!s) return;
-        me = { id: s.id, first: s.first, last: s.last, section: room.section };
-        localStorage.setItem(STORE, JSON.stringify(me));
+        const s = roster.find(x => (x.pid || x.id) === btn.getAttribute("data-pid"));
+        if (!s || !s.pid) return;
+        pending = { pid: s.pid, first: s.first, last: s.last, section: room.section };
+        claimErr = "";
         render();
       });
     });
+  }
+
+  function renderClaim() {
+    let html = '<div class="card">';
+    html += '<p class="msg"><strong>' + pending.last + ", " + pending.first + "</strong></p>";
+    html += '<p class="msg">Confirm with your Yale NetID — the Canvas login, not your email.</p>';
+    html += '<input id="claim" type="text" inputmode="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="NetID">';
+    if (claimErr) html += '<p class="err">' + claimErr + "</p>";
+    html += '<div style="margin-top:0.7rem"><button type="button" class="primary" id="go"' + (claiming ? " disabled" : "") + ">" + (claiming ? "Checking…" : "Continue") + "</button></div>";
+    html += '<p style="margin-top:0.7rem"><button type="button" class="linkish" id="back">Not you?</button></p>';
+    html += "</div>";
+    appEl.innerHTML = html;
+    const inp = document.getElementById("claim");
+    inp.focus();
+    document.getElementById("back").addEventListener("click", () => { clearMe(); render(); });
+    function submitClaim() {
+      if (claiming) return;
+      const claim = normalizeClaim(inp.value);
+      if (!claim) {
+        claimErr = "Enter your Yale NetID.";
+        renderClaim();
+        return;
+      }
+      if (claim.indexOf("@") !== -1 || claim.indexOf(".") !== -1) {
+        claimErr = "Use your NetID (Canvas login), not your email.";
+        renderClaim();
+        return;
+      }
+      claiming = true;
+      claimErr = "";
+      renderClaim();
+      const payload = {
+        first: pending.first,
+        last: pending.last,
+        choices: {},
+        updated: Date.now(),
+        claim: claim
+      };
+      db.ref("answers/" + room.session + "/" + room.section + "/" + pending.pid).set(payload)
+        .then(() => {
+          me = {
+            pid: pending.pid,
+            first: pending.first,
+            last: pending.last,
+            section: pending.section,
+            claim: claim
+          };
+          pending = null;
+          claiming = false;
+          localStorage.setItem(STORE, JSON.stringify(me));
+          render();
+        })
+        .catch(() => {
+          claiming = false;
+          claimErr = "That NetID does not match this name.";
+          renderClaim();
+        });
+    }
+    document.getElementById("go").addEventListener("click", submitClaim);
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") submitClaim(); });
   }
 
   function renderPoll() {
@@ -234,7 +321,7 @@
     }
     appEl.innerHTML = html;
     const sw = document.getElementById("switch");
-    if (sw) sw.addEventListener("click", () => { me = null; localStorage.removeItem(STORE); render(); });
+    if (sw) sw.addEventListener("click", () => { clearMe(); render(); });
     appEl.querySelectorAll(".opt").forEach(btn => {
       btn.addEventListener("click", () => {
         answers[btn.getAttribute("data-q")] = btn.getAttribute("data-l");
@@ -247,19 +334,24 @@
       pushAnswers().then(() => {
         const bar = document.querySelector(".bar");
         if (bar) bar.innerHTML = '<p class="ok">Submitted. You are marked present.</p>';
+      }).catch(() => {
+        claimErr = "Could not submit. Confirm your NetID again.";
+        clearMe();
+        render();
       });
     });
   }
 
   function pushAnswers() {
-    if (!db || !me || !room || !room.open) return Promise.resolve();
+    if (!db || !me || !me.claim || !me.pid || !room || !room.open) return Promise.resolve();
     const payload = {
       first: me.first,
       last: me.last,
       choices: answers,
-      updated: Date.now()
+      updated: Date.now(),
+      claim: me.claim
     };
-    return db.ref("answers/" + room.session + "/" + room.section + "/" + me.id).update(payload);
+    return db.ref("answers/" + room.session + "/" + room.section + "/" + me.pid).update(payload);
   }
 
   function listen() {

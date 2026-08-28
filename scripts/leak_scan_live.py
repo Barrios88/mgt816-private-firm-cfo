@@ -15,6 +15,8 @@ BANNED = (
     "*Pairs with:*",
     "polls-keyed",
     "staffToken",
+    '"netid"',
+    "secrets/",
 )
 
 
