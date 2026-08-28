@@ -17,8 +17,8 @@ Two cases; memos are due on Canvas at **1:00 pm** on the discussion day.
 
 **Case packet:** HBS coursepack / Canvas (licensed — not hosted on this site).
 
-**Interactive discussion site:** <span class="locked-link">Unlocks after class on September 16</span>  
-→ [Feedburner discussion site](discussion-sites/feedburner/) *(available after the 4:10 pm section)*
+**Interactive discussion site:** <span class="locked-link">Unlocks after the 4:10 pm section on September 16</span>  
+→ [FeedBurner discussion site](discussion-sites/feedburner/)
 
 ---
 
@@ -35,8 +35,8 @@ Two cases; memos are due on Canvas at **1:00 pm** on the discussion day.
 
 **Case packet:** Canvas only (graded memo).
 
-**Interactive discussion site:** <span class="locked-link">Unlocks after class on September 30</span>  
-→ [Solstice discussion site](discussion-sites/solstice/) *(available after the 4:10 pm section)*
+**Interactive discussion site:** <span class="locked-link">Unlocks after the 4:10 pm section on September 30</span>  
+→ [Solstice discussion site](discussion-sites/solstice/)
 
 ---
 

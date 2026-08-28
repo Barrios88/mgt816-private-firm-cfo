@@ -1,0 +1,963 @@
+{
+  "schema": "mgt816-live-polls-v1",
+  "sessions": [
+    {
+      "id": "S01",
+      "date": "2026-09-02",
+      "title": "CFO and infrastructure",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "Per the syllabus, the final exam is:",
+          "choices": {
+            "A": "In-class on the last day, Oct 14",
+            "B": "A take-home due during exam week",
+            "C": "Friday, Oct 16, 5:30–8:30 pm, Evans Hall 4400/4410, all sections",
+            "D": "Scheduled separately per section"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "Per the syllabus, which statement about AI use in this course is TRUE?",
+          "choices": {
+            "A": "AI is banned everywhere",
+            "B": "AI is required on PS2, but every number you submit must be one you can reproduce and defend — and the final is closed-book without AI",
+            "C": "AI is optional on everything including the final",
+            "D": "AI may be used only for writing memos"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "A startup spends $180K per month on operating costs and collects $60K per month in cash from customers. Its **net burn** is:",
+          "choices": {
+            "A": "$240K",
+            "B": "$180K",
+            "C": "$120K",
+            "D": "$60K"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "The same startup has $1,440,000 in the bank. Its runway is approximately:",
+          "choices": {
+            "A": "8 months",
+            "B": "24 months",
+            "C": "12 months",
+            "D": "Cannot be computed without revenue"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "Booked (invoiced) revenue that has NOT yet been collected in cash:",
+          "choices": {
+            "A": "Reduces net burn",
+            "B": "Does not reduce net burn — only cash collections do",
+            "C": "Reduces gross burn",
+            "D": "Counts as runway"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "Research on U.S. private firms (Lisowsky & Minnis) shows that most large private companies:",
+          "choices": {
+            "A": "Are audited because the law requires it",
+            "B": "Carry NO audited financial statements — audits are bought when investors, lenders, or big customers demand them",
+            "C": "Follow the same reporting rules as public firms",
+            "D": "Publish quarterly reports"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "A two-year-old startup keeps cash-basis books. What most typically forces the switch to accrual accounting?",
+          "choices": {
+            "A": "The IRS",
+            "B": "Hitting profitability",
+            "C": "Outside counterparties — a VC round, a lender, or a large customer demanding GAAP-style statements",
+            "D": "Hiring a bookkeeper"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "In the assigned a16z podcast, the CFO's most fundamental job is described as knowing:",
+          "choices": {
+            "A": "The company's valuation at all times",
+            "B": "The cash position and how many months of runway remain",
+            "C": "The competitors' burn rates",
+            "D": "The stock-option strike prices"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "date": "2026-09-09",
+      "title": "Cap table lab",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "An investor puts $2M into a company at a $6M pre-money valuation. The post-money valuation is:",
+          "choices": {
+            "A": "$6M",
+            "B": "$8M",
+            "C": "$4M",
+            "D": "$12M"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "In Q1, what percentage of the company does the new investor own after the round?",
+          "choices": {
+            "A": "25%",
+            "B": "33%",
+            "C": "20%",
+            "D": "Depends on the share price"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "An angel offers \"$1.5M for 30% of the company.\" What post-money valuation did she just quote?",
+          "choices": {
+            "A": "$4.5M",
+            "B": "$5.0M",
+            "C": "$1.5M",
+            "D": "$3.5M"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "The company closes the seed round. What does the accountant record?",
+          "choices": {
+            "A": "The post-money valuation as equity",
+            "B": "Only the cash invested: Dr Cash / Cr Preferred Stock",
+            "C": "The investment as revenue",
+            "D": "Nothing until exit"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "New shares for a round are computed as Z = S₀ ÷ (1 − x) rather than S₀ × (1 + x) because:",
+          "choices": {
+            "A": "The new shares are a fraction of the POST-round total, which includes themselves — the (1−x) trick solves the circularity",
+            "B": "Rounding requires it",
+            "C": "Lawyers prefer it",
+            "D": "It minimizes dilution"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "A term sheet requires a 15% option pool created BEFORE the round (carved from the pre-money). Who is diluted by the pool?",
+          "choices": {
+            "A": "The new investor, pro rata",
+            "B": "The existing holders (founders and earlier investors) — the new investor's percentage is protected",
+            "C": "Nobody — pools are free",
+            "D": "Only employees"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "The journal entry when the option pool is created at closing is:",
+          "choices": {
+            "A": "Dr Compensation Expense / Cr APIC",
+            "B": "Dr Cash / Cr Options",
+            "C": "No entry — creating a pool authorizes shares; expense starts only as granted options are earned",
+            "D": "A memo entry at fair value"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "\"Fully diluted shares\" counts:",
+          "choices": {
+            "A": "Only issued and outstanding shares",
+            "B": "Outstanding shares plus everything convertible into shares — granted options, warrants, and the unallocated pool",
+            "C": "Only common stock",
+            "D": "Authorized shares"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "date": "2026-09-14",
+      "title": "Legal and people",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "\"Double taxation\" of a C-corp means:",
+          "choices": {
+            "A": "The corporate rate is twice the personal rate",
+            "B": "Profits are taxed once at the corporate level and again at the shareholder level when distributed as dividends or realized as gains",
+            "C": "Federal plus state tax",
+            "D": "Payroll plus income tax"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "The general after-tax rule: choose a pass-through over a C-corp when:",
+          "choices": {
+            "A": "(1 − t_ord) > (1 − t_c)(1 − t_s)",
+            "B": "t_ord > t_c",
+            "C": "t_c > t_s",
+            "D": "The company is profitable"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "One business earns $100 pre-tax and distributes everything this year. Rates: ordinary 30%, corporate 20%, shareholder 20%. The owner's after-tax cash is:",
+          "choices": {
+            "A": "LLC $70 vs. C-corp $60 — LLC wins by $10",
+            "B": "LLC $70 vs. C-corp $64 — LLC wins by $6",
+            "C": "C-corp wins by $6",
+            "D": "Tie at $70"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "Under the post-July-2025 QSBS rules, stock newly issued today qualifies for exclusion caps and holding tiers of:",
+          "choices": {
+            "A": "$10M cap, 5-year cliff only",
+            "B": "Greater of $15M or 10× basis; 50%/75%/100% exclusion at 3/4/5 years",
+            "C": "Unlimited exclusion after 1 year",
+            "D": "$50M cap at 2 years"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "Your LLC allocates you $2M of taxable income but distributes $0 cash. On your personal return you owe tax on:",
+          "choices": {
+            "A": "The full $2M allocated — phantom income; CFOs negotiate tax distributions in the operating agreement",
+            "B": "$0 — no cash, no tax",
+            "C": "Only capital gains",
+            "D": "Whatever you elect"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "VCs insist portfolio companies be Delaware C-corps mainly because:",
+          "choices": {
+            "A": "Delaware has no taxes",
+            "B": "Standardized preferred stock, no K-1s/UBTI for their tax-exempt LPs, QSBS access, and clean option plans",
+            "C": "C-corps pay lower rates than LLCs",
+            "D": "The SEC requires it"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "The IRS decides employee-vs-contractor status primarily on:",
+          "choices": {
+            "A": "What the contract says",
+            "B": "Whether the worker gets benefits",
+            "C": "Control factors — behavioral control, financial control, and the nature of the relationship",
+            "D": "Hours worked per week"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "Your \"Operations Manager\" earns a $40K salary and mostly staffs the register. For overtime purposes she is:",
+          "choices": {
+            "A": "Exempt — she has a manager title",
+            "B": "Exempt — she is salaried",
+            "C": "Non-exempt — the FLSA duties test governs; title and salary form alone don't",
+            "D": "Exempt if she agrees in writing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "date": "2026-09-21",
+      "title": "Equity compensation",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "An employee receives restricted stock vesting over 4 years and files NO 83(b) election. She recognizes ordinary income:",
+          "choices": {
+            "A": "At each vest date, on that tranche's fair market value",
+            "B": "Only at grant",
+            "C": "Only when she sells",
+            "D": "Never — it converts to capital gain"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "The 83(b) election must be filed within:",
+          "choices": {
+            "A": "90 days of grant",
+            "B": "30 days of the first vest",
+            "C": "30 days of GRANT — no extensions, no exceptions",
+            "D": "The tax-year end"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "Which award is INELIGIBLE for an 83(b) election?",
+          "choices": {
+            "A": "Founder restricted stock",
+            "B": "Early-exercised options",
+            "C": "RSUs — no property transfers at grant, so there is nothing to elect on",
+            "D": "Restricted stock bought at par"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "Under ASC 718, the option expense a company books each year equals:",
+          "choices": {
+            "A": "Grant-date fair value ÷ vesting years — never remeasured as the stock moves",
+            "B": "The intrinsic value at each year-end",
+            "C": "The spread at exercise",
+            "D": "Zero until exercise"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "Who can legally receive an INCENTIVE stock option (ISO)?",
+          "choices": {
+            "A": "Anyone on the cap table",
+            "B": "Employees and consultants",
+            "C": "Employees only — a consultant's \"ISO\" is necessarily an NQSO",
+            "D": "Only executives"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "An employee exercises ISOs and HOLDS the shares. In that year, the bargain element (FMV − strike) is:",
+          "choices": {
+            "A": "Ordinary income with withholding",
+            "B": "Long-term capital gain",
+            "C": "Not regular taxable income — but it IS an AMT preference add-back",
+            "D": "Tax-free forever"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "FreshBites' Series A preferred sold at $4.00; its 409A values common at $2.03. The gap mainly reflects:",
+          "choices": {
+            "A": "The valuation firm lowballing to help employees",
+            "B": "The preferred's liquidation preference plus marketability/control discounts on common",
+            "C": "A fixed 2× industry convention",
+            "D": "Arbitrary negotiation"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "A company grants options struck BELOW the current 409A fair market value of common. The consequence is:",
+          "choices": {
+            "A": "Nothing, if the board approves",
+            "B": "§409A penalties — immediate income plus a 20% penalty tax on the employee, and payroll/withholding exposure for the company",
+            "C": "Loss of QSBS status only",
+            "D": "A GAAP restatement only"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "date": "2026-09-23",
+      "title": "KPIs and forecasting",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "The annual operating plan (AOP), once approved by the board:",
+          "choices": {
+            "A": "Does not change during the year — it is the fixed benchmark; the monthly FORECAST is where updated truth lives",
+            "B": "Is revised every month",
+            "C": "Changes whenever actuals miss",
+            "D": "Is only a revenue target"
+          },
+          "tag": "AOP"
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "A ROLLING forecast differs from a monthly re-forecast of the current fiscal year because it:",
+          "choices": {
+            "A": "Ignores actuals",
+            "B": "Always extends a constant horizon (e.g., 12 months forward), adding a new period as each one closes, rather than shrinking toward Dec 31",
+            "C": "Only updates revenue",
+            "D": "Replaces the AOP"
+          },
+          "tag": "Monthly vs. rolling forecast"
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "\"Driver-based planning\" means:",
+          "choices": {
+            "A": "Budgeting the controllable activities (impressions, CTR, conversion, hires) that produce the financials, rather than typing line-item dollar targets",
+            "B": "Letting department heads set their own budgets",
+            "C": "Planning around the CEO's targets",
+            "D": "Using last year +10%"
+          },
+          "tag": "Driver-based planning"
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "A company spends $300,000 on sales & marketing in a quarter and acquires 600 new customers. CAC is:",
+          "choices": {
+            "A": "$50",
+            "B": "$500",
+            "C": "$2,000",
+            "D": "Cannot compute without LTV"
+          },
+          "tag": "CAC"
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "Gross revenue churn differs from net revenue churn because net churn:",
+          "choices": {
+            "A": "Excludes downgrades",
+            "B": "Offsets churned and contracted revenue with EXPANSION revenue from surviving customers — so it can be negative",
+            "C": "Includes new-customer revenue",
+            "D": "Is always larger"
+          },
+          "tag": "Gross vs. net churn"
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "A company keeps 94% of its LOGOS but reports 108% net revenue retention. This happens when:",
+          "choices": {
+            "A": "Small customers churn while surviving (larger) customers expand by more than the lost revenue",
+            "B": "The company miscounted",
+            "C": "New sales are included in NRR",
+            "D": "Prices fell"
+          },
+          "tag": "Logo vs. revenue retention"
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "Which set of inputs is sufficient for a standard LTV calculation?",
+          "choices": {
+            "A": "Revenue and headcount",
+            "B": "Average revenue per customer, gross margin, and a retention/churn rate (expected customer lifetime)",
+            "C": "CAC and payback",
+            "D": "Bookings and billings"
+          },
+          "tag": "LTV inputs"
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "The classic health benchmarks for a SaaS business are:",
+          "choices": {
+            "A": "LTV:CAC ≥ 1× and payback within 5 years",
+            "B": "LTV:CAC ≥ 3× with CAC payback ≈ 12–18 months",
+            "C": "LTV:CAC ≤ 1×",
+            "D": "Payback is irrelevant if LTV:CAC ≥ 3×"
+          },
+          "tag": "LTV:CAC + payback"
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "date": "2026-09-28",
+      "title": "AI workshop",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "Per the Ground Rules, who is allowed to touch the Excel workbook?",
+          "choices": {
+            "A": "Only you — the AI never receives or edits the .xlsx; it works by paste-in/paste-out",
+            "B": "The AI, for formulas only",
+            "C": "Either, if you check its work",
+            "D": "The TA"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "The AI cites \"median Series-A logo churn: 0.8%/month (SaaS Capital, 2025)\" and you cannot trace it to the benchmark sheet or a checkable source. You must:",
+          "choices": {
+            "A": "Use it — it sounds authoritative",
+            "B": "Stamp it UNVERIFIED in your table and verification log; authority-sounding is not sourced",
+            "C": "Delete it silently",
+            "D": "Average it with your own guess"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "The AI's driver table lists \"annual price increase: 5%\" but the case never states one. That number is:",
+          "choices": {
+            "A": "An invention — log it, strike it, and convert it to an OPEN QUESTION for management",
+            "B": "A reasonable default to keep",
+            "C": "A benchmark",
+            "D": "A rounding artifact"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "The four AI roles you will run today are:",
+          "choices": {
+            "A": "Writer, Editor, Checker, Presenter",
+            "B": "Analyst, Skeptic, Builder, Board Red-Team",
+            "C": "Planner, Doer, Reviewer, Approver",
+            "D": "Prompt, Response, Verify, Repeat"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "Every AI claim you rely on must appear in the verification log as:",
+          "choices": {
+            "A": "Prompt → claim → check performed → result (confirmed/corrected/rejected) → change made to the model",
+            "B": "A screenshot",
+            "C": "A citation footnote",
+            "D": "Nothing — logging is optional"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "From your `case_facts.txt` skim: Redline Labs sells:",
+          "choices": {
+            "A": "Robot arms to warehouses",
+            "B": "An AI contract-review copilot to mid-market law firms — $2,500/month platform fee plus $2 per document above a 1,000-document monthly allowance",
+            "C": "Payroll software",
+            "D": "E-signature workflow (that was DocuSigner)"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "Why does today's Prompt 3 FORBID the AI from emitting cell formulas?",
+          "choices": {
+            "A": "Formulas vary by Excel version",
+            "B": "You must own and be able to audit every cell — a model built by the AI is a model you cannot defend",
+            "C": "Formulas are too slow to paste",
+            "D": "The AI can't write formulas"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "Logistics check — my group has confirmed for Monday:",
+          "choices": {
+            "A": "A laptop with desktop Excel + charger, and at least one working LLM login (free tier fine)",
+            "B": "Laptop but no login yet",
+            "C": "Login but no desktop Excel (Numbers/web only)",
+            "D": "Neither yet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S09",
+      "date": "2026-10-05",
+      "title": "Revenue recognition",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "A customer signs a 3-year, $360K contract today; nothing is invoiced or delivered yet. Right now the company has:",
+          "choices": {
+            "A": "$360K of bookings, $0 revenue, $0 billings",
+            "B": "$360K of revenue",
+            "C": "$120K of revenue",
+            "D": "$360K of deferred revenue"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "MRR and ARR exclude:",
+          "choices": {
+            "A": "Subscription fees",
+            "B": "One-time fees (activation, setup, services) — those live in ACV and TCV",
+            "C": "Monthly contracts",
+            "D": "Expansion revenue"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "Billings for a period equal:",
+          "choices": {
+            "A": "Revenue + the change in deferred revenue",
+            "B": "Revenue − collections",
+            "C": "Bookings ÷ contract length",
+            "D": "Cash collected"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "Step 1 of ASC 606 requires a contract where collectability is PROBABLE. If your customer likely cannot pay, you:",
+          "choices": {
+            "A": "Book revenue and reserve for bad debt",
+            "B": "Do not recognize revenue at all — the model never starts",
+            "C": "Book half",
+            "D": "Book it as deferred revenue"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "A customer prepays $120K for a 12-month service. After 3 months, the balance sheet shows deferred revenue of:",
+          "choices": {
+            "A": "$120K",
+            "B": "$30K",
+            "C": "$90K",
+            "D": "$0"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "A platform collects $100 from a buyer and remits $80 to the third-party seller who owes the fulfillment. As an AGENT, the platform's revenue is:",
+          "choices": {
+            "A": "$100",
+            "B": "$20 — the fee it keeps; amounts collected for others are excluded",
+            "C": "$80",
+            "D": "$100 revenue and $80 marketing expense"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "A pure SaaS subscription (vendor hosts; customer has a right to access, never owns the software) is recognized:",
+          "choices": {
+            "A": "Ratably over the service period",
+            "B": "Fully at contract signing",
+            "C": "Fully at cash receipt",
+            "D": "At renewal"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "Under ASC 606, a sales commission paid up front on a multi-year contract is:",
+          "choices": {
+            "A": "Expensed immediately",
+            "B": "Capitalized as an incremental cost of obtaining the contract and amortized over the benefit period",
+            "C": "Never expensed",
+            "D": "Netted against revenue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S10",
+      "date": "2026-10-07",
+      "title": "Boards and audit",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "A director appointed by the Series B fund legally owes fiduciary duties to:",
+          "choices": {
+            "A": "The Series B fund that appointed her",
+            "B": "ALL shareholders — care, candor, and loyalty run to the corporation and every holder, not the appointing class",
+            "C": "The CEO",
+            "D": "Preferred holders only"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "Per Sequoia and Feld, the board deck should be sent to directors:",
+          "choices": {
+            "A": "At the meeting",
+            "B": "Days in advance — the meeting is for discussion and decisions, not for reading the update aloud",
+            "C": "Only if requested",
+            "D": "After the meeting"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "The ONE number a burning startup's board package must always show is:",
+          "choices": {
+            "A": "Bookings",
+            "B": "Registered users",
+            "C": "Cash, net burn, and months of runway — versus plan",
+            "D": "NPS"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "\"Executive session\" at the end of a board meeting means:",
+          "choices": {
+            "A": "The board meets without management — the CFO (and then the CEO) leave the room",
+            "B": "Only executives attend",
+            "C": "A session on compensation",
+            "D": "The lawyers' briefing"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "A VC-backed company most commonly gets its FIRST audit because:",
+          "choices": {
+            "A": "GAAP requires it at incorporation",
+            "B": "A term-sheet covenant or lender/exit requirement demands audited financials (typically around the ~$10M-revenue stage)",
+            "C": "The IRS requests it",
+            "D": "The auditors market well"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "A \"PBC list\" in an audit is:",
+          "choices": {
+            "A": "The Prepared-by-Client list — schedules and reconciliations the company must deliver to the auditors",
+            "B": "The audit fee schedule",
+            "C": "The board's questions for the auditor",
+            "D": "A tax form"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "Board governance intensity should scale with:",
+          "choices": {
+            "A": "Company size",
+            "B": "The gap between who OWNS the company and who CONTROLS it — near-zero at a 100% PE-owned company, wide at a VC-backed founder-run company",
+            "C": "The number of investors",
+            "D": "Revenue growth"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "Observer seats are limited and negotiated because observers:",
+          "choices": {
+            "A": "Vote twice",
+            "B": "See confidential material and exert creeping influence WITHOUT fiduciary accountability — plus leak and efficiency risk",
+            "C": "Cost board fees",
+            "D": "Must be independent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S11",
+      "date": "2026-10-12",
+      "title": "Fundraising and debt",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "\"2 and 20\" fund economics means the GPs earn:",
+          "choices": {
+            "A": "A ~2% annual management fee on committed capital plus 20% carried interest on profits",
+            "B": "2% of profits and 20% fees",
+            "C": "20% ownership of each portfolio company",
+            "D": "2× their investment guaranteed"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "A typical VC fund has a life of ~10 years with new investments made mostly in the first ~5. A fund in YEAR 8 that led your Series B will predictably:",
+          "choices": {
+            "A": "Double down patiently",
+            "B": "Push toward liquidity — exits or secondaries — because its clock is running out",
+            "C": "Ignore you",
+            "D": "Raise your valuation"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "An investor holds $4M of 1× NON-participating preferred bought for 20% of the company. The company sells for $12M. The investor receives:",
+          "choices": {
+            "A": "$4M — max(preference $4M, as-converted 20%×$12M = $2.4M)",
+            "B": "$2.4M",
+            "C": "$6.4M",
+            "D": "$12M"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "PARTICIPATING preferred differs because the holder:",
+          "choices": {
+            "A": "Takes the preference AND THEN shares pro rata in the remainder — the \"double dip,\" with no conversion choice to make",
+            "B": "Gets voting control",
+            "C": "Converts automatically",
+            "D": "Is senior to debt"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "On the balance sheet, a SAFE sits in:",
+          "choices": {
+            "A": "The equity section — it is a warrant-like agreement for future equity with no maturity or interest",
+            "B": "Current liabilities",
+            "C": "Long-term debt, like a convertible note",
+            "D": "Off balance sheet"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "Four SAFEs are outstanding and the founder says \"our cap table is clean.\" The correct CFO response:",
+          "choices": {
+            "A": "Agree — SAFEs don't dilute",
+            "B": "The cap table LOOKS clean only because the SAFEs aren't on it yet; conversion at the next priced round will stack the dilution — model it now",
+            "C": "SAFEs convert at exit only",
+            "D": "SAFEs expire if unused"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "A venture-debt term sheet includes \"10% warrant coverage\" on a $3M loan. That means:",
+          "choices": {
+            "A": "The lender also gets warrants to buy ~$300K worth of stock — a dilution cost on top of the interest rate",
+            "B": "10% of the loan is forgiven",
+            "C": "The loan is 110% collateralized",
+            "D": "Warrants replace covenants"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "\"Protective provisions\" in a term sheet are:",
+          "choices": {
+            "A": "Economic terms — they set the price",
+            "B": "CONTROL terms — a veto list (sale of the company, new financings, budgets) that decides who can block what",
+            "C": "Insurance requirements",
+            "D": "Anti-dilution formulas"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S12",
+      "date": "2026-10-14",
+      "title": "Exits and wrap",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "Private-company acquisitions are typically priced \"cash-free, debt-free\" because:",
+          "choices": {
+            "A": "Cash and funded debt are financing choices, not operating assets — the buyer prices the enterprise and the seller keeps/settles its own financing",
+            "B": "Buyers dislike cash",
+            "C": "It avoids taxes",
+            "D": "Banks require it"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "The working-capital PEG exists to:",
+          "choices": {
+            "A": "Set the purchase price multiple",
+            "B": "Stop the seller from stripping working capital (collecting AR hard, stretching payables, running down inventory) before close — the true-up adjusts price dollar-for-dollar",
+            "C": "Estimate synergies",
+            "D": "Fund the escrow"
+          }
+        },
+        {
+          "id": "q3",
+          "n": 3,
+          "prompt": "Peg = $2.0M. At closing, properly adjusted NWC delivered is $1.6M. Dollar-for-dollar, the buyer:",
+          "choices": {
+            "A": "Pays $400K LESS",
+            "B": "Pays $400K more",
+            "C": "Pays the same — pegs only move escrow",
+            "D": "Cancels the deal"
+          }
+        },
+        {
+          "id": "q4",
+          "n": 4,
+          "prompt": "A seller's CFO should resist an EBITDA-based earn-out because:",
+          "choices": {
+            "A": "Post-close the BUYER controls costs and allocations — EBITDA is gameable against the seller; prefer revenue metrics, defined policies, and audit rights",
+            "B": "EBITDA is too easy to hit",
+            "C": "Earn-outs are not enforceable",
+            "D": "Revenue is harder to measure"
+          }
+        },
+        {
+          "id": "q5",
+          "n": 5,
+          "prompt": "PE buyers usually want management to ROLL part of their equity into the new deal because:",
+          "choices": {
+            "A": "It aligns incentives and signals confidence (and reduces sponsor cash) — management gets a \"second bite of the apple\"",
+            "B": "It's legally required",
+            "C": "It avoids the peg",
+            "D": "It replaces vesting"
+          }
+        },
+        {
+          "id": "q6",
+          "n": 6,
+          "prompt": "A C-corp seller comparing a $40M stock sale to a $41M asset sale should remember that the ASSET sale:",
+          "choices": {
+            "A": "Triggers corporate-level tax on the gain AND shareholder-level tax on distribution — the extra $1M rarely covers the second layer",
+            "B": "Is always better — higher price",
+            "C": "Is tax-free",
+            "D": "Avoids the escrow"
+          }
+        },
+        {
+          "id": "q7",
+          "n": 7,
+          "prompt": "Signing a letter of intent (LOI) typically changes the process because:",
+          "choices": {
+            "A": "Exclusivity begins — the seller stops shopping while the buyer runs serious diligence, and leverage tilts to the buyer",
+            "B": "The price becomes binding",
+            "C": "The deal is legally closed",
+            "D": "The banker's fee is earned"
+          }
+        },
+        {
+          "id": "q8",
+          "n": 8,
+          "prompt": "Ball & Shivakumar's evidence on IPO-year reporting shows that, on average, IPO firms:",
+          "choices": {
+            "A": "Aggressively inflate earnings",
+            "B": "Report MORE conservatively — the monitoring stack (auditors, underwriters, analysts, litigation risk) disciplines them",
+            "C": "Don't report at all",
+            "D": "Restate within a year"
+          }
+        }
+      ]
+    }
+  ]
+}

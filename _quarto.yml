@@ -4,6 +4,7 @@ project:
   resources:
     - discussion-sites/**
     - ps1/**
+    - live/**
 
 website:
   title: "MGT 816"

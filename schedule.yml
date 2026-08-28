@@ -10,6 +10,8 @@
     - text: "a16z podcast: Cash, Growth, and CEO–CFO"
       url: "https://a16z.com/podcast/a16z-podcast-cash-growth-and-ceo-heart-cfo/"
       note: "podcast, ~30 min"
+    - text: "In-class poll (phone or laptop)"
+      url: live/index.html
   out: "Case 1 (due Sep 16)"
   due: null
   slides: null
@@ -98,8 +100,8 @@
     - text: "HBR: The True Measures of Success (Mauboussin, Oct 2012)"
       url: "https://hbr.org/2012/10/the-true-measures-of-success"
       note: "also available through Yale Library's HBR access if you hit the paywall"
-    - text: "Pre-class quiz on Canvas"
-      url: "https://yale.instructure.com/courses/122169"
+    - text: "In-class poll (phone or laptop)"
+      url: live/index.html
   out: null
   due: "PS1"
   slides: null

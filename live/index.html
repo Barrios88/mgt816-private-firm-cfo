@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>MGT 816 · In-class poll</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --navy: #00356B;
+      --ink: #1a1a1a;
+      --muted: #5c6770;
+      --line: #d5dde6;
+      --bg: #eef1f4;
+      --card: #fff;
+      --ok: #157347;
+      --pick: #286DC0;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 0.85rem 1rem calc(0.85rem + env(safe-area-inset-top));
+      padding-top: calc(0.85rem + env(safe-area-inset-top));
+    }
+    header .kicker { font-size: 0.78rem; opacity: 0.85; letter-spacing: 0.02em; }
+    header h1 { margin: 0.15rem 0 0; font: 650 1.25rem Georgia, "Times New Roman", serif; }
+    header .sub { margin-top: 0.25rem; font-size: 0.88rem; opacity: 0.92; }
+    main { max-width: 32rem; margin: 0 auto; padding: 0.9rem 0.85rem 2.5rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .msg { color: var(--muted); line-height: 1.4; }
+    .msg strong { color: var(--ink); }
+    input[type="search"] {
+      width: 100%;
+      min-height: 2.75rem;
+      font: inherit;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .names { list-style: none; margin: 0.55rem 0 0; padding: 0; }
+    .names button {
+      width: 100%;
+      text-align: left;
+      min-height: 2.85rem;
+      margin-bottom: 0.35rem;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      font: 650 1rem inherit;
+      cursor: pointer;
+    }
+    .names button:active { background: #e8eef5; }
+    .who {
+      display: flex; justify-content: space-between; gap: 0.5rem;
+      align-items: baseline; margin-bottom: 0.65rem; font-size: 0.9rem;
+    }
+    .who button {
+      border: 0; background: none; color: var(--navy); font: 650 0.88rem inherit;
+      cursor: pointer; text-decoration: underline;
+    }
+    .q { margin-bottom: 1.15rem; }
+    .q h2 { font-size: 1.02rem; margin: 0 0 0.45rem; line-height: 1.35; }
+    .q .n { color: var(--navy); font-weight: 700; }
+    .opt {
+      display: block; width: 100%; text-align: left;
+      min-height: 2.9rem; margin-bottom: 0.35rem;
+      padding: 0.6rem 0.7rem; border-radius: 8px;
+      border: 1px solid var(--line); background: #fff;
+      font: 500 0.95rem inherit; cursor: pointer;
+    }
+    .opt.on { border-color: var(--navy); background: #e7eef6; font-weight: 700; }
+    .opt .ltr {
+      display: inline-block; width: 1.35rem; font-weight: 700; color: var(--navy);
+    }
+    .bar {
+      position: sticky; bottom: 0; background: var(--bg);
+      padding: 0.65rem 0 calc(0.65rem + env(safe-area-inset-bottom));
+    }
+    .bar button, .primary {
+      width: 100%; min-height: 3rem; border: 0; border-radius: 10px;
+      background: var(--navy); color: #fff; font: 700 1.05rem inherit; cursor: pointer;
+    }
+    .bar button:disabled, .primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .ok { color: var(--ok); font-weight: 650; }
+    .wait { text-align: center; padding: 1.2rem 0.4rem; color: var(--muted); }
+    .count { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.88rem; margin-bottom: 0.4rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="kicker">MGT 816 · The Private Firm CFO</div>
+    <h1>In-class poll</h1>
+    <div class="sub" id="hdr">Scan. Pick your name. Answer.</div>
+  </header>
+  <main id="app"></main>
+  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database-compat.js"></script>
+  <script>
+(function () {
+  const cfg = window.MGT816_FIREBASE || {};
+  const STORE = "mgt816-live-who";
+  const LETTERS = ["A", "B", "C", "D"];
+  const appEl = document.getElementById("app");
+  const hdr = document.getElementById("hdr");
+
+  let polls = null;
+  let db = null;
+  let room = null;
+  let roster = [];
+  let me = null;
+  try { me = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) { me = null; }
+  const answers = {};
+  let filter = "";
+
+  function md(s) {
+    return String(s || "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+  function sessionBank() {
+    if (!polls || !room) return null;
+    return polls.sessions.find(s => s.id === room.session) || null;
+  }
+  function openedQs() {
+    const bank = sessionBank();
+    if (!bank) return [];
+    const opened = Array.isArray(room.opened) && room.opened.length
+      ? room.opened.map(Number)
+      : bank.questions.map(q => q.n);
+    return bank.questions.filter(q => opened.indexOf(q.n) !== -1);
+  }
+  function visibleQs() {
+    const qs = openedQs();
+    if (room && room.mode === "live" && room.currentQ) {
+      return qs.filter(q => q.n === Number(room.currentQ));
+    }
+    return qs;
+  }
+  function complete() {
+    return openedQs().every(q => answers[q.id]);
+  }
+
+  function render() {
+    if (!polls) {
+      appEl.innerHTML = '<div class="card msg">Loading questions.</div>';
+      return;
+    }
+    if (!cfg.databaseURL) {
+      hdr.textContent = "Nothing is open.";
+      appEl.innerHTML = '<div class="card msg">Polls run in class, on this page. Nothing is open right now.</div>';
+      return;
+    }
+    if (!room || !room.open) {
+      hdr.textContent = "Waiting for class to open the poll.";
+      appEl.innerHTML = '<div class="card msg">Nothing is open. Scan again when class starts, or wait on this page.</div>';
+      return;
+    }
+    const bank = sessionBank();
+    hdr.textContent = (bank ? bank.id + " · " + bank.title : room.session) + " · Section " + room.section;
+    if (!me || me.section !== room.section) {
+      renderPick();
+      return;
+    }
+    renderPoll();
+  }
+
+  function renderPick() {
+    const q = filter.trim().toLowerCase();
+    const list = roster.filter(s => {
+      if (s.section && s.section !== room.section) return false;
+      if (!q) return true;
+      return (s.last + " " + s.first).toLowerCase().indexOf(q) !== -1;
+    });
+    let html = '<div class="card"><p class="msg">Pick your name. Section ' + room.section + ' is open.</p>';
+    html += '<input id="find" type="search" placeholder="Type your last name" autocomplete="off">';
+    html += '<ul class="names">';
+    list.slice(0, 40).forEach(s => {
+      html += '<li><button type="button" data-id="' + s.id + '">' + s.last + ", " + s.first + "</button></li>";
+    });
+    html += "</ul>";
+    if (!list.length) html += '<p class="msg">No match. Check the section, or tell the TA you are not on the list.</p>';
+    html += "</div>";
+    appEl.innerHTML = html;
+    const inp = document.getElementById("find");
+    inp.value = filter;
+    inp.addEventListener("input", e => { filter = e.target.value; renderPick(); const n = document.getElementById("find"); if (n) n.focus(); });
+    inp.focus();
+    appEl.querySelectorAll(".names button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const s = roster.find(x => x.id === btn.getAttribute("data-id"));
+        if (!s) return;
+        me = { id: s.id, first: s.first, last: s.last, section: room.section };
+        localStorage.setItem(STORE, JSON.stringify(me));
+        render();
+      });
+    });
+  }
+
+  function renderPoll() {
+    const qs = visibleQs();
+    const all = openedQs();
+    let html = '<div class="who"><span>' + me.last + ", " + me.first + '</span><button type="button" id="switch">Not you?</button></div>';
+    html += '<div class="count">' + Object.keys(answers).filter(k => all.some(q => q.id === k && answers[k])).length + " of " + all.length + " answered</div>";
+    if (room.mode === "live" && !qs.length) {
+      html += '<div class="card wait">Waiting for the next question.</div>';
+    }
+    qs.forEach(q => {
+      html += '<div class="q card"><h2><span class="n">Q' + q.n + ".</span> " + md(q.prompt) + "</h2>";
+      LETTERS.forEach(L => {
+        const on = answers[q.id] === L ? " on" : "";
+        html += '<button type="button" class="opt' + on + '" data-q="' + q.id + '" data-l="' + L + '"><span class="ltr">' + L + "</span> " + md(q.choices[L]) + "</button>";
+      });
+      html += "</div>";
+    });
+    if (room.mode !== "live") {
+      html += '<div class="bar"><button type="button" id="submit"' + (complete() ? "" : " disabled") + ">Submit</button></div>";
+    } else if (complete()) {
+      html += '<div class="card ok">You are in. Stay on this page if another question comes up.</div>';
+    }
+    appEl.innerHTML = html;
+    const sw = document.getElementById("switch");
+    if (sw) sw.addEventListener("click", () => { me = null; localStorage.removeItem(STORE); render(); });
+    appEl.querySelectorAll(".opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        answers[btn.getAttribute("data-q")] = btn.getAttribute("data-l");
+        pushAnswers();
+        render();
+      });
+    });
+    const sub = document.getElementById("submit");
+    if (sub) sub.addEventListener("click", () => {
+      pushAnswers().then(() => {
+        const bar = document.querySelector(".bar");
+        if (bar) bar.innerHTML = '<p class="ok">Submitted. You are marked present.</p>';
+      });
+    });
+  }
+
+  function pushAnswers() {
+    if (!db || !me || !room || !room.open) return Promise.resolve();
+    const payload = {
+      first: me.first,
+      last: me.last,
+      choices: answers,
+      updated: Date.now()
+    };
+    return db.ref("answers/" + room.session + "/" + room.section + "/" + me.id).update(payload);
+  }
+
+  function listen() {
+    db.ref("room").on("value", snap => {
+      room = snap.val();
+      if (room && room.open && room.section) {
+        db.ref("roster/" + room.section).once("value", r => {
+          const v = r.val();
+          roster = Array.isArray(v) ? v : (v ? Object.values(v) : []);
+          render();
+        });
+      } else {
+        roster = [];
+        render();
+      }
+    });
+  }
+
+  fetch("polls.json").then(r => r.json()).then(data => {
+    polls = data;
+    if (cfg.apiKey && cfg.databaseURL) {
+      firebase.initializeApp(cfg);
+      db = firebase.database();
+      listen();
+    } else {
+      render();
+    }
+  }).catch(() => {
+    appEl.innerHTML = '<div class="card msg">Could not load the poll questions.</div>';
+  });
+})();
+  </script>
+</body>
+</html>

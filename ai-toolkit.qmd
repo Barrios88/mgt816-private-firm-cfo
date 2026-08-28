@@ -2,7 +2,7 @@
 title: "AI Toolkit"
 ---
 
-Two things here: the **CFO AI Skills** — eight skill files you keep after the course — and the **PS2 forecasting scaffold** from Sessions 6–7. The rule is the same for both: AI does the analyst work; you certify every number.
+Two things here: the **CFO AI Skills** — eight skills you keep after the course — and the **PS2 forecasting scaffold** from Sessions 6–7. The rule is the same for both: AI does the analyst work; you certify every number.
 
 ```{=html}
 <style>
@@ -38,19 +38,19 @@ Two things here: the **CFO AI Skills** — eight skill files you keep after the 
 
 ## The CFO AI Skills
 
-Eight skills, one per block of the course. Each is a folder: a `SKILL.md` that teaches an AI assistant the methods from class — the formulas, the decision rules, the red flags — plus the working templates that go with them. They are written for the jobs you will hold one to five years out: first finance hire, founder, fund associate, operator. The course ends in October; the skills don't. Each one closes with instructions for extending it with your own firm's numbers and policies.
+Each skill is a folder: a `SKILL.md` that teaches an AI assistant the methods from class — the formulas, the decision rules, the red flags — plus the working templates that go with them. They are written for the jobs you will hold one to five years out: first finance hire, founder, fund associate, operator. Each one closes with instructions for extending it with your own firm's numbers and policies.
 
-The course rule is built into every one. The skill shows its formulas, refuses to invent a number it wasn't given, stamps unsourced benchmarks `UNVERIFIED`, and names the moment to call a CPA, a lawyer, or a banker. Every worked example uses invented numbers. None of them contains a problem-set or case answer — don't bother looking.
+The course rule is built into every one. Every skill shows its formulas, never invents a number it wasn't given, stamps unsourced benchmarks `UNVERIFIED`, and tells you when to call a CPA, a lawyer, or a banker. Every worked example uses invented numbers. None of them contains a problem-set or case answer — don't bother looking.
 
 ### How to use a skill
 
 1. **Download** the zip. Inside: `SKILL.md` and a `resources/` folder.
 2. **Install it:**
    - **Claude (claude.ai):** create a Project; upload `SKILL.md` and the resource files as project knowledge, or paste `SKILL.md` into the project instructions.
-   - **Claude Code / Agent SDK:** drop the folder into `~/.claude/skills/`. Done.
+   - **Claude Code / Agent SDK:** drop the folder into `~/.claude/skills/`.
    - **Any other AI tool:** paste `SKILL.md` as your first message. It is self-contained.
 3. **The `resources/` templates work on their own** — checklists, calculators, and log templates you can fill in with or without the AI.
-4. **The skill drafts; you certify.** Every package ships a verification-log template. Use it whenever a number matters.
+4. **The AI drafts; you certify.** Every package includes a verification-log template. Use it whenever a number matters.
 
 ### Find your skill
 
@@ -80,7 +80,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
 <div class="skill-card" id="skill-startup-finance" data-keywords="burn runway out-of-cash cash accrual chart of accounts close controls bookkeeping quickbooks credibility audit unaudited first finance hire">
   <h3>Startup Finance Infrastructure &amp; Runway</h3>
   <div class="sess">Built from S00 Bootcamp · S01 CFO &amp; Infrastructure</div>
-  <div class="lede">Stand up a young company's finance function and read its cash clock.</div>
+  <div class="lede">Stand up a young company's finance function and know its out-of-cash date.</div>
   <ul>
     <li>Gross/net burn, runway, and the out-of-cash date — plus which lever actually buys more time</li>
     <li>Cash-vs-accrual switch trigger, chart of accounts, software stack</li>
@@ -110,7 +110,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
   <div class="sess">Built from S03 Legal &amp; People Infrastructure</div>
   <div class="lede">The formation decisions that get made once and bind the company for a decade.</div>
   <ul>
-    <li>C-corp vs. LLC after-tax showdown, the indifference rate, and the deferral flip</li>
+    <li>C-corp vs. LLC after-tax comparison, the indifference rate, and the deferral flip</li>
     <li>QSBS §1202 under both regimes (post-July-2025 and grandfathered) — and the clock rules</li>
     <li>W-2 vs. 1099 (the IRS control test) and exempt vs. non-exempt (the FLSA gates)</li>
     <li>Pricing the misclassification bill before an auditor does</li>
@@ -155,7 +155,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
     <li>The revenue bridge: bookings → billings → GAAP revenue → deferred revenue</li>
     <li>The ASC 606 five-step model as a scorecard, contract by contract</li>
     <li>Gross vs. net (principal/agent) and why GMV is a KPI, never revenue</li>
-    <li>The margin ladder and commission capitalization done right</li>
+    <li>The margin ladder and commission capitalization</li>
   </ul>
   <div class="reach">Reach for it when: sales says $12M, the model says $9M, the auditor says $7.4M — and the CEO wants to know which is "real."</div>
   <div class="dl"><a href="files/skills/revenue-recognition-and-margins.zip">Download</a><span class="meta">SKILL.md + 7 templates</span></div>
@@ -178,7 +178,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
 <div class="skill-card" id="skill-exit" data-keywords="exit M&A sale sell-side LOI CIM diligence data room working capital peg true-up earn-out seller note rollover stock asset step-up 338(h)(10) IPO S-1 lock-up">
   <h3>Exit &amp; M&amp;A Deal Structuring</h3>
   <div class="sess">Built from S12 Exits (closes loops from S02 · S03 · S10 · S11)</div>
-  <div class="lede">The purchase price is not the price — manage what actually lands in the bank.</div>
+  <div class="lede">Manage what actually lands in the bank, not the purchase price.</div>
   <ul>
     <li>The sell-side funnel from teaser to close, with the gates that destroy value if skipped</li>
     <li>The working-capital peg and dollar-for-dollar true-up, computed cold</li>
@@ -212,7 +212,7 @@ The course rule is built into every one. The skill shows its formulas, refuses t
 </script>
 ```
 
-**One warning.** An AI running one of these skills is still an AI: it will be confidently wrong on schedule. The skills are built to catch that — every one ships a verification-log template — but the log only works if you use it. The draft is the machine's; the number is yours.
+**One warning.** An AI running one of these skills is still an AI: it will be confidently wrong on schedule. The skills are built to catch that — every one includes a verification-log template — but the log only works if you use it.
 
 ---
 
@@ -320,4 +320,4 @@ Each must appear in your PS2 verification log:
 | [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
 | [Prompt card (PDF)](files/ps2/prompt_card.pdf) | The P1–P6 prompts, print form — content is also on this page |
 
-The full workshop kit and Model Pack are on the [Problem Sets page](assignments.qmd#ps2); submissions should be uploaded to Canvas for grading.
+The full workshop kit and Model Pack are on the [Problem Sets page](assignments.qmd#ps2). Upload submissions to Canvas.
