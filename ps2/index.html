@@ -167,6 +167,25 @@
     @media (min-width: 600px) { .member-grid { grid-template-columns: 1fr 1fr; } }
     .field-row { display: flex; flex-direction: column; gap: 0.25rem; }
     .field-row label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    .input-with-unit { display: flex; align-items: stretch; }
+    .input-with-unit input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      width: 100%;
+    }
+    .input-with-unit .unit {
+      display: flex;
+      align-items: center;
+      padding: 0 0.65rem;
+      background: var(--accent-pale);
+      border: 1px solid var(--border);
+      border-left: 0;
+      border-radius: 0 6px 6px 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
     input[type="text"], input[type="number"], textarea, select {
       font: inherit;
       padding: 0.5rem 0.65rem;
@@ -389,9 +408,10 @@
         <h2>How this workbench works</h2>
         <ul>
           <li><strong>It collects; it does not grade.</strong> The workbench records your Part A figures, your five <code>Checks</code>-tab certifications, your scenario and sensitivity outputs, and your Verification Log. It formats percentages and dollars and flags a few structural things &mdash; it never tells you whether a number is correct.</li>
+          <li><strong>Numbers only.</strong> Type 12.3 or 2500. Do not type $ or %. Percentage fields add a % when you leave the cell. Dollar fields add a $ and commas. Driver values and checksums: enter them as they appear in your model (counts as whole numbers, cash as dollars).</li>
           <li><strong>The model stays in Excel.</strong> Part B is built in your workbook. Here you certify the five checksum values <em>your</em> model produced.</li>
           <li><strong>Autosave on this device only.</strong> Progress saves to your browser. Use Export/Import to move work within your group.</li>
-          <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page.</li>
+          <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page. Generate will list any blank sections before it downloads the file.</li>
         </ul>
       </div>
       <div class="panel-footer-nav" data-footer="setup"></div>
@@ -447,7 +467,7 @@
         </div>
 
         <h4 style="margin:1.25rem 0 0.25rem;">Your monthly grid</h4>
-        <p class="hint">Enter your computed rates as percentages. On leaving a cell the field adds a % sign. Amber flag if a month's logo churn + logo retention do not add to 100.</p>
+        <p class="hint">Enter rates as numbers (1.5 not 1.5%). On leaving a cell the field adds a % sign. Amber flag if a month's logo churn + logo retention do not add to 100.</p>
         <div class="table-wrap">
           <table class="data-table" id="a1-grid" aria-label="A1 monthly rate grid">
             <thead>
@@ -468,7 +488,7 @@
         <div class="metric-fields" style="margin-top:1rem;">
           <div class="field-row">
             <label for="a1-compounded">Compounded NRR, full six-month window (%)</label>
-            <input type="text" id="a1-compounded" data-bind="parts.A1.compoundedNrrPct" data-fmt="pct" placeholder="e.g., 12.3%">
+            <input type="text" id="a1-compounded" data-bind="parts.A1.compoundedNrrPct" data-fmt="pct" placeholder="e.g. 12.3">
           </div>
         </div>
         <div class="field-row" style="margin-top:0.75rem;">
@@ -502,7 +522,7 @@
         <div class="metric-fields">
           <div class="field-row">
             <label for="a2-fe-figure">Corrected figure (%)</label>
-            <input type="text" id="a2-fe-figure" data-bind="parts.A2.formulaError.correctedFigurePct" data-fmt="pct" placeholder="e.g., 12.3%">
+            <input type="text" id="a2-fe-figure" data-bind="parts.A2.formulaError.correctedFigurePct" data-fmt="pct" placeholder="e.g. 12.3">
           </div>
         </div>
         <div class="field-row" style="margin-top:0.75rem;">
@@ -535,7 +555,7 @@
         </div>
 
         <h3 id="part-b-checks" class="section-anchor">Certify the five <code>Checks</code>-tab values</h3>
-        <p class="hint">These come from <strong>your model's <code>Checks</code> tab</strong>. Enter what your workbook produced. The workbench does not know the correct values and never validates them.</p>
+        <p class="hint">These come from <strong>your model's <code>Checks</code> tab</strong>. Enter the number only. Dollar checks add $ and commas when you leave the cell. The workbench does not know the correct values and never validates them.</p>
         <div class="metric-fields">
           <div class="field-row">
             <label for="chk1">CHK1 &mdash; December ending active firms (count)</label>
@@ -547,15 +567,15 @@
           </div>
           <div class="field-row">
             <label for="chk2">CHK2 &mdash; FY2027 total revenue ($)</label>
-            <input type="text" id="chk2" data-bind="parts.B.chk.CHK2" data-fmt="money2" placeholder="dollars, 2 decimals">
+            <input type="text" id="chk2" data-bind="parts.B.chk.CHK2" data-fmt="money2" placeholder="e.g. 2500">
           </div>
           <div class="field-row">
             <label for="chk4">CHK4 &mdash; December deferred-revenue balance ($)</label>
-            <input type="text" id="chk4" data-bind="parts.B.chk.CHK4" data-fmt="money2" placeholder="dollars, 2 decimals">
+            <input type="text" id="chk4" data-bind="parts.B.chk.CHK4" data-fmt="money2" placeholder="e.g. 2500">
           </div>
           <div class="field-row">
             <label for="chk5">CHK5 &mdash; December ending cash ($)</label>
-            <input type="text" id="chk5" data-bind="parts.B.chk.CHK5" data-fmt="money2" placeholder="dollars, 2 decimals">
+            <input type="text" id="chk5" data-bind="parts.B.chk.CHK5" data-fmt="money2" placeholder="e.g. 2500">
           </div>
         </div>
 
@@ -660,7 +680,7 @@
     <section class="panel" id="panel-review" aria-labelledby="review-heading">
       <div class="card">
         <h2 id="review-heading">Review &amp; submit</h2>
-        <p class="hint">Check completeness, then generate your submission file. Upload it to Canvas alongside your Excel workbook and your one-page board-memo PDF.</p>
+        <p class="hint">Check the list below, then generate your submission file. Upload it to Canvas alongside your Excel workbook and your one-page board-memo PDF. If anything is still blank, Generate will name it before downloading.</p>
         <ul class="checklist section-anchor" id="completeness-checklist"></ul>
         <div class="btn-row section-anchor" id="review-submit" style="margin-top:1.25rem;">
           <button type="button" class="btn btn-primary" id="btn-generate">Generate submission sheet</button>
@@ -682,8 +702,8 @@
   'use strict';
 
   const SCHEMA = 'ps2-2026-v1';
-  const WORKBENCH_VERSION = 'ps2-workbench-1.0';
-  const DISPLAY_VERSION = '1.0';
+  const WORKBENCH_VERSION = 'ps2-workbench-1.1';
+  const DISPLAY_VERSION = '1.1';
   const STORAGE_KEY = 'mgt816-ps2-2026';
   const SAVE_DEBOUNCE = 500;
 
@@ -865,7 +885,7 @@
   function fmtMoney2(val) {
     const n = parseNum(val);
     if (isNaN(n)) return val;
-    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
   function fmtPct(val) {
     if (val === '' || val === null || val === undefined) return val;
@@ -910,7 +930,7 @@
     body.innerHTML = state.parts.A1.months.map((mo, i) => `
       <tr data-a1-row="${i}">
         <td>${esc(mo.month)} 2026</td>
-        ${A1_FIELDS.map(f => `<td><input type="text" inputmode="decimal" data-bind="parts.A1.months.${i}.${f}" data-fmt="pct" value="${esc(mo[f])}" placeholder="e.g., 12.3%"></td>`).join('')}
+        ${A1_FIELDS.map(f => `<td><input type="text" inputmode="decimal" data-bind="parts.A1.months.${i}.${f}" data-fmt="pct" value="${esc(mo[f])}" placeholder="e.g. 12.3"></td>`).join('')}
         <td class="warn-cell" id="a1-warn-${i}"></td>
       </tr>
     `).join('');
@@ -924,16 +944,16 @@
         <div class="metric-fields cols-3">
           <div class="field-row"><label>New-logo quota per AE</label>
             <input type="text" data-bind="parts.C1.scenarios.${i}.quotaPerAE" value="${esc(sc.quotaPerAE)}" placeholder="driver value"></div>
-          <div class="field-row"><label>Logo churn rate</label>
-            <input type="text" data-bind="parts.C1.scenarios.${i}.churnRate" value="${esc(sc.churnRate)}" placeholder="driver value"></div>
+          <div class="field-row"><label>Logo churn rate (as on Assumptions)</label>
+            <input type="text" data-bind="parts.C1.scenarios.${i}.churnRate" value="${esc(sc.churnRate)}" placeholder="as in Excel"></div>
           <div class="field-row"><label>Documents / firm / month</label>
             <input type="text" data-bind="parts.C1.scenarios.${i}.docsPerFirmMonth" value="${esc(sc.docsPerFirmMonth)}" placeholder="driver value"></div>
           <div class="field-row"><label>Inference cost / document</label>
             <input type="text" data-bind="parts.C1.scenarios.${i}.inferenceCostPerDoc" value="${esc(sc.inferenceCostPerDoc)}" placeholder="driver value"></div>
-          <div class="field-row"><label>End-of-FY2027 cash ($)</label>
-            <input type="text" inputmode="decimal" data-bind="parts.C1.scenarios.${i}.decEndingCash" data-fmt="money2" value="${esc(sc.decEndingCash)}" placeholder="dollars"></div>
-          <div class="field-row"><label>Runway (months)</label>
-            <input type="text" inputmode="decimal" data-bind="parts.C1.scenarios.${i}.runwayMonths" value="${esc(sc.runwayMonths)}" placeholder="months"></div>
+          <div class="field-row"><label>End-of-FY2027 cash</label>
+            <input type="text" inputmode="decimal" data-bind="parts.C1.scenarios.${i}.decEndingCash" data-fmt="money2" value="${esc(sc.decEndingCash)}" placeholder="e.g. 2500"></div>
+          <div class="field-row"><label>Runway</label>
+            <div class="input-with-unit"><input type="text" inputmode="decimal" data-bind="parts.C1.scenarios.${i}.runwayMonths" value="${esc(sc.runwayMonths)}" placeholder="e.g. 14"><span class="unit" aria-hidden="true">mo</span></div></div>
         </div>
         <div class="field-row" style="margin-top:0.6rem;">
           <label>Rationale &mdash; one sentence per driver choice (case-grounded, no new facts)</label>
@@ -1100,7 +1120,7 @@
     const namesOk = state.group.filter(m => m.name.trim()).length >= 2;
     const honorOk = state.honor;
     const a1Ok = p.A1.months.every(mo => A1_FIELDS.every(f => String(mo[f]).trim() !== '')) && String(p.A1.compoundedNrrPct).trim() !== '';
-    const a2Ok = String(p.A2.formulaError.identify).trim() !== '' && String(p.A2.formulaError.correctedFigurePct).trim() !== '' && String(p.A2.hallucinatedBenchmark.identify).trim() !== '';
+    const a2Ok = String(p.A2.formulaError.identify).trim() !== '' && String(p.A2.formulaError.correctedFigurePct).trim() !== '' && String(p.A2.formulaError.correctFormula).trim() !== '' && String(p.A2.hallucinatedBenchmark.identify).trim() !== '' && String(p.A2.hallucinatedBenchmark.treatment).trim() !== '';
     const chkOk = ['CHK1', 'CHK2', 'CHK3', 'CHK4', 'CHK5'].every(k => String(p.B.chk[k]).trim() !== '');
     const c1Ok = p.C1.scenarios.every(sc => String(sc.decEndingCash).trim() !== '' && String(sc.runwayMonths).trim() !== '' && String(sc.rationale).trim() !== '');
     const ranks = DRIVERS.map(d => String(p.C2.ranks[d] || '')).filter(v => v !== '');
@@ -1113,7 +1133,7 @@
       { ok: namesOk, label: 'At least 2 group members named' },
       { ok: honorOk, label: 'Honor / AI certification checked' },
       { ok: a1Ok, label: 'A1 monthly grid and compounded NRR filled' },
-      { ok: a2Ok, label: 'A2 formula error and hallucinated benchmark answered' },
+      { ok: a2Ok, label: 'A2 formula error, corrected figure, formula, benchmark, and treatment answered' },
       { ok: chkOk, label: 'All five CHK values certified' },
       { ok: c1Ok, label: 'All three scenarios: cash, runway, and rationale entered' },
       { ok: c2Ok, label: 'Sensitivity ranks 1–4 assigned uniquely' },
@@ -1354,11 +1374,18 @@
     return doc;
   }
 
+  function confirmIfIncomplete() {
+    const missing = getCompletenessItems().filter(i => !i.ok).map(i => i.label);
+    if (!missing.length) return true;
+    const shown = missing.slice(0, 10);
+    let msg = 'These items are still blank:\n\n- ' + shown.join('\n- ');
+    if (missing.length > 10) msg += '\n- and ' + (missing.length - 10) + ' more (see the Review checklist)';
+    msg += '\n\nGenerate the submission anyway?';
+    return confirm(msg);
+  }
+
   async function generateSubmission() {
-    const items = getCompletenessItems();
-    if (!items.every(i => i.ok)) {
-      if (!confirm('Some items are incomplete. Generate the submission anyway?')) return;
-    }
+    if (!confirmIfIncomplete()) return;
     if (!state.honor) { alert('Please check the honor / AI certification on the Setup panel.'); setPanel('setup'); return; }
     const payload = buildPayload();
     const json = JSON.stringify(payload, null, 2);

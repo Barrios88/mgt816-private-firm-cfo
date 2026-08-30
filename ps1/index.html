@@ -156,6 +156,25 @@
     @media (min-width: 600px) { .member-grid { grid-template-columns: 1fr 1fr; } }
     .field-row { display: flex; flex-direction: column; gap: 0.25rem; }
     .field-row label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    .input-with-unit { display: flex; align-items: stretch; }
+    .input-with-unit input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      width: 100%;
+    }
+    .input-with-unit .unit {
+      display: flex;
+      align-items: center;
+      padding: 0 0.65rem;
+      background: var(--accent-pale);
+      border: 1px solid var(--border);
+      border-left: 0;
+      border-radius: 0 6px 6px 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
     input[type="text"], input[type="number"], textarea, select {
       font: inherit;
       padding: 0.5rem 0.65rem;
@@ -234,6 +253,23 @@
       font-size: 0.88rem;
     }
     .tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tabs button { text-align: left; line-height: 1.25; }
+    .tabs button .tab-status {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      opacity: 0.8;
+      margin-top: 0.15rem;
+    }
+    .scenario-banner {
+      background: var(--accent-pale);
+      border-left: 4px solid var(--accent);
+      padding: 0.65rem 0.9rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    .scenario-nav { display: flex; justify-content: space-between; gap: 0.5rem; margin-top: 0.85rem; }
     .comparison-strip {
       display: grid;
       gap: 0.75rem;
@@ -413,9 +449,10 @@
         <h2>How this workbench works</h2>
         <ul>
           <li><strong>Structure, not answers.</strong> The site formats cap tables, computes ownership % from your share counts, and warns about unbalanced journal entries — it never tells you if an answer is correct.</li>
+          <li><strong>Numbers only.</strong> Type 12 or 1500000. Do not type $ or %. Share counts add commas when you leave the cell. Percentage and dollar fields show the unit on the right of the box.</li>
           <li><strong>Autosave on this device only.</strong> Progress saves to your browser every few seconds. Use Export/Import to share work within your group.</li>
           <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page.</li>
-          <li><strong>Excel is optional.</strong> Scratch work is fine in Excel or on paper; submit via the generated HTML file.</li>
+          <li><strong>Excel is optional.</strong> Scratch work is fine in Excel or on paper; submit via the generated HTML file. Generate will list any blank sections before it downloads the file.</li>
         </ul>
       </div>
       <div class="panel-footer-nav" data-footer="setup"></div>
@@ -433,7 +470,7 @@
         </div>
 
         <h3 id="part-i-formation" class="section-anchor">(a) Founding round</h3>
-        <p class="hint">Record the journal entry and build the initial cap table.</p>
+        <p class="hint">Record the journal entry and build the initial cap table. Two Common Stock credit rows are pre-filled, one per founder. Split each $30,000 or combine into one $60,000 credit. Either is fine if the entry balances.</p>
         <div id="je-formation"></div>
         <div id="grid-formation"></div>
 
@@ -445,7 +482,7 @@
 
         <h3 id="part-i-seriesa" class="section-anchor">(c) Series A — $12M on $50M post, 16% option pool</h3>
         <p>This is where it gets interesting: Greylock's term sheet bakes in a <strong>16%</strong> option pool carved from the pre-money — and someone has to pay for it. Build the round, and see what the pool does to the founders.</p>
-        <p class="hint">Include the unallocated option pool as a separate row. Greylock = 80% of Series A dollars; Mark Cuban = 20%.</p>
+        <p class="hint">Include the unallocated option pool as a separate row. Greylock = 80% of Series A dollars; Mark Cuban = 20%. Two Series A Preferred credit rows are pre-filled so you can split the $12M by investor. Combining them into one credit is also fine. Creating the option pool is not a journal entry.</p>
         <div id="je-seriesA"></div>
         <div id="grid-seriesA"></div>
         <div class="metric-fields cols-3" id="metrics-seriesA"></div>
@@ -460,6 +497,7 @@
         <div class="narrative">
           <p>The night before signing, Katy asks whether they can do better. The Series A investment stays <strong>$12M</strong>, but the founders push on two levers: the <strong>option pool size</strong> and the <strong>post-money valuation</strong>. Work three scenarios — a smaller <strong>12%</strong> pool, a higher <strong>$60M</strong> valuation, and both together — each starting from your Part I Series A cap table. Each scenario is independent; edit freely.</p>
         </div>
+        <p class="hint">Complete all three tabs below. The comparison table and judgment questions come after the tabs; they need numbers from every scenario.</p>
         <div class="btn-row" style="margin-bottom:1rem;">
           <button type="button" class="btn btn-sm" id="btn-resync-ii">↻ Re-sync all scenarios from Part I</button>
         </div>
@@ -469,7 +507,7 @@
         </div>
 
         <h3 id="part-ii-comparison" class="section-anchor">Scenario comparison</h3>
-        <p class="hint">Fill in your results for each scenario (one row per metric).</p>
+        <p class="hint">Fill in your results for each scenario (one row per metric). Enter the number only; the unit is on the field.</p>
         <div class="table-wrap">
           <table class="cap-table" id="comparison-table">
             <thead>
@@ -538,7 +576,7 @@
     <section class="panel" id="panel-review" aria-labelledby="review-heading">
       <div class="card">
         <h2 id="review-heading">Review &amp; submit</h2>
-        <p class="hint">Check completeness, then generate your submission file for Canvas.</p>
+        <p class="hint">Check the list below, then generate your submission file for Canvas. If anything is still blank, Generate will name it before downloading.</p>
         <ul class="checklist section-anchor" id="completeness-checklist"></ul>
         <div class="btn-row section-anchor" id="part-review-submit" style="margin-top:1.25rem;">
           <button type="button" class="btn btn-primary" id="btn-generate">Generate submission sheet</button>
@@ -560,7 +598,7 @@
   'use strict';
 
   const SCHEMA = 'ps1-2026-v1';
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.0';
   const STORAGE_KEY = 'mgt816-ps1-2026';
   const ACCOUNTS = ['Cash', 'Common Stock', 'APIC', 'Seed Preferred', 'Series A Preferred', 'Series B Preferred'];
   const SCENARIO_KEYS = ['smallerPool', 'higherVal', 'both'];
@@ -570,10 +608,10 @@
     both: 'Both levers (12% pool, $60M post)'
   };
   const COMPARISON_METRICS = [
-    { key: 'pps', label: 'Price per share ($)' },
-    { key: 'founderPct', label: 'Founder % (each)' },
-    { key: 'vcPct', label: 'Greylock %' },
-    { key: 'angelPct', label: 'Mark Cuban %' }
+    { key: 'pps', label: 'Price per share', unit: '$' },
+    { key: 'founderPct', label: 'Founder ownership (each)', unit: '%' },
+    { key: 'vcPct', label: 'Greylock ownership', unit: '%' },
+    { key: 'angelPct', label: 'Mark Cuban ownership', unit: '%' }
   ];
 
   let state = loadState();
@@ -799,8 +837,32 @@
 
   function parseNum(val) {
     if (val === '' || val === null || val === undefined) return 0;
-    const n = Number(String(val).replace(/,/g, ''));
+    const n = Number(String(val).replace(/[,$%\s]/g, ''));
     return isNaN(n) ? 0 : n;
+  }
+
+  function filled(val) {
+    return String(val ?? '').trim() !== '';
+  }
+
+  function jeHasAmounts(je) {
+    if (!je || !je.length) return false;
+    return je.some(r => filled(r.dr)) && je.some(r => filled(r.cr));
+  }
+
+  function holdersHaveShares(holders, cols) {
+    return (holders || []).some(h => cols.some(c => filled(h[c])));
+  }
+
+  function comparisonFilled(key) {
+    const row = state.parts.II.comparison[key];
+    if (!row) return false;
+    return COMPARISON_METRICS.every(m => filled(row[m.key]));
+  }
+
+  function inputWithUnit(inner, unit) {
+    if (!unit) return inner;
+    return '<div class="input-with-unit">' + inner + '<span class="unit" aria-hidden="true">' + unit + '</span></div>';
   }
 
   function formatNum(n) {
@@ -832,8 +894,8 @@
     je.forEach((row, i) => {
       html += `<tr>
         <td><select data-je="${partKey}.${jeKey}.${i}.account">${ACCOUNTS.map(a => `<option value="${a}"${row.account === a ? ' selected' : ''}>${a}</option>`).join('')}</select></td>
-        <td><input type="text" inputmode="decimal" data-je="${partKey}.${jeKey}.${i}.dr" value="${esc(row.dr)}" placeholder="0"></td>
-        <td><input type="text" inputmode="decimal" data-je="${partKey}.${jeKey}.${i}.cr" value="${esc(row.cr)}" placeholder="0"></td>
+        <td><input type="text" inputmode="decimal" data-je="${partKey}.${jeKey}.${i}.dr" value="${esc(row.dr)}" placeholder="number only"></td>
+        <td><input type="text" inputmode="decimal" data-je="${partKey}.${jeKey}.${i}.cr" value="${esc(row.cr)}" placeholder="number only"></td>
         <td><button type="button" class="btn btn-sm btn-danger" data-je-remove="${partKey}.${jeKey}.${i}">×</button></td>
       </tr>`;
     });
@@ -963,12 +1025,11 @@
   function renderMetrics(containerId, fields, partKey, subKey) {
     const container = document.getElementById(containerId);
     const data = subKey ? state.parts[partKey][subKey] : state.parts[partKey];
-    container.innerHTML = fields.map(f => `
-      <div class="field-row">
-        <label>${f.label}</label>
-        <input type="text" data-metric="${partKey}${subKey ? '.' + subKey : ''}.${f.key}" value="${esc(data[f.key] || '')}" placeholder="${f.placeholder || ''}">
-      </div>
-    `).join('');
+    container.innerHTML = fields.map(f => {
+      const ph = f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : '';
+      const inp = `<input type="text" data-metric="${partKey}${subKey ? '.' + subKey : ''}.${f.key}" value="${esc(data[f.key] || '')}"${ph}>`;
+      return `<div class="field-row"><label>${f.label}</label>${inputWithUnit(inp, f.unit)}</div>`;
+    }).join('');
   }
 
   function esc(s) {
@@ -996,43 +1057,61 @@
     renderJE('je-seed', 'seed', 'I');
     renderGrid('grid-seed', state.parts.I.seed.holders, ['common', 'seedPref'], ['Common', 'Seed Pref'], 'I.seed.holders', false);
     renderMetrics('metrics-seed', [
-      { key: 'preMoney', label: 'Pre-money valuation ($)' },
-      { key: 'postMoney', label: 'Post-money valuation ($)' },
-      { key: 'pps', label: 'Price per share ($)' },
-      { key: 'founderCollectivePct', label: 'Founders collective ownership (%)' }
+      { key: 'preMoney', label: 'Pre-money valuation', unit: '$', placeholder: 'number only' },
+      { key: 'postMoney', label: 'Post-money valuation', unit: '$', placeholder: 'number only' },
+      { key: 'pps', label: 'Price per share', unit: '$', placeholder: 'number only' },
+      { key: 'founderCollectivePct', label: 'Founders collective ownership', unit: '%', placeholder: 'number only' }
     ], 'I', 'seed');
     renderJE('je-seriesA', 'seriesA', 'I');
     renderGrid('grid-seriesA', state.parts.I.seriesA.holders, ['common', 'seedPref', 'seriesAPref'], ['Common', 'Seed Pref', 'Series A Pref'], 'I.seriesA.holders', true);
     renderMetrics('metrics-seriesA', [
-      { key: 'greylockPct', label: 'Greylock ownership (%)' },
-      { key: 'pps', label: 'Price per share ($)' },
-      { key: 'founderEachPct', label: 'Each founder ownership (%)' },
-      { key: 'founderDilutionPp', label: 'Founders combined dilution since formation (p.p.)' },
-      { key: 'markPct', label: 'Mark Cuban ownership (%)' },
-      { key: 'markChangePp', label: 'Mark Cuban ownership change (p.p.)' }
+      { key: 'greylockPct', label: 'Greylock ownership', unit: '%', placeholder: 'number only' },
+      { key: 'pps', label: 'Price per share', unit: '$', placeholder: 'number only' },
+      { key: 'founderEachPct', label: 'Each founder ownership', unit: '%', placeholder: 'number only' },
+      { key: 'founderDilutionPp', label: 'Founders combined dilution since formation', unit: 'p.p.', placeholder: 'number only' },
+      { key: 'markPct', label: 'Mark Cuban ownership', unit: '%', placeholder: 'number only' },
+      { key: 'markChangePp', label: 'Mark Cuban ownership change', unit: 'p.p.', placeholder: 'number only' }
     ], 'I', 'seriesA');
   }
 
   function renderScenarioTabs() {
     const tabs = document.getElementById('scenario-tabs');
-    tabs.innerHTML = SCENARIO_KEYS.map(k => `
-      <button type="button" role="tab" aria-selected="${k === activeScenario}" class="${k === activeScenario ? 'active' : ''}" data-scenario="${k}">${SCENARIO_LABELS[k]}</button>
-    `).join('');
+    tabs.innerHTML = SCENARIO_KEYS.map((k, i) => {
+      const done = comparisonFilled(k);
+      return `<button type="button" role="tab" aria-selected="${k === activeScenario}" class="${k === activeScenario ? 'active' : ''}" data-scenario="${k}">${SCENARIO_LABELS[k]}<span class="tab-status">${i + 1} of 3 · ${done ? 'comparison filled' : 'needs comparison numbers'}</span></button>`;
+    }).join('');
+  }
+
+  function refreshTabStatus() {
+    document.querySelectorAll('#scenario-tabs [data-scenario]').forEach(btn => {
+      const k = btn.dataset.scenario;
+      const i = SCENARIO_KEYS.indexOf(k);
+      const span = btn.querySelector('.tab-status');
+      if (span) span.textContent = (i + 1) + ' of 3 · ' + (comparisonFilled(k) ? 'comparison filled' : 'needs comparison numbers');
+    });
   }
 
   function renderScenarioPanel() {
     const sc = state.parts.II.scenarios[activeScenario];
+    const idx = SCENARIO_KEYS.indexOf(activeScenario);
+    const prev = idx > 0 ? SCENARIO_KEYS[idx - 1] : null;
+    const next = idx < SCENARIO_KEYS.length - 1 ? SCENARIO_KEYS[idx + 1] : null;
     const panel = document.getElementById('scenario-panel');
     panel.innerHTML = `
+      <div class="scenario-banner">This is tab ${idx + 1} of 3: ${SCENARIO_LABELS[activeScenario]}. Complete the cap table here, then the other two tabs. Each tab is independent.</div>
       <div class="metric-fields" style="margin-bottom:1rem;">
-        <div class="field-row"><label>Target option pool (%)</label>
-          <input type="text" data-scenario-field="poolPct" value="${esc(sc.poolPct)}"></div>
-        <div class="field-row"><label>Post-money valuation ($)</label>
-          <input type="text" data-scenario-field="postMoney" value="${esc(sc.postMoney)}"></div>
-        <div class="field-row"><label>Series A investment ($)</label>
-          <input type="text" data-scenario-field="investment" value="${esc(sc.investment)}"></div>
+        <div class="field-row"><label>Target option pool</label>
+          ${inputWithUnit(`<input type="text" data-scenario-field="poolPct" value="${esc(sc.poolPct)}" placeholder="number only">`, '%')}</div>
+        <div class="field-row"><label>Post-money valuation</label>
+          ${inputWithUnit(`<input type="text" data-scenario-field="postMoney" value="${esc(sc.postMoney)}" placeholder="number only">`, '$')}</div>
+        <div class="field-row"><label>Series A investment</label>
+          ${inputWithUnit(`<input type="text" data-scenario-field="investment" value="${esc(sc.investment)}" placeholder="number only">`, '$')}</div>
       </div>
       <div id="grid-scenario"></div>
+      <div class="scenario-nav">
+        ${prev ? `<button type="button" class="btn btn-sm" data-scenario="${prev}">← ${SCENARIO_LABELS[prev]}</button>` : '<span></span>'}
+        ${next ? `<button type="button" class="btn btn-sm" data-scenario="${next}">${SCENARIO_LABELS[next]} →</button>` : '<span></span>'}
+      </div>
     `;
     renderGrid('grid-scenario', sc.holders, ['common', 'seedPref', 'seriesAPref'], ['Common', 'Seed Pref', 'Series A Pref'], `II.scenarios.${activeScenario}.holders`, true);
   }
@@ -1042,7 +1121,7 @@
     body.innerHTML = COMPARISON_METRICS.map(m => `
       <tr>
         <td>${m.label}</td>
-        ${SCENARIO_KEYS.map(k => `<td><input type="text" data-comparison="${k}.${m.key}" value="${esc(state.parts.II.comparison[k][m.key])}"></td>`).join('')}
+        ${SCENARIO_KEYS.map(k => `<td>${inputWithUnit(`<input type="text" data-comparison="${k}.${m.key}" value="${esc(state.parts.II.comparison[k][m.key])}" placeholder="number only">`, m.unit)}</td>`).join('')}
       </tr>
     `).join('');
     document.getElementById('judgment-lever').value = state.parts.II.judgmentLever;
@@ -1056,12 +1135,12 @@
       ['Common', 'Seed Pref', 'A Pref', 'B Pref', 'Opts (alloc)', 'Opts (unalloc)'],
       'III.holders', true);
     renderMetrics('metrics-seriesB', [
-      { key: 'unallocatedBefore', label: 'Unallocated options before Series B' },
-      { key: 'allocatedOutstanding', label: 'Allocated options outstanding before B' },
-      { key: 'sharesNeeded', label: 'New option shares needed' },
-      { key: 'pctFullyDiluted', label: 'Unallocated pool as % of FD after B' },
-      { key: 'founderOwnershipAfter', label: 'Each founder ownership after B (%)' },
-      { key: 'pps', label: 'Series B price per share ($)' }
+      { key: 'unallocatedBefore', label: 'Unallocated options before Series B', placeholder: 'shares' },
+      { key: 'allocatedOutstanding', label: 'Allocated options outstanding before B', placeholder: 'shares' },
+      { key: 'sharesNeeded', label: 'New option shares needed', placeholder: 'shares' },
+      { key: 'pctFullyDiluted', label: 'Unallocated pool as % of FD after B', unit: '%', placeholder: 'number only' },
+      { key: 'founderOwnershipAfter', label: 'Each founder ownership after B', unit: '%', placeholder: 'number only' },
+      { key: 'pps', label: 'Series B price per share', unit: '$', placeholder: 'number only' }
     ], 'III', null);
     document.getElementById('stretch-iii').value = p.stretch;
   }
@@ -1099,16 +1178,37 @@
   }
 
   function getCompletenessItems() {
+    const I = state.parts.I;
+    const II = state.parts.II;
+    const III = state.parts.III;
     const namesOk = state.group.filter(m => m.name.trim()).length >= 2;
-    const honorOk = state.honor;
-    const partIOk = state.parts.I.formation.holders.every(h => parseNum(h.common) > 0);
-    const emailOk = state.parts.IV.text.trim().length > 20;
+    const seedMetrics = filled(I.seed.preMoney) && filled(I.seed.postMoney) && filled(I.seed.pps) && filled(I.seed.founderCollectivePct);
+    const seriesAMetrics = filled(I.seriesA.greylockPct) && filled(I.seriesA.pps) && filled(I.seriesA.founderEachPct) && filled(I.seriesA.founderDilutionPp) && filled(I.seriesA.markPct) && filled(I.seriesA.markChangePp);
+    const iiiMetrics = filled(III.unallocatedBefore) && filled(III.allocatedOutstanding) && filled(III.sharesNeeded) && filled(III.pctFullyDiluted) && filled(III.founderOwnershipAfter) && filled(III.pps);
     return [
       { ok: namesOk, label: 'At least 2 group members named' },
-      { ok: honorOk, label: 'Honor certification checked' },
-      { ok: partIOk, label: 'Part I formation shares entered' },
-      { ok: emailOk, label: 'Part IV founder email drafted' }
+      { ok: state.honor, label: 'Honor certification checked' },
+      { ok: jeHasAmounts(I.formation.je) && holdersHaveShares(I.formation.holders, ['common']), label: 'Part I formation: journal entry and share counts' },
+      { ok: jeHasAmounts(I.seed.je) && holdersHaveShares(I.seed.holders, ['common', 'seedPref']) && seedMetrics, label: 'Part I seed: journal entry, cap table, and metrics' },
+      { ok: jeHasAmounts(I.seriesA.je) && holdersHaveShares(I.seriesA.holders, ['common', 'seedPref', 'seriesAPref']) && seriesAMetrics, label: 'Part I Series A: journal entry, cap table, and metrics' },
+      { ok: comparisonFilled('smallerPool'), label: 'Part II tab 1 of 3: Smaller pool comparison numbers' },
+      { ok: comparisonFilled('higherVal'), label: 'Part II tab 2 of 3: Higher valuation comparison numbers' },
+      { ok: comparisonFilled('both'), label: 'Part II tab 3 of 3: Both levers comparison numbers' },
+      { ok: filled(II.judgmentLever) && filled(II.judgmentPool), label: 'Part II judgment questions' },
+      { ok: holdersHaveShares(III.holders, ['common', 'seedPref', 'seriesAPref', 'seriesBPref', 'optionsAllocated', 'optionsUnallocated']) && iiiMetrics, label: 'Part III Series B cap table and metrics' },
+      { ok: filled(III.stretch), label: 'Part III stretch work' },
+      { ok: state.parts.IV.text.trim().length > 20, label: 'Part IV founder email drafted' }
     ];
+  }
+
+  function confirmIfIncomplete() {
+    const missing = getCompletenessItems().filter(i => !i.ok).map(i => i.label);
+    if (!missing.length) return true;
+    const shown = missing.slice(0, 10);
+    let msg = 'These items are still blank:\n\n- ' + shown.join('\n- ');
+    if (missing.length > 10) msg += '\n- and ' + (missing.length - 10) + ' more (see the Review checklist)';
+    msg += '\n\nGenerate the submission anyway?';
+    return confirm(msg);
   }
 
   function renderAll() {
@@ -1371,7 +1471,9 @@
     if (t.dataset.comparison) {
       const [sc, key] = t.dataset.comparison.split('.');
       state.parts.II.comparison[sc][key] = t.value;
-      scheduleSave(); return;
+      scheduleSave();
+      refreshTabStatus();
+      return;
     }
     if (t.id === 'judgment-lever') { state.parts.II.judgmentLever = t.value; scheduleSave(); return; }
     if (t.id === 'judgment-pool') { state.parts.II.judgmentPool = t.value; scheduleSave(); return; }
@@ -1488,10 +1590,7 @@
   }
 
   async function generateSubmission() {
-    const items = getCompletenessItems();
-    if (!items.every(i => i.ok)) {
-      if (!confirm('Some items are incomplete. Generate anyway?')) return;
-    }
+    if (!confirmIfIncomplete()) return;
     if (!state.honor) { alert('Please check the honor certification on the Setup panel.'); setPanel('setup'); return; }
     const payload = buildPayload();
     const json = JSON.stringify(payload, null, 2);

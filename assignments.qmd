@@ -21,7 +21,7 @@ Work in the **[PS1 digital workbench](ps1/index.html)** — the full assignment 
 
 1. Open the workbench and enter your group (2–4 names + NetIDs).
 2. Work through Parts I–IV. Progress **autosaves to this browser only** — use *Export progress* / *Import progress* to hand off within your group.
-3. When every part is complete, *Generate submission sheet* downloads one HTML file — **upload that file to Canvas** by 1:00 pm on Wednesday, September 23.
+3. When every part is complete, *Generate submission sheet* downloads one HTML file — **upload that file to Canvas** by 1:00 pm on Wednesday, September 23. If anything is still blank, Generate lists it before downloading. Enter numbers only; unit labels sit on the fields.
 
 The workbench checks structure and arithmetic hygiene — ownership percentages, balance warnings. It does **not** check answers. Every number entered is your group's own work; you may use AI as a study aid, but you must be able to reproduce and defend every figure.
 
@@ -52,7 +52,7 @@ You hand in **three files**: your Excel model, a one-page board memo, and your w
 3. Write the memo one-pager from `one_pager_template.pptx` and export it to a **one-page PDF**.
 4. Put every group member's name on all three files and **upload all three to Canvas** by 1:00 pm on Monday, October 12.
 
-The workbench formats and flags (percentages, identity warnings, completeness); it does **not** check answers. **AI is required on this problem set**, and every number in your workbook and memo must be **human-certified**: you must be able to reproduce and defend each figure without the AI. Any number in your memo that cannot be traced to a cell in your model loses **2 points, each**.
+The workbench formats and flags (percentages, identity warnings, completeness); it does **not** check answers. Type numbers only: percentage cells add a % when you leave them, dollar cells add a $. **AI is required on this problem set**, and every number in your workbook and memo must be **human-certified**: you must be able to reproduce and defend each figure without the AI. Any number in your memo that cannot be traced to a cell in your model loses **2 points, each**.
 
 ::: {.callout-tip title="The AI workflow, in order (prompts P1–P6 on the prompt card)"}
 1. **Extract** — P1, *Analyst*. Paste `case_facts.txt`; take back the driver table and driver tree. Anything not in the case text goes under OPEN QUESTIONS, not into the model.
