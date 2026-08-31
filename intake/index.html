@@ -16,8 +16,6 @@
       --card: #fff;
       --ok: #157347;
       --bad: #b02a37;
-      --pick: #286DC0;
-      --gold: #e8b923;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; }
@@ -45,9 +43,7 @@
       margin-bottom: 0.75rem;
     }
     .msg { color: var(--muted); line-height: 1.45; margin: 0; }
-    .msg strong { color: var(--ink); }
     .err { color: var(--bad); font-weight: 650; margin: 0.55rem 0 0; }
-    .ok { color: var(--ok); font-weight: 650; }
     h2 { font: 650 1.05rem Georgia, "Times New Roman", serif; margin: 0 0 0.35rem; }
     label.q {
       display: block;
@@ -56,9 +52,8 @@
       margin: 0.85rem 0 0.35rem;
       line-height: 1.35;
     }
-    label.q:first-child, .card > label.q:first-of-type { margin-top: 0; }
     .hint { font-weight: 500; color: var(--muted); font-size: 0.84rem; }
-    input[type="text"], input[type="url"], textarea, select {
+    input[type="text"], textarea {
       width: 100%;
       min-height: 2.7rem;
       font: inherit;
@@ -71,7 +66,7 @@
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
     @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
     .pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .pill, .opt, .skill button {
+    .pill, .skill button {
       border: 1px solid var(--line);
       background: #fff;
       border-radius: 8px;
@@ -80,12 +75,14 @@
       min-height: 2.55rem;
       padding: 0.4rem 0.7rem;
     }
-    .pill.on, .opt.on, .skill button.on {
+    .pill.on, .skill button.on {
       border-color: var(--navy);
       background: #e7eef6;
       color: var(--navy);
     }
-    .opt { display: block; width: 100%; text-align: left; margin-bottom: 0.3rem; }
+    .pill:disabled { opacity: 0.4; cursor: not-allowed; }
+    .check { display: block; margin: 0.35rem 0; font-size: 0.92rem; }
+    .check input { margin-right: 0.45rem; }
     .topics { display: grid; gap: 0.35rem; }
     .topic {
       display: flex; align-items: flex-start; gap: 0.55rem;
@@ -110,14 +107,14 @@
       padding: 0.65rem 0 calc(0.65rem + env(safe-area-inset-bottom));
       display: flex; gap: 0.45rem;
     }
-    .bar button, .primary {
+    .bar button {
       flex: 1; min-height: 3rem; border: 0; border-radius: 10px;
       background: var(--navy); color: #fff; font: 700 1.02rem inherit; cursor: pointer;
     }
     .bar button.ghost {
       background: #fff; color: var(--navy); border: 1px solid var(--line); flex: 0 0 7.2rem;
     }
-    .bar button:disabled, .primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .bar button:disabled { opacity: 0.45; cursor: not-allowed; }
     .count { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.84rem; margin: 0 0 0.45rem; }
     .done h2 { font-size: 1.25rem; }
     .done p { line-height: 1.5; }
@@ -127,7 +124,7 @@
   <header>
     <div class="kicker">MGT 816 · The Private Firm CFO</div>
     <h1>Before Wednesday</h1>
-    <div class="sub">Four minutes. Not graded. I read every response before class and use it to set Friday’s pace and to know who in the room has already done the work we are about to do.</div>
+    <div class="sub">Four minutes. Not graded. I read this before class. It sets Friday’s pace and who I call on.</div>
   </header>
   <main id="app"></main>
   <script src="../live/firebase-config.js"></script>
@@ -135,39 +132,39 @@
   <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database-compat.js"></script>
   <script>
 (function () {
-  const SCHEMA = "mgt816-intake-2026-v1";
+  const SCHEMA = "mgt816-intake-2026-v2";
   const STORE = "mgt816-intake-2026";
   const cfg = window.MGT816_FIREBASE || {};
   const appEl = document.getElementById("app");
 
   const SKILLS = [
-    { id: "accounting", label: "Journal entries and accrual accounting" },
-    { id: "captable", label: "Cap tables, pre/post-money, dilution" },
+    { id: "captable", label: "Built or edited a cap table (pre/post-money, dilution)" },
     { id: "equity", label: "Option grants, 83(b), ISO vs NQSO" },
-    { id: "kpis", label: "Unit economics: CAC, churn, LTV" },
-    { id: "revrec", label: "When to recognize revenue (ASC 606)" },
+    { id: "kpis", label: "CAC, churn, LTV" },
+    { id: "revrec", label: "Revenue recognition (ASC 606)" },
     { id: "terms", label: "Term sheets, prefs, SAFEs" },
-    { id: "excel", label: "Excel as a model, not a calculator" },
-    { id: "ai", label: "Using Claude / ChatGPT / Copilot on numbers" }
+    { id: "excel", label: "Excel model with linked tabs" },
+    { id: "ai", label: "Used ChatGPT / Claude / Gemini / Copilot on a spreadsheet or model (not for writing)" }
   ];
-  const SKILL_LABELS = ["Never", "Heard of it", "Used once", "Used at work", "Could teach it"];
+  const SKILL_LABELS = ["Never", "Heard of it", "Once", "At work", "Could teach"];
   const TOPICS = [
-    { id: "s01_burn", n: "S01", label: "Burn, runway, and the books a new firm actually keeps" },
-    { id: "s02_cap", n: "S02", label: "Building and negotiating a cap table" },
-    { id: "s03_legal", n: "S03", label: "Entity, employees vs contractors, the legal chassis" },
-    { id: "s04_feedburner", n: "S04", label: "Founder splits and the FeedBurner problem" },
-    { id: "s05_equity", n: "S05", label: "Equity compensation and the tax that comes with it" },
-    { id: "s06_forecast", n: "S06", label: "KPIs, budgets, and a forecast you would sign" },
-    { id: "s09_revrec", n: "S09", label: "Revenue recognition when the product is software" },
-    { id: "s10_board", n: "S10", label: "Board packages, audits, and what goes in the board book" },
-    { id: "s11_raise", n: "S11", label: "Fundraising, term sheets, and venture debt" },
-    { id: "s12_exit", n: "S12", label: "Selling the company: pegs, earn-outs, rollover" }
+    { id: "s01_burn", n: "S01", label: "Burn, runway, startup books" },
+    { id: "s02_cap", n: "S02", label: "Cap tables" },
+    { id: "s03_legal", n: "S03", label: "Entity, employees vs contractors" },
+    { id: "s04_feedburner", n: "S04", label: "Founder splits and vesting" },
+    { id: "s05_equity", n: "S05", label: "Equity pay and tax" },
+    { id: "s06_forecast", n: "S06", label: "KPIs and budgets" },
+    { id: "s07_ai", n: "S07", label: "Forecasting with AI; catching bad numbers" },
+    { id: "s09_revrec", n: "S09", label: "Rev rec for software" },
+    { id: "s10_board", n: "S10", label: "Board packages and audit" },
+    { id: "s11_raise", n: "S11", label: "Fundraising and venture debt" },
+    { id: "s12_exit", n: "S12", label: "Selling the company" }
   ];
   const SEATS = [
     ["founder", "Founder / operator"],
-    ["pe", "Private equity"],
-    ["vc", "Venture capital"],
-    ["ib", "Investment banking"],
+    ["pe", "PE"],
+    ["vc", "VC"],
+    ["ib", "IB"],
     ["consulting", "Consulting"],
     ["fpna", "Corp finance / FP&A"],
     ["accounting", "Accounting / audit"],
@@ -178,16 +175,22 @@
   const PRIVATE = [
     ["never", "Never"],
     ["intern", "Intern or project"],
-    ["ft", "Full-time employee"],
-    ["founded", "I founded or cofounded one"]
+    ["ft", "Full-time"],
+    ["founded", "Founded or cofounded"]
+  ];
+  const JE = [
+    ["past_year", "Past year"],
+    ["y1_3", "1–3 years ago"],
+    ["y3_plus", "More than 3 years ago"],
+    ["never", "Never"]
   ];
   const DEST = [
     ["pe", "PE investing"],
     ["pe_ops", "PE ops / portco"],
     ["vc", "VC"],
-    ["founder", "Founder / joining a startup"],
-    ["startup_cfo", "Private-company finance (CFO-track)"],
-    ["ib", "Investment banking"],
+    ["founder", "Founder / startup"],
+    ["startup_cfo", "Private-company finance"],
+    ["ib", "IB"],
     ["consulting", "Consulting"],
     ["corp", "Corp strategy / FP&A"],
     ["accounting", "Accounting"],
@@ -202,12 +205,18 @@
     ["other_yale", "Other Yale"],
     ["cross", "Cross-registered"]
   ];
+  const CONSENT = [
+    ["yes", "Yes"],
+    ["ask", "Ask first"],
+    ["no", "No"]
+  ];
 
   const empty = {
     nameFirst: "", nameLast: "", netid: "", section: "", program: "",
-    seat: "", seatOther: "", privateCo: "",
-    skills: {}, wants: [], oct14: "", inTheRoom: "",
-    destination: "", linkedin: "", coldcall: ""
+    seats: [], seatOther: "", privateCo: "", jeRecency: "",
+    skills: {}, excelDesk: false, aiLogin: false, needPair: false,
+    wants: [], struggle: "", oct14: "", inTheRoom: "", inTheRoomConsent: "",
+    destination: "", coldcall: ""
   };
   let data = load();
   let step = 0;
@@ -219,13 +228,17 @@
   function load() {
     try {
       const raw = JSON.parse(localStorage.getItem(STORE) || "null");
-      if (raw && typeof raw === "object") return Object.assign({}, empty, raw, { skills: Object.assign({}, empty.skills, raw.skills), wants: Array.isArray(raw.wants) ? raw.wants : [] });
+      if (raw && typeof raw === "object") {
+        const out = Object.assign({}, empty, raw);
+        out.skills = Object.assign({}, empty.skills, raw.skills || {});
+        out.wants = Array.isArray(raw.wants) ? raw.wants : [];
+        out.seats = Array.isArray(raw.seats) ? raw.seats : (raw.seat ? [raw.seat] : []);
+        return out;
+      }
     } catch (e) {}
-    return Object.assign({}, empty, { skills: {}, wants: [] });
+    return Object.assign({}, empty, { skills: {}, wants: [], seats: [] });
   }
-  function persist() {
-    localStorage.setItem(STORE, JSON.stringify(data));
-  }
+  function persist() { localStorage.setItem(STORE, JSON.stringify(data)); }
   function normalizeNetid(raw) {
     let s = String(raw || "").trim().toLowerCase();
     if (s.endsWith("@yale.edu")) s = s.slice(0, -9);
@@ -242,31 +255,47 @@
     html += "</div>";
     return html;
   }
+  function multiPills(name, options, selected, max) {
+    const sel = selected || [];
+    let html = '<div class="pills">';
+    options.forEach(([id, label]) => {
+      const on = sel.indexOf(id) !== -1;
+      const disable = !on && sel.length >= max;
+      html += '<button type="button" class="pill' + (on ? " on" : "") + '"' + (disable ? " disabled" : "") + ' data-multi="' + name + '" data-v="' + id + '">' + label + "</button>";
+    });
+    html += "</div>";
+    return html;
+  }
+
   function validStep0() {
     const id = normalizeNetid(data.netid);
     if (!data.nameFirst.trim() || !data.nameLast.trim()) return "First and last name.";
-    if (!id || id.indexOf("@") !== -1 || id.indexOf(".") !== -1 || id.indexOf(" ") !== -1) return "Yale NetID — the Canvas login, not your email.";
+    if (!id || id.indexOf("@") !== -1 || id.indexOf(".") !== -1 || id.indexOf(" ") !== -1) return "Yale NetID (Canvas login), not your email.";
     if (!/^[a-z][a-z0-9]{1,20}$/.test(id)) return "That does not look like a NetID.";
-    if (!data.section) return "Which section.";
+    if (!data.section) return "Section.";
     if (!data.program) return "Program.";
-    if (!data.seat) return "Most recent seat.";
-    if (data.seat === "other" && !String(data.seatOther || "").trim()) return "Name the other seat.";
+    if (!data.seats.length) return "Pick at least one seat I can call on.";
+    if (data.seats.indexOf("other") !== -1 && !String(data.seatOther || "").trim()) return "Name the other seat.";
     if (!data.privateCo) return "Private-company time.";
+    if (!data.jeRecency) return "Last journal entry.";
     return "";
   }
   function validStep1() {
     for (let i = 0; i < SKILLS.length; i++) {
-      if (!data.skills[SKILLS[i].id]) return "Rate all eight.";
+      if (!data.skills[SKILLS[i].id]) return "Rate all seven.";
     }
+    if (!data.excelDesk && !data.aiLogin && !data.needPair) return "Sep 28 checkboxes — mark at least one.";
     return "";
   }
   function validStep2() {
     if (data.wants.length !== 3) return "Pick exactly three.";
-    if (!String(data.oct14 || "").trim()) return "The October 14 sentence.";
+    if (!data.struggle) return "Which topic will be hardest.";
+    if (!String(data.oct14 || "").trim()) return "The Oct 14 sentence.";
+    if (String(data.inTheRoom || "").trim() && !data.inTheRoomConsent) return "OK to ask about it in class?";
     return "";
   }
   function validStep3() {
-    if (!data.destination) return "Where you are headed.";
+    if (!data.destination) return "Next job.";
     return "";
   }
   const validators = [validStep0, validStep1, validStep2, validStep3];
@@ -282,15 +311,23 @@
       nameLast: data.nameLast.trim(),
       section: data.section,
       program: data.program,
-      seat: data.seat,
-      seatOther: data.seat === "other" ? String(data.seatOther || "").trim() : "",
+      seats: data.seats.slice(),
+      seat: data.seats[0] || "",
+      seatOther: data.seats.indexOf("other") !== -1 ? String(data.seatOther || "").trim() : "",
       privateCo: data.privateCo,
+      jeRecency: data.jeRecency,
       skills: skills,
+      logistics: {
+        excelDesk: !!data.excelDesk,
+        aiLogin: !!data.aiLogin,
+        needPair: !!data.needPair
+      },
       wants: data.wants.slice(),
-      oct14: String(data.oct14 || "").trim().slice(0, 400),
+      struggle: data.struggle,
+      oct14: String(data.oct14 || "").trim().slice(0, 280),
       inTheRoom: String(data.inTheRoom || "").trim().slice(0, 400),
+      inTheRoomConsent: String(data.inTheRoom || "").trim() ? data.inTheRoomConsent : "",
       destination: data.destination,
-      linkedin: String(data.linkedin || "").trim().slice(0, 200),
       coldcall: String(data.coldcall || "").trim().slice(0, 400),
       updated: Date.now()
     };
@@ -298,10 +335,10 @@
 
   function render() {
     if (saved) {
-      appEl.innerHTML = '<div class="card done"><h2>In. See you in 4430.</h2><p class="msg">Wednesday, September 2, Evans Hall. Bring a name tent. Friday, September 4 is a required class (Yale Monday schedule). Case 1 goes out Wednesday.</p><p class="msg" style="margin-top:0.7rem">If something changes, reopen this page and submit again.</p></div>';
+      appEl.innerHTML = '<div class="card done"><h2>Got it. Evans 4430, Wednesday.</h2><p class="msg">Bring a name tent. Friday Sep 4 is required (Monday schedule). Case 1 goes out Wednesday.</p><p class="msg" style="margin-top:0.7rem">Change your answers? Open this page and submit again.</p></div>';
       return;
     }
-    const titles = ["Who you are", "What you already know", "What you want from the six weeks", "Where you are headed"];
+    const titles = ["You", "Skills", "What you want", "Next job"];
     let html = '<div class="steps">' + [0,1,2,3].map(i => '<span' + (i <= step ? ' class="on"' : "") + "></span>").join("") + "</div>";
     html += '<div class="card"><h2>' + titles[step] + "</h2>";
     if (step === 0) html += screen0();
@@ -317,36 +354,43 @@
     appEl.innerHTML = html;
     bind();
   }
+
   function screen0() {
-    let h = '<p class="msg">Name as you want it on the tent. NetID is the Canvas login.</p>';
+    let h = '<p class="msg">Name on the tent. NetID is the Canvas login.</p>';
     h += '<div class="grid2"><div><label class="q" for="nameFirst">First name</label><input id="nameFirst" type="text" autocomplete="given-name" value="' + esc(data.nameFirst) + '"></div>';
     h += '<div><label class="q" for="nameLast">Last name</label><input id="nameLast" type="text" autocomplete="family-name" value="' + esc(data.nameLast) + '"></div></div>';
     h += '<label class="q" for="netid">Yale NetID</label><input id="netid" type="text" inputmode="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="jmb432" value="' + esc(data.netid) + '">';
     h += '<label class="q">Section</label>' + pills("section", [["01", "01 · 1:00"], ["02", "02 · 2:35"], ["G1", "G1 · 4:10"]], data.section);
     h += '<label class="q">Program</label>' + pills("program", PROGRAMS, data.program);
-    h += '<label class="q">Most recent seat</label>' + pills("seat", SEATS, data.seat);
-    if (data.seat === "other") {
-      h += '<label class="q" for="seatOther">Name it</label><input id="seatOther" type="text" value="' + esc(data.seatOther) + '">';
+    h += '<label class="q">I can cold-call you on <span class="hint">up to 2</span></label>' + multiPills("seats", SEATS, data.seats, 2);
+    if (data.seats.indexOf("other") !== -1) {
+      h += '<label class="q" for="seatOther">Other seat</label><input id="seatOther" type="text" value="' + esc(data.seatOther) + '">';
     }
-    h += '<label class="q">Time inside a private or VC-backed company</label>' + pills("privateCo", PRIVATE, data.privateCo);
+    h += '<label class="q">Private or VC-backed company</label>' + pills("privateCo", PRIVATE, data.privateCo);
+    h += '<label class="q">Last journal entry you wrote yourself</label>' + pills("jeRecency", JE, data.jeRecency);
+    h += '<p class="msg" style="margin-top:0.85rem">Friday Sep 4 is required (Monday schedule). Exam Fri Oct 16, 5:30–8:30 pm — conflict goes in the last box.</p>';
     return h;
   }
   function screen1() {
-    let h = '<p class="msg">Honest, not modest. I use this to decide how long Friday’s journal-entry drill runs, and how fast Wednesday the 9th can move on share math.</p>';
+    let h = '<p class="msg">Closest match. Not a résumé.</p>';
     SKILLS.forEach(s => {
       const cur = String(data.skills[s.id] || "");
-      h += '<div class="skill"><p>' + s.label + "</p><div class=\"row\">";
+      h += '<div class="skill"><p>' + s.label + '</p><div class="row">';
       SKILL_LABELS.forEach((lab, i) => {
         const n = String(i + 1);
         h += '<button type="button" class="' + (cur === n ? "on" : "") + '" data-skill="' + s.id + '" data-n="' + n + '">' + lab + "</button>";
       });
       h += "</div></div>";
     });
+    h += '<label class="q">Sep 28 — laptop day. Check what is true.</label>';
+    h += '<label class="check"><input type="checkbox" id="excelDesk"' + (data.excelDesk ? " checked" : "") + "> Desktop Excel on a laptop (not Numbers, not Sheets only)</label>";
+    h += '<label class="check"><input type="checkbox" id="aiLogin"' + (data.aiLogin ? " checked" : "") + "> Working AI login (ChatGPT / Claude / Gemini / Copilot; free tier fine)</label>";
+    h += '<label class="check"><input type="checkbox" id="needPair"' + (data.needPair ? " checked" : "") + "> Neither — I need to pair</label>";
     return h;
   }
   function screen2() {
     const n = data.wants.length;
-    let h = '<p class="count">' + n + " of 3 selected. The syllabus already covers all of these. This tells me where the extra minutes go.</p>";
+    let h = '<p class="count">' + n + " of 3. Course covers all of these. This is where the spare minutes go.</p>";
     h += '<div class="topics">';
     TOPICS.forEach(t => {
       const on = data.wants.indexOf(t.id) !== -1;
@@ -354,33 +398,50 @@
       h += '<button type="button" class="topic' + (on ? " on" : "") + '"' + (disable ? " disabled" : "") + ' data-topic="' + t.id + '"><span class="n">' + t.n + "</span> " + t.label + "</button>";
     });
     h += "</div>";
-    h += '<label class="q" for="oct14">On October 14 I want to be able to… <span class="hint">one sentence</span></label>';
-    h += '<textarea id="oct14" maxlength="400" placeholder="walk a Series A cap table in front of a founder without guessing">' + esc(data.oct14) + "</textarea>";
-    h += '<label class="q" for="inTheRoom">A company, deal, or number from your own work that is sitting in this room <span class="hint">optional — I will not put it on a slide</span></label>';
+    h += '<label class="q">Which one will be hardest for you?</label>' + pills("struggle", TOPICS.map(t => [t.id, t.n + " " + t.label]), data.struggle);
+    h += '<label class="q" for="oct14">By Oct 14 I want to be able to <span class="hint">one sentence</span></label>';
+    h += '<textarea id="oct14" maxlength="280" placeholder="build a Series A cap table without guessing">' + esc(data.oct14) + "</textarea>";
+    h += '<label class="q" for="inTheRoom">Company, deal, or number from your work that is already in the room <span class="hint">optional</span></label>';
     h += '<textarea id="inTheRoom" maxlength="400">' + esc(data.inTheRoom) + "</textarea>";
+    if (String(data.inTheRoom || "").trim()) {
+      h += '<label class="q">OK to ask you about it in class?</label>' + pills("inTheRoomConsent", CONSENT, data.inTheRoomConsent);
+    }
     return h;
   }
   function screen3() {
-    let h = '<label class="q">The seat you are aiming at in the next 1–3 years</label>' + pills("destination", DEST, data.destination);
-    h += '<label class="q" for="linkedin">LinkedIn <span class="hint">optional</span></label>';
-    h += '<input id="linkedin" type="url" placeholder="https://www.linkedin.com/in/…" value="' + esc(data.linkedin) + '">';
-    h += '<label class="q" for="coldcall">Anything I should know before I call on you for a number <span class="hint">optional; stays with me</span></label>';
+    let h = '<label class="q">Job you are aiming at in the next 1–3 years</label>' + pills("destination", DEST, data.destination);
+    h += '<label class="q" for="coldcall">Anything I should know before I cold-call you on a number <span class="hint">optional</span></label>';
     h += '<textarea id="coldcall" maxlength="400">' + esc(data.coldcall) + "</textarea>";
-    h += '<p class="msg" style="margin-top:0.85rem">Answers live on the staff site. They are not posted to the class.</p>';
+    h += '<p class="msg" style="margin-top:0.85rem">I see these answers. The class does not.</p>';
     return h;
   }
 
   function readFields() {
-    ["nameFirst", "nameLast", "netid", "seatOther", "oct14", "inTheRoom", "linkedin", "coldcall"].forEach(id => {
+    ["nameFirst", "nameLast", "netid", "seatOther", "oct14", "inTheRoom", "coldcall"].forEach(id => {
       const el = document.getElementById(id);
       if (el) data[id] = el.value;
     });
+    ["excelDesk", "aiLogin", "needPair"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = !!el.checked;
+    });
   }
   function bind() {
-    appEl.querySelectorAll(".pill").forEach(btn => {
+    appEl.querySelectorAll(".pill[data-f]").forEach(btn => {
       btn.addEventListener("click", () => {
         readFields();
         data[btn.getAttribute("data-f")] = btn.getAttribute("data-v");
+        persist();
+        render();
+      });
+    });
+    appEl.querySelectorAll("[data-multi]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        readFields();
+        const id = btn.getAttribute("data-v");
+        const i = data.seats.indexOf(id);
+        if (i >= 0) data.seats.splice(i, 1);
+        else if (data.seats.length < 2) data.seats.push(id);
         persist();
         render();
       });
@@ -418,7 +479,7 @@
   function submit() {
     const body = payload();
     if (!cfg.databaseURL) {
-      err = "The form is not wired. Email john.m.barrios@yale.edu.";
+      err = "Form is not wired. Email john.m.barrios@yale.edu.";
       render();
       return;
     }
@@ -430,21 +491,16 @@
         db = firebase.database();
       } catch (e) {
         saving = false;
-        err = "Could not reach the form. Try again, or email john.m.barrios@yale.edu.";
+        err = "Could not reach Firebase. Try again, or email john.m.barrios@yale.edu.";
         render();
         return;
       }
     }
     db.ref("intake/responses/" + body.netid).set(body)
-      .then(() => {
-        saving = false;
-        saved = true;
-        persist();
-        render();
-      })
+      .then(() => { saving = false; saved = true; persist(); render(); })
       .catch(() => {
         saving = false;
-        err = "Could not save. Check the NetID and try once more. If it still fails, email john.m.barrios@yale.edu.";
+        err = "Could not save. Check the NetID and try again.";
         render();
       });
   }

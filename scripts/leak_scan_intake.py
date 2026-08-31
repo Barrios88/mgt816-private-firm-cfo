@@ -30,7 +30,8 @@ def main() -> int:
         for bad in BANNED:
             if bad in text:
                 errors.append(f"{path.relative_to(ROOT)} contains {bad!r}")
-    if "mgt816-intake-2026-v1" not in index.read_text(encoding="utf-8", errors="ignore"):
+    text = index.read_text(encoding="utf-8", errors="ignore")
+    if "mgt816-intake-2026-v2" not in text and "mgt816-intake-2026-v1" not in text:
         errors.append("intake schema missing")
     if errors:
         print("intake leak-scan FAIL:", file=sys.stderr)
