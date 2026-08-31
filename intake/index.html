@@ -124,7 +124,7 @@
   <header>
     <div class="kicker">MGT 816 · The Private Firm CFO</div>
     <h1>Before Wednesday</h1>
-    <div class="sub">Four minutes. Not graded. I read this before class. It sets Friday’s pace.</div>
+    <div class="sub">This takes about four minutes and is not graded. I read every response before Wednesday and use them to set the pace for Friday’s bootcamp.</div>
   </header>
   <main id="app"></main>
   <script src="../live/firebase-config.js"></script>
@@ -263,32 +263,32 @@
 
   function validStep0() {
     const id = normalizeNetid(data.netid);
-    if (!data.nameFirst.trim() || !data.nameLast.trim()) return "First and last name.";
-    if (!id || id.indexOf("@") !== -1 || id.indexOf(".") !== -1 || id.indexOf(" ") !== -1) return "Yale NetID (Canvas login), not your email.";
-    if (!/^[a-z][a-z0-9]{1,20}$/.test(id)) return "That does not look like a NetID.";
-    if (!data.section) return "Section.";
-    if (!data.program) return "Program.";
-    if (!data.seats.length) return "Prior seat.";
-    if (data.seats.indexOf("other") !== -1 && !String(data.seatOther || "").trim()) return "Name the other seat.";
-    if (!data.privateCo) return "Private-company time.";
-    if (!data.jeRecency) return "Last journal entry.";
+    if (!data.nameFirst.trim() || !data.nameLast.trim()) return "Enter your first and last name.";
+    if (!id || id.indexOf("@") !== -1 || id.indexOf(".") !== -1 || id.indexOf(" ") !== -1) return "Enter your Yale NetID (the username you use to log in to Canvas), not your email address.";
+    if (!/^[a-z][a-z0-9]{1,20}$/.test(id)) return "That does not look like a Yale NetID.";
+    if (!data.section) return "Pick your section.";
+    if (!data.program) return "Pick your program.";
+    if (!data.seats.length) return "Pick at least one previous role.";
+    if (data.seats.indexOf("other") !== -1 && !String(data.seatOther || "").trim()) return "Describe the other role.";
+    if (!data.privateCo) return "Answer the private-company question.";
+    if (!data.jeRecency) return "Answer the journal-entry question.";
     return "";
   }
   function validStep1() {
     for (let i = 0; i < SKILLS.length; i++) {
-      if (!data.skills[SKILLS[i].id]) return "Rate all seven.";
+      if (!data.skills[SKILLS[i].id]) return "Rate all seven skills.";
     }
-    if (!data.excelDesk && !data.aiLogin && !data.needPair) return "Sep 28 checkboxes. Mark at least one.";
+    if (!data.excelDesk && !data.aiLogin && !data.needPair) return "Check at least one of the September 28 boxes.";
     return "";
   }
   function validStep2() {
-    if (data.wants.length !== 3) return "Pick exactly three.";
-    if (!data.struggle) return "Which topic will be hardest.";
-    if (!String(data.oct14 || "").trim()) return "The Oct 14 sentence.";
+    if (data.wants.length !== 3) return "Pick exactly three topics.";
+    if (!data.struggle) return "Pick the topic you expect to be hardest.";
+    if (!String(data.oct14 || "").trim()) return "Finish the “By October 14” sentence.";
     return "";
   }
   function validStep3() {
-    if (!data.destination) return "Next job.";
+    if (!data.destination) return "Pick the job you are aiming for.";
     return "";
   }
   const validators = [validStep0, validStep1, validStep2, validStep3];
@@ -325,7 +325,7 @@
 
   function render() {
     if (saved) {
-      appEl.innerHTML = '<div class="card done"><h2>Got it. Evans 4430, Wednesday.</h2><p class="msg">Bring a name tent. Friday Sep 4 is required (Monday schedule). Case 1 goes out Wednesday.</p><p class="msg" style="margin-top:0.7rem">Change your answers? Open this page and submit again.</p></div>';
+      appEl.innerHTML = '<div class="card done"><h2>Thanks. Your answers are saved.</h2><p class="msg">See you Wednesday in Evans 4430. Bring a name tent. Friday, September 4 is a required class (Yale runs a Monday schedule that day). Case 1 goes out Wednesday.</p><p class="msg" style="margin-top:0.7rem">If you want to change your answers, open this page again and resubmit.</p></div>';
       return;
     }
     const titles = ["You", "Skills", "What you want", "Next job"];
@@ -346,23 +346,23 @@
   }
 
   function screen0() {
-    let h = '<p class="msg">Name on the tent. NetID is the Canvas login.</p>';
+    let h = '<p class="msg">Use the name you will put on your name tent. Your NetID is the username you use to log in to Canvas (for example, jmb432).</p>';
     h += '<div class="grid2"><div><label class="q" for="nameFirst">First name</label><input id="nameFirst" type="text" autocomplete="given-name" value="' + esc(data.nameFirst) + '"></div>';
     h += '<div><label class="q" for="nameLast">Last name</label><input id="nameLast" type="text" autocomplete="family-name" value="' + esc(data.nameLast) + '"></div></div>';
     h += '<label class="q" for="netid">Yale NetID</label><input id="netid" type="text" inputmode="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="jmb432" value="' + esc(data.netid) + '">';
     h += '<label class="q">Section</label>' + pills("section", [["01", "01 · 1:00"], ["02", "02 · 2:35"], ["G1", "G1 · 4:10"]], data.section);
     h += '<label class="q">Program</label>' + pills("program", PROGRAMS, data.program);
-    h += '<label class="q">Prior seat <span class="hint">up to 2</span></label>' + multiPills("seats", SEATS, data.seats, 2);
+    h += '<label class="q">Where have you worked before? <span class="hint">pick up to 2</span></label>' + multiPills("seats", SEATS, data.seats, 2);
     if (data.seats.indexOf("other") !== -1) {
-      h += '<label class="q" for="seatOther">Other seat</label><input id="seatOther" type="text" value="' + esc(data.seatOther) + '">';
+      h += '<label class="q" for="seatOther">Describe the other role</label><input id="seatOther" type="text" value="' + esc(data.seatOther) + '">';
     }
-    h += '<label class="q">Private or VC-backed company</label>' + pills("privateCo", PRIVATE, data.privateCo);
-    h += '<label class="q">Last journal entry you wrote yourself</label>' + pills("jeRecency", JE, data.jeRecency);
-    h += '<p class="msg" style="margin-top:0.85rem">Friday Sep 4 is required (Monday schedule). Exam Fri Oct 16, 5:30–8:30 pm. Conflict goes in the last box.</p>';
+    h += '<label class="q">Have you worked at a private or VC-backed company?</label>' + pills("privateCo", PRIVATE, data.privateCo);
+    h += '<label class="q">When did you last write a journal entry yourself?</label>' + pills("jeRecency", JE, data.jeRecency);
+    h += '<p class="msg" style="margin-top:0.85rem">Two dates to check now: Friday, September 4 is a required class (Yale runs a Monday schedule that day), and the final exam is Friday, October 16, 5:30–8:30 pm. If either is a problem for you, say so in the one-sentence box on the “What you want” screen.</p>';
     return h;
   }
   function screen1() {
-    let h = '<p class="msg">Closest match. Not a résumé.</p>';
+    let h = '<p class="msg">For each item, pick the answer that fits best. This is not a résumé; an honest answer is more useful to me than an impressive one.</p>';
     SKILLS.forEach(s => {
       const cur = String(data.skills[s.id] || "");
       h += '<div class="skill"><p>' + s.label + '</p><div class="row">';
@@ -372,15 +372,15 @@
       });
       h += "</div></div>";
     });
-    h += '<label class="q">Sep 28 — laptop day. Check what is true.</label>';
-    h += '<label class="check"><input type="checkbox" id="excelDesk"' + (data.excelDesk ? " checked" : "") + "> Desktop Excel on a laptop (not Numbers, not Sheets only)</label>";
-    h += '<label class="check"><input type="checkbox" id="aiLogin"' + (data.aiLogin ? " checked" : "") + "> Working AI login (ChatGPT / Claude / Gemini / Copilot; free tier fine)</label>";
-    h += '<label class="check"><input type="checkbox" id="needPair"' + (data.needPair ? " checked" : "") + "> Neither — I need to pair</label>";
+    h += '<label class="q">September 28 is a laptop class (the AI forecasting workshop). Check each statement that is true for you.</label>';
+    h += '<label class="check"><input type="checkbox" id="excelDesk"' + (data.excelDesk ? " checked" : "") + "> I have desktop Excel on a laptop I can bring (not Numbers, and not only Google Sheets)</label>";
+    h += '<label class="check"><input type="checkbox" id="aiLogin"' + (data.aiLogin ? " checked" : "") + "> I have a working AI account (ChatGPT, Claude, Gemini, or Copilot; a free tier is fine)</label>";
+    h += '<label class="check"><input type="checkbox" id="needPair"' + (data.needPair ? " checked" : "") + "> Neither of the above. I will need to pair up with someone that day.</label>";
     return h;
   }
   function screen2() {
     const n = data.wants.length;
-    let h = '<p class="count">' + n + " of 3. Course covers all of these. This is where the spare minutes go.</p>";
+    let h = '<p class="msg">Pick the three topics you most want extra time on. The course covers all of them; your picks decide where the spare minutes go.</p><p class="count">' + n + " of 3 selected</p>";
     h += '<div class="topics">';
     TOPICS.forEach(t => {
       const on = data.wants.indexOf(t.id) !== -1;
@@ -388,14 +388,14 @@
       h += '<button type="button" class="topic' + (on ? " on" : "") + '"' + (disable ? " disabled" : "") + ' data-topic="' + t.id + '"><span class="n">' + t.n + "</span> " + t.label + "</button>";
     });
     h += "</div>";
-    h += '<label class="q">Which one will be hardest for you?</label>' + pills("struggle", TOPICS.map(t => [t.id, t.n + " " + t.label]), data.struggle);
-    h += '<label class="q" for="oct14">By Oct 14 I want to be able to <span class="hint">one sentence</span></label>';
+    h += '<label class="q">Which of these do you expect to be hardest for you?</label>' + pills("struggle", TOPICS.map(t => [t.id, t.n + " " + t.label]), data.struggle);
+    h += '<label class="q" for="oct14">Finish this sentence: “By October 14 I want to be able to…” <span class="hint">one sentence</span></label>';
     h += '<textarea id="oct14" maxlength="280" placeholder="build a Series A cap table without guessing">' + esc(data.oct14) + "</textarea>";
     return h;
   }
   function screen3() {
-    let h = '<label class="q">Job you are aiming at in the next 1–3 years</label>' + pills("destination", DEST, data.destination);
-    h += '<p class="msg" style="margin-top:0.85rem">I see these answers. The class does not.</p>';
+    let h = '<label class="q">Which job are you aiming for in the next one to three years?</label>' + pills("destination", DEST, data.destination);
+    h += '<p class="msg" style="margin-top:0.85rem">Only I see these answers. Nothing here is shared with the class.</p>';
     return h;
   }
 
@@ -462,7 +462,7 @@
   function submit() {
     const body = payload();
     if (!cfg.databaseURL) {
-      err = "Form is not wired. Email john.m.barrios@yale.edu.";
+      err = "This form is not connected yet. Email john.m.barrios@yale.edu instead.";
       render();
       return;
     }
@@ -474,7 +474,7 @@
         db = firebase.database();
       } catch (e) {
         saving = false;
-        err = "Could not reach Firebase. Try again, or email john.m.barrios@yale.edu.";
+        err = "Could not connect to the server. Try again, or email john.m.barrios@yale.edu.";
         render();
         return;
       }
@@ -483,7 +483,7 @@
       .then(() => { saving = false; saved = true; persist(); render(); })
       .catch(() => {
         saving = false;
-        err = "Could not save. Check the NetID and try again.";
+        err = "Could not save your answers. Check your NetID and try again.";
         render();
       });
   }
