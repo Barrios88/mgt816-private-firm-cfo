@@ -481,9 +481,10 @@
     }
     db.ref("intake/responses/" + body.netid).set(body)
       .then(() => { saving = false; saved = true; persist(); render(); })
-      .catch(() => {
+      .catch((e) => {
+        try { console.error("intake save failed:", e && e.code, e && e.message); } catch (_) {}
         saving = false;
-        err = "Could not save your answers. Check your NetID and try again.";
+        err = "Could not save your answers. Check that your NetID is the short Canvas username (for example, jmb432), then try again. If it still fails, email john.m.barrios@yale.edu and I will record your answers.";
         render();
       });
   }
