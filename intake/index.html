@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>MGT 816 · Before Wednesday</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --navy: #00356B;
+      --ink: #1a1a1a;
+      --muted: #5c6770;
+      --line: #d5dde6;
+      --bg: #eef1f4;
+      --card: #fff;
+      --ok: #157347;
+      --bad: #b02a37;
+      --pick: #286DC0;
+      --gold: #e8b923;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 0.95rem 1rem calc(0.95rem + env(safe-area-inset-top));
+      padding-top: calc(0.95rem + env(safe-area-inset-top));
+    }
+    header .kicker { font-size: 0.78rem; opacity: 0.85; letter-spacing: 0.04em; text-transform: uppercase; }
+    header h1 { margin: 0.2rem 0 0; font: 650 1.35rem Georgia, "Times New Roman", serif; }
+    header .sub { margin-top: 0.35rem; font-size: 0.92rem; opacity: 0.92; max-width: 36rem; line-height: 1.4; }
+    main { max-width: 38rem; margin: 0 auto; padding: 0.9rem 0.85rem 2.8rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .msg { color: var(--muted); line-height: 1.45; margin: 0; }
+    .msg strong { color: var(--ink); }
+    .err { color: var(--bad); font-weight: 650; margin: 0.55rem 0 0; }
+    .ok { color: var(--ok); font-weight: 650; }
+    h2 { font: 650 1.05rem Georgia, "Times New Roman", serif; margin: 0 0 0.35rem; }
+    label.q {
+      display: block;
+      font-weight: 650;
+      font-size: 0.92rem;
+      margin: 0.85rem 0 0.35rem;
+      line-height: 1.35;
+    }
+    label.q:first-child, .card > label.q:first-of-type { margin-top: 0; }
+    .hint { font-weight: 500; color: var(--muted); font-size: 0.84rem; }
+    input[type="text"], input[type="url"], textarea, select {
+      width: 100%;
+      min-height: 2.7rem;
+      font: inherit;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    textarea { min-height: 5.2rem; resize: vertical; line-height: 1.4; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+    @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
+    .pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .pill, .opt, .skill button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      font: 650 0.9rem inherit;
+      cursor: pointer;
+      min-height: 2.55rem;
+      padding: 0.4rem 0.7rem;
+    }
+    .pill.on, .opt.on, .skill button.on {
+      border-color: var(--navy);
+      background: #e7eef6;
+      color: var(--navy);
+    }
+    .opt { display: block; width: 100%; text-align: left; margin-bottom: 0.3rem; }
+    .topics { display: grid; gap: 0.35rem; }
+    .topic {
+      display: flex; align-items: flex-start; gap: 0.55rem;
+      width: 100%; text-align: left;
+      border: 1px solid var(--line); background: #fff; border-radius: 8px;
+      padding: 0.55rem 0.65rem; cursor: pointer; font: 500 0.9rem inherit;
+    }
+    .topic.on { border-color: var(--navy); background: #e7eef6; font-weight: 650; }
+    .topic:disabled { opacity: 0.4; cursor: not-allowed; }
+    .topic .n { color: var(--navy); font-weight: 700; min-width: 1.4rem; }
+    .skill { margin: 0.85rem 0 1.05rem; }
+    .skill p { margin: 0 0 0.35rem; font-weight: 650; font-size: 0.92rem; }
+    .skill .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.28rem; }
+    .skill button { min-height: 2.7rem; padding: 0.3rem 0.2rem; font-size: 0.78rem; }
+    .steps { display: flex; gap: 0.35rem; margin-bottom: 0.75rem; }
+    .steps span {
+      flex: 1; height: 0.35rem; border-radius: 99px; background: #d5dde6;
+    }
+    .steps span.on { background: var(--navy); }
+    .bar {
+      position: sticky; bottom: 0; background: var(--bg);
+      padding: 0.65rem 0 calc(0.65rem + env(safe-area-inset-bottom));
+      display: flex; gap: 0.45rem;
+    }
+    .bar button, .primary {
+      flex: 1; min-height: 3rem; border: 0; border-radius: 10px;
+      background: var(--navy); color: #fff; font: 700 1.02rem inherit; cursor: pointer;
+    }
+    .bar button.ghost {
+      background: #fff; color: var(--navy); border: 1px solid var(--line); flex: 0 0 7.2rem;
+    }
+    .bar button:disabled, .primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .count { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.84rem; margin: 0 0 0.45rem; }
+    .done h2 { font-size: 1.25rem; }
+    .done p { line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="kicker">MGT 816 · The Private Firm CFO</div>
+    <h1>Before Wednesday</h1>
+    <div class="sub">Four minutes. Not graded. I read every response before class and use it to set Friday’s pace and to know who in the room has already done the work we are about to do.</div>
+  </header>
+  <main id="app"></main>
+  <script src="../live/firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database-compat.js"></script>
+  <script>
+(function () {
+  const SCHEMA = "mgt816-intake-2026-v1";
+  const STORE = "mgt816-intake-2026";
+  const cfg = window.MGT816_FIREBASE || {};
+  const appEl = document.getElementById("app");
+
+  const SKILLS = [
+    { id: "accounting", label: "Journal entries and accrual accounting" },
+    { id: "captable", label: "Cap tables, pre/post-money, dilution" },
+    { id: "equity", label: "Option grants, 83(b), ISO vs NQSO" },
+    { id: "kpis", label: "Unit economics: CAC, churn, LTV" },
+    { id: "revrec", label: "When to recognize revenue (ASC 606)" },
+    { id: "terms", label: "Term sheets, prefs, SAFEs" },
+    { id: "excel", label: "Excel as a model, not a calculator" },
+    { id: "ai", label: "Using Claude / ChatGPT / Copilot on numbers" }
+  ];
+  const SKILL_LABELS = ["Never", "Heard of it", "Used once", "Used at work", "Could teach it"];
+  const TOPICS = [
+    { id: "s01_burn", n: "S01", label: "Burn, runway, and the books a new firm actually keeps" },
+    { id: "s02_cap", n: "S02", label: "Building and negotiating a cap table" },
+    { id: "s03_legal", n: "S03", label: "Entity, employees vs contractors, the legal chassis" },
+    { id: "s04_feedburner", n: "S04", label: "Founder splits and the FeedBurner problem" },
+    { id: "s05_equity", n: "S05", label: "Equity compensation and the tax that comes with it" },
+    { id: "s06_forecast", n: "S06", label: "KPIs, budgets, and a forecast you would sign" },
+    { id: "s09_revrec", n: "S09", label: "Revenue recognition when the product is software" },
+    { id: "s10_board", n: "S10", label: "Board packages, audits, and what goes in the board book" },
+    { id: "s11_raise", n: "S11", label: "Fundraising, term sheets, and venture debt" },
+    { id: "s12_exit", n: "S12", label: "Selling the company: pegs, earn-outs, rollover" }
+  ];
+  const SEATS = [
+    ["founder", "Founder / operator"],
+    ["pe", "Private equity"],
+    ["vc", "Venture capital"],
+    ["ib", "Investment banking"],
+    ["consulting", "Consulting"],
+    ["fpna", "Corp finance / FP&A"],
+    ["accounting", "Accounting / audit"],
+    ["law", "Law"],
+    ["product", "Product / eng / ops"],
+    ["other", "Other"]
+  ];
+  const PRIVATE = [
+    ["never", "Never"],
+    ["intern", "Intern or project"],
+    ["ft", "Full-time employee"],
+    ["founded", "I founded or cofounded one"]
+  ];
+  const DEST = [
+    ["pe", "PE investing"],
+    ["pe_ops", "PE ops / portco"],
+    ["vc", "VC"],
+    ["founder", "Founder / joining a startup"],
+    ["startup_cfo", "Private-company finance (CFO-track)"],
+    ["ib", "Investment banking"],
+    ["consulting", "Consulting"],
+    ["corp", "Corp strategy / FP&A"],
+    ["accounting", "Accounting"],
+    ["undecided", "Undecided"]
+  ];
+  const PROGRAMS = [
+    ["mba27", "MBA 2027"],
+    ["mba28", "MBA 2028"],
+    ["mam", "MAM"],
+    ["emba", "EMBA"],
+    ["phd", "PhD"],
+    ["other_yale", "Other Yale"],
+    ["cross", "Cross-registered"]
+  ];
+
+  const empty = {
+    nameFirst: "", nameLast: "", netid: "", section: "", program: "",
+    seat: "", seatOther: "", privateCo: "",
+    skills: {}, wants: [], oct14: "", inTheRoom: "",
+    destination: "", linkedin: "", coldcall: ""
+  };
+  let data = load();
+  let step = 0;
+  let db = null;
+  let saving = false;
+  let saved = false;
+  let err = "";
+
+  function load() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORE) || "null");
+      if (raw && typeof raw === "object") return Object.assign({}, empty, raw, { skills: Object.assign({}, empty.skills, raw.skills), wants: Array.isArray(raw.wants) ? raw.wants : [] });
+    } catch (e) {}
+    return Object.assign({}, empty, { skills: {}, wants: [] });
+  }
+  function persist() {
+    localStorage.setItem(STORE, JSON.stringify(data));
+  }
+  function normalizeNetid(raw) {
+    let s = String(raw || "").trim().toLowerCase();
+    if (s.endsWith("@yale.edu")) s = s.slice(0, -9);
+    return s;
+  }
+  function esc(s) {
+    return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+  function pills(name, options, current) {
+    let html = '<div class="pills">';
+    options.forEach(([id, label]) => {
+      html += '<button type="button" class="pill' + (current === id ? " on" : "") + '" data-f="' + name + '" data-v="' + id + '">' + label + "</button>";
+    });
+    html += "</div>";
+    return html;
+  }
+  function validStep0() {
+    const id = normalizeNetid(data.netid);
+    if (!data.nameFirst.trim() || !data.nameLast.trim()) return "First and last name.";
+    if (!id || id.indexOf("@") !== -1 || id.indexOf(".") !== -1 || id.indexOf(" ") !== -1) return "Yale NetID — the Canvas login, not your email.";
+    if (!/^[a-z][a-z0-9]{1,20}$/.test(id)) return "That does not look like a NetID.";
+    if (!data.section) return "Which section.";
+    if (!data.program) return "Program.";
+    if (!data.seat) return "Most recent seat.";
+    if (data.seat === "other" && !String(data.seatOther || "").trim()) return "Name the other seat.";
+    if (!data.privateCo) return "Private-company time.";
+    return "";
+  }
+  function validStep1() {
+    for (let i = 0; i < SKILLS.length; i++) {
+      if (!data.skills[SKILLS[i].id]) return "Rate all eight.";
+    }
+    return "";
+  }
+  function validStep2() {
+    if (data.wants.length !== 3) return "Pick exactly three.";
+    if (!String(data.oct14 || "").trim()) return "The October 14 sentence.";
+    return "";
+  }
+  function validStep3() {
+    if (!data.destination) return "Where you are headed.";
+    return "";
+  }
+  const validators = [validStep0, validStep1, validStep2, validStep3];
+
+  function payload() {
+    const netid = normalizeNetid(data.netid);
+    const skills = {};
+    SKILLS.forEach(s => { skills[s.id] = Number(data.skills[s.id] || 0); });
+    return {
+      schema: SCHEMA,
+      netid: netid,
+      nameFirst: data.nameFirst.trim(),
+      nameLast: data.nameLast.trim(),
+      section: data.section,
+      program: data.program,
+      seat: data.seat,
+      seatOther: data.seat === "other" ? String(data.seatOther || "").trim() : "",
+      privateCo: data.privateCo,
+      skills: skills,
+      wants: data.wants.slice(),
+      oct14: String(data.oct14 || "").trim().slice(0, 400),
+      inTheRoom: String(data.inTheRoom || "").trim().slice(0, 400),
+      destination: data.destination,
+      linkedin: String(data.linkedin || "").trim().slice(0, 200),
+      coldcall: String(data.coldcall || "").trim().slice(0, 400),
+      updated: Date.now()
+    };
+  }
+
+  function render() {
+    if (saved) {
+      appEl.innerHTML = '<div class="card done"><h2>In. See you in 4430.</h2><p class="msg">Wednesday, September 2, Evans Hall. Bring a name tent. Friday, September 4 is a required class (Yale Monday schedule). Case 1 goes out Wednesday.</p><p class="msg" style="margin-top:0.7rem">If something changes, reopen this page and submit again.</p></div>';
+      return;
+    }
+    const titles = ["Who you are", "What you already know", "What you want from the six weeks", "Where you are headed"];
+    let html = '<div class="steps">' + [0,1,2,3].map(i => '<span' + (i <= step ? ' class="on"' : "") + "></span>").join("") + "</div>";
+    html += '<div class="card"><h2>' + titles[step] + "</h2>";
+    if (step === 0) html += screen0();
+    if (step === 1) html += screen1();
+    if (step === 2) html += screen2();
+    if (step === 3) html += screen3();
+    if (err) html += '<p class="err">' + esc(err) + "</p>";
+    html += "</div>";
+    html += '<div class="bar">';
+    if (step > 0) html += '<button type="button" class="ghost" id="back">Back</button>';
+    html += '<button type="button" id="next"' + (saving ? " disabled" : "") + ">" + (saving ? "Saving…" : (step === 3 ? "Submit" : "Continue")) + "</button>";
+    html += "</div>";
+    appEl.innerHTML = html;
+    bind();
+  }
+  function screen0() {
+    let h = '<p class="msg">Name as you want it on the tent. NetID is the Canvas login.</p>';
+    h += '<div class="grid2"><div><label class="q" for="nameFirst">First name</label><input id="nameFirst" type="text" autocomplete="given-name" value="' + esc(data.nameFirst) + '"></div>';
+    h += '<div><label class="q" for="nameLast">Last name</label><input id="nameLast" type="text" autocomplete="family-name" value="' + esc(data.nameLast) + '"></div></div>';
+    h += '<label class="q" for="netid">Yale NetID</label><input id="netid" type="text" inputmode="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="jmb432" value="' + esc(data.netid) + '">';
+    h += '<label class="q">Section</label>' + pills("section", [["01", "01 · 1:00"], ["02", "02 · 2:35"], ["G1", "G1 · 4:10"]], data.section);
+    h += '<label class="q">Program</label>' + pills("program", PROGRAMS, data.program);
+    h += '<label class="q">Most recent seat</label>' + pills("seat", SEATS, data.seat);
+    if (data.seat === "other") {
+      h += '<label class="q" for="seatOther">Name it</label><input id="seatOther" type="text" value="' + esc(data.seatOther) + '">';
+    }
+    h += '<label class="q">Time inside a private or VC-backed company</label>' + pills("privateCo", PRIVATE, data.privateCo);
+    return h;
+  }
+  function screen1() {
+    let h = '<p class="msg">Honest, not modest. I use this to decide how long Friday’s journal-entry drill runs, and how fast Wednesday the 9th can move on share math.</p>';
+    SKILLS.forEach(s => {
+      const cur = String(data.skills[s.id] || "");
+      h += '<div class="skill"><p>' + s.label + "</p><div class=\"row\">";
+      SKILL_LABELS.forEach((lab, i) => {
+        const n = String(i + 1);
+        h += '<button type="button" class="' + (cur === n ? "on" : "") + '" data-skill="' + s.id + '" data-n="' + n + '">' + lab + "</button>";
+      });
+      h += "</div></div>";
+    });
+    return h;
+  }
+  function screen2() {
+    const n = data.wants.length;
+    let h = '<p class="count">' + n + " of 3 selected. The syllabus already covers all of these. This tells me where the extra minutes go.</p>";
+    h += '<div class="topics">';
+    TOPICS.forEach(t => {
+      const on = data.wants.indexOf(t.id) !== -1;
+      const disable = !on && n >= 3;
+      h += '<button type="button" class="topic' + (on ? " on" : "") + '"' + (disable ? " disabled" : "") + ' data-topic="' + t.id + '"><span class="n">' + t.n + "</span> " + t.label + "</button>";
+    });
+    h += "</div>";
+    h += '<label class="q" for="oct14">On October 14 I want to be able to… <span class="hint">one sentence</span></label>';
+    h += '<textarea id="oct14" maxlength="400" placeholder="walk a Series A cap table in front of a founder without guessing">' + esc(data.oct14) + "</textarea>";
+    h += '<label class="q" for="inTheRoom">A company, deal, or number from your own work that is sitting in this room <span class="hint">optional — I will not put it on a slide</span></label>';
+    h += '<textarea id="inTheRoom" maxlength="400">' + esc(data.inTheRoom) + "</textarea>";
+    return h;
+  }
+  function screen3() {
+    let h = '<label class="q">The seat you are aiming at in the next 1–3 years</label>' + pills("destination", DEST, data.destination);
+    h += '<label class="q" for="linkedin">LinkedIn <span class="hint">optional</span></label>';
+    h += '<input id="linkedin" type="url" placeholder="https://www.linkedin.com/in/…" value="' + esc(data.linkedin) + '">';
+    h += '<label class="q" for="coldcall">Anything I should know before I call on you for a number <span class="hint">optional; stays with me</span></label>';
+    h += '<textarea id="coldcall" maxlength="400">' + esc(data.coldcall) + "</textarea>";
+    h += '<p class="msg" style="margin-top:0.85rem">Answers live on the staff site. They are not posted to the class.</p>';
+    return h;
+  }
+
+  function readFields() {
+    ["nameFirst", "nameLast", "netid", "seatOther", "oct14", "inTheRoom", "linkedin", "coldcall"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = el.value;
+    });
+  }
+  function bind() {
+    appEl.querySelectorAll(".pill").forEach(btn => {
+      btn.addEventListener("click", () => {
+        readFields();
+        data[btn.getAttribute("data-f")] = btn.getAttribute("data-v");
+        persist();
+        render();
+      });
+    });
+    appEl.querySelectorAll("[data-skill]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        data.skills[btn.getAttribute("data-skill")] = btn.getAttribute("data-n");
+        persist();
+        render();
+      });
+    });
+    appEl.querySelectorAll("[data-topic]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-topic");
+        const i = data.wants.indexOf(id);
+        if (i >= 0) data.wants.splice(i, 1);
+        else if (data.wants.length < 3) data.wants.push(id);
+        persist();
+        render();
+      });
+    });
+    const back = document.getElementById("back");
+    if (back) back.addEventListener("click", () => { readFields(); persist(); step -= 1; err = ""; render(); });
+    document.getElementById("next").addEventListener("click", goNext);
+  }
+  function goNext() {
+    readFields();
+    persist();
+    const v = validators[step]();
+    if (v) { err = v; render(); return; }
+    err = "";
+    if (step < 3) { step += 1; render(); return; }
+    submit();
+  }
+  function submit() {
+    const body = payload();
+    if (!cfg.databaseURL) {
+      err = "The form is not wired. Email john.m.barrios@yale.edu.";
+      render();
+      return;
+    }
+    saving = true;
+    render();
+    if (!db) {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(cfg);
+        db = firebase.database();
+      } catch (e) {
+        saving = false;
+        err = "Could not reach the form. Try again, or email john.m.barrios@yale.edu.";
+        render();
+        return;
+      }
+    }
+    db.ref("intake/responses/" + body.netid).set(body)
+      .then(() => {
+        saving = false;
+        saved = true;
+        persist();
+        render();
+      })
+      .catch(() => {
+        saving = false;
+        err = "Could not save. Check the NetID and try once more. If it still fails, email john.m.barrios@yale.edu.";
+        render();
+      });
+  }
+
+  render();
+})();
+  </script>
+</body>
+</html>

@@ -35,6 +35,9 @@ jobs:
       - name: Leak-scan live polls
         run: python scripts/leak_scan_live.py
 
+      - name: Leak-scan intake form
+        run: python scripts/leak_scan_intake.py
+
       - name: Render site
         run: quarto render
 

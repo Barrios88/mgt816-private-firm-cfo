@@ -5,6 +5,7 @@ project:
     - discussion-sites/**
     - ps1/**
     - live/**
+    - intake/**
 
 website:
   title: "MGT 816"
