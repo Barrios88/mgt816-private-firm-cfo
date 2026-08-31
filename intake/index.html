@@ -124,7 +124,7 @@
   <header>
     <div class="kicker">MGT 816 · The Private Firm CFO</div>
     <h1>Before Wednesday</h1>
-    <div class="sub">Four minutes. Not graded. I read this before class. It sets Friday’s pace and who I call on.</div>
+    <div class="sub">Four minutes. Not graded. I read this before class. It sets Friday’s pace.</div>
   </header>
   <main id="app"></main>
   <script src="../live/firebase-config.js"></script>
@@ -205,18 +205,12 @@
     ["other_yale", "Other Yale"],
     ["cross", "Cross-registered"]
   ];
-  const CONSENT = [
-    ["yes", "Yes"],
-    ["ask", "Ask first"],
-    ["no", "No"]
-  ];
-
   const empty = {
     nameFirst: "", nameLast: "", netid: "", section: "", program: "",
     seats: [], seatOther: "", privateCo: "", jeRecency: "",
     skills: {}, excelDesk: false, aiLogin: false, needPair: false,
-    wants: [], struggle: "", oct14: "", inTheRoom: "", inTheRoomConsent: "",
-    destination: "", coldcall: ""
+    wants: [], struggle: "", oct14: "",
+    destination: ""
   };
   let data = load();
   let step = 0;
@@ -274,7 +268,7 @@
     if (!/^[a-z][a-z0-9]{1,20}$/.test(id)) return "That does not look like a NetID.";
     if (!data.section) return "Section.";
     if (!data.program) return "Program.";
-    if (!data.seats.length) return "Pick at least one seat I can call on.";
+    if (!data.seats.length) return "Prior seat.";
     if (data.seats.indexOf("other") !== -1 && !String(data.seatOther || "").trim()) return "Name the other seat.";
     if (!data.privateCo) return "Private-company time.";
     if (!data.jeRecency) return "Last journal entry.";
@@ -284,14 +278,13 @@
     for (let i = 0; i < SKILLS.length; i++) {
       if (!data.skills[SKILLS[i].id]) return "Rate all seven.";
     }
-    if (!data.excelDesk && !data.aiLogin && !data.needPair) return "Sep 28 checkboxes — mark at least one.";
+    if (!data.excelDesk && !data.aiLogin && !data.needPair) return "Sep 28 checkboxes. Mark at least one.";
     return "";
   }
   function validStep2() {
     if (data.wants.length !== 3) return "Pick exactly three.";
     if (!data.struggle) return "Which topic will be hardest.";
     if (!String(data.oct14 || "").trim()) return "The Oct 14 sentence.";
-    if (String(data.inTheRoom || "").trim() && !data.inTheRoomConsent) return "OK to ask about it in class?";
     return "";
   }
   function validStep3() {
@@ -325,10 +318,7 @@
       wants: data.wants.slice(),
       struggle: data.struggle,
       oct14: String(data.oct14 || "").trim().slice(0, 280),
-      inTheRoom: String(data.inTheRoom || "").trim().slice(0, 400),
-      inTheRoomConsent: String(data.inTheRoom || "").trim() ? data.inTheRoomConsent : "",
       destination: data.destination,
-      coldcall: String(data.coldcall || "").trim().slice(0, 400),
       updated: Date.now()
     };
   }
@@ -362,7 +352,7 @@
     h += '<label class="q" for="netid">Yale NetID</label><input id="netid" type="text" inputmode="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="jmb432" value="' + esc(data.netid) + '">';
     h += '<label class="q">Section</label>' + pills("section", [["01", "01 · 1:00"], ["02", "02 · 2:35"], ["G1", "G1 · 4:10"]], data.section);
     h += '<label class="q">Program</label>' + pills("program", PROGRAMS, data.program);
-    h += '<label class="q">I can cold-call you on <span class="hint">up to 2</span></label>' + multiPills("seats", SEATS, data.seats, 2);
+    h += '<label class="q">Prior seat <span class="hint">up to 2</span></label>' + multiPills("seats", SEATS, data.seats, 2);
     if (data.seats.indexOf("other") !== -1) {
       h += '<label class="q" for="seatOther">Other seat</label><input id="seatOther" type="text" value="' + esc(data.seatOther) + '">';
     }
@@ -401,23 +391,16 @@
     h += '<label class="q">Which one will be hardest for you?</label>' + pills("struggle", TOPICS.map(t => [t.id, t.n + " " + t.label]), data.struggle);
     h += '<label class="q" for="oct14">By Oct 14 I want to be able to <span class="hint">one sentence</span></label>';
     h += '<textarea id="oct14" maxlength="280" placeholder="build a Series A cap table without guessing">' + esc(data.oct14) + "</textarea>";
-    h += '<label class="q" for="inTheRoom">Company, deal, or number from your work that is already in the room <span class="hint">optional</span></label>';
-    h += '<textarea id="inTheRoom" maxlength="400">' + esc(data.inTheRoom) + "</textarea>";
-    if (String(data.inTheRoom || "").trim()) {
-      h += '<label class="q">OK to ask you about it in class?</label>' + pills("inTheRoomConsent", CONSENT, data.inTheRoomConsent);
-    }
     return h;
   }
   function screen3() {
     let h = '<label class="q">Job you are aiming at in the next 1–3 years</label>' + pills("destination", DEST, data.destination);
-    h += '<label class="q" for="coldcall">Anything I should know before I cold-call you on a number <span class="hint">optional</span></label>';
-    h += '<textarea id="coldcall" maxlength="400">' + esc(data.coldcall) + "</textarea>";
     h += '<p class="msg" style="margin-top:0.85rem">I see these answers. The class does not.</p>';
     return h;
   }
 
   function readFields() {
-    ["nameFirst", "nameLast", "netid", "seatOther", "oct14", "inTheRoom", "coldcall"].forEach(id => {
+    ["nameFirst", "nameLast", "netid", "seatOther", "oct14"].forEach(id => {
       const el = document.getElementById(id);
       if (el) data[id] = el.value;
     });
