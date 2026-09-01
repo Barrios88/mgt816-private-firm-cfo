@@ -121,6 +121,13 @@
     .card h2 { margin: 0 0 0.5rem; color: var(--accent); font-size: 1.35rem; font-weight: 650; }
     .card h3 { margin: 1.25rem 0 0.5rem; font-size: 1.05rem; color: var(--text); }
     .card .hint { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+    .human-note {
+      font-size: 0.85rem; color: #4a5a45; background: #f2f7f0;
+      border-left: 3px solid #6b8f5e; padding: 0.5rem 0.7rem;
+      margin: 0.4rem 0 0.6rem; border-radius: 0 3px 3px 0;
+    }
+    .rounding-card ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+    .rounding-card li { margin-bottom: 0.55rem; }
     .narrative {
       background: var(--accent-pale);
       border-radius: 8px;
@@ -391,11 +398,18 @@
       </div>
       <div class="card section-anchor" id="setup-group">
         <h2 id="setup-heading">Group setup</h2>
-        <p class="hint">Enter every group member. You need at least 2 and at most 4 names. Put every member's name on all three files.</p>
+        <p class="hint">Enter every group member. The syllabus requires groups of 2 to 4 students, so you need at least 2 and at most 4 names. Put every member's name on all three files.</p>
         <div class="member-grid" id="member-grid"></div>
         <div class="btn-row">
           <button type="button" class="btn btn-sm" id="btn-add-member">+ Add member</button>
           <button type="button" class="btn btn-sm btn-danger" id="btn-remove-member">&minus; Remove last</button>
+        </div>
+        <div id="group-size-warn" hidden style="margin-top:0.85rem;background:var(--warn-bg);border:1px solid #e6c200;border-radius:4px;padding:0.7rem 0.85rem;font-size:0.9rem;">
+          <p style="margin:0 0 0.5rem;"><strong>This group has fewer than 2 members.</strong> The syllabus requires groups of 2 to 4 students, so the submission sheet is locked until you add a second name.</p>
+          <label style="display:flex;gap:0.5rem;align-items:flex-start;margin:0;">
+            <input type="checkbox" id="group-exception-check" style="margin-top:0.2rem;">
+            <span>Professor Barrios has approved me to submit with fewer than 2 members. Checking this box unlocks the submission sheet and records the approval on the file your teaching assistant grades.</span>
+          </label>
         </div>
         <div class="honor-box">
           <label>
@@ -412,6 +426,18 @@
           <li><strong>The model stays in Excel.</strong> Part B is built in your workbook. Here you certify the five checksum values <em>your</em> model produced.</li>
           <li><strong>Autosave on this device only.</strong> Progress saves to your browser. Use Export/Import to move work within your group.</li>
           <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page. Generate will list any blank sections before it downloads the file.</li>
+        </ul>
+      </div>
+      <div class="card section-anchor rounding-card" id="setup-rounding">
+        <h2>Rounding and precision</h2>
+        <p class="hint">Two different rules are at work. Follow the model conventions inside Excel, and the reporting precision below when you type a figure into this workbench.</p>
+        <ul>
+          <li><strong>Inside your model, follow <code>case_facts.txt</code> exactly.</strong> Where the facts specify <code>ROUND</code> on churned firms or <code>ROUNDUP</code> on the CSM count, apply them exactly as written. These change what the model computes, so an unrounded version will not tie out.</li>
+          <li><strong>Counts: exact whole numbers.</strong> December ending active firms and December total headcount are checked against an exact integer. Do not enter a decimal.</li>
+          <li><strong>Dollars: two decimals.</strong> Report total revenue, deferred revenue, and ending cash to the cent, and do not type $ or commas. These tie out exactly when the model conventions above are followed, so a figure that is off by more than a rounding cent means something upstream needs fixing rather than rounding.</li>
+          <li><strong>Percentages: one decimal.</strong> Write 12.3, not 12 and not 12.34. This applies to every churn, retention, GRR, and NRR figure in Part A.</li>
+          <li><strong>Runway: one decimal, in months.</strong> Write 11.5.</li>
+          <li><strong>Round only at the last step.</strong> Let Excel carry full precision through the schedules and round only the number you type here. Rounding intermediate cells by hand will move your December figures outside the accepted range.</li>
         </ul>
       </div>
       <div class="panel-footer-nav" data-footer="setup"></div>
@@ -493,10 +519,12 @@
         </div>
         <div class="field-row" style="margin-top:0.75rem;">
           <label for="a1-formula">NRR formula you used &mdash; be explicit about what it includes and excludes</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="a1-formula" data-bind="parts.A1.nrrFormula" placeholder="State the formula and its inclusions/exclusions."></textarea>
         </div>
         <div class="field-row" style="margin-top:0.75rem;">
           <label for="a1-expansion">How NRR exceeds 100% while the book loses ~1.5% of its logos each month (point to the specific Exhibit A line)</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="a1-expansion" data-bind="parts.A1.expansionExplanation" placeholder="One or two sentences."></textarea>
         </div>
 
@@ -517,6 +545,7 @@
         <h4 style="margin:1rem 0 0.25rem;">Formula error</h4>
         <div class="field-row" style="margin-bottom:0.75rem;">
           <label for="a2-fe-identify">Identify the formula error (what did the draft get wrong?)</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="a2-fe-identify" data-bind="parts.A2.formulaError.identify" placeholder="Name the error and where it appears in the draft."></textarea>
         </div>
         <div class="metric-fields">
@@ -527,15 +556,18 @@
         </div>
         <div class="field-row" style="margin-top:0.75rem;">
           <label for="a2-fe-formula">The correct formula</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="a2-fe-formula" data-bind="parts.A2.formulaError.correctFormula" placeholder="State the correct formula in words or symbols."></textarea>
         </div>
         <h4 style="margin:1.25rem 0 0.25rem;">Hallucinated benchmark</h4>
         <div class="field-row" style="margin-bottom:0.75rem;">
           <label for="a2-hb-identify">Identify the hallucinated benchmark</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="a2-hb-identify" data-bind="parts.A2.hallucinatedBenchmark.identify" placeholder="Which claim is unsupported, and how do you know?"></textarea>
         </div>
         <div class="field-row">
           <label for="a2-hb-treatment">Treatment &mdash; why it cannot stand and what you would do with it (cite the provenance rule)</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="a2-hb-treatment" data-bind="parts.A2.hallucinatedBenchmark.treatment" placeholder="Apply the provenance rule from ground_rules.pdf."></textarea>
         </div>
       </div>
@@ -592,6 +624,7 @@
         <p class="hint">The workshop <code>starter.xlsx</code> is a v0 and is unverified. Describe the corrections you made when auditing it against the drivers and stated ratios.</p>
         <div class="field-row">
           <label for="b-audit">Corrections made to the starter</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched &mdash; state the substance clearly.</div>
           <textarea id="b-audit" data-bind="parts.B.starterAudit" placeholder="What did you find wrong in the starter, and what did you change?"></textarea>
         </div>
       </div>
@@ -732,7 +765,8 @@
     { id: 'setup', label: 'Setup', sections: [
       { id: 'setup-overview', label: 'Overview' },
       { id: 'setup-group', label: 'Group' },
-      { id: 'setup-howto', label: 'How it works' }
+      { id: 'setup-howto', label: 'How it works' },
+      { id: 'setup-rounding', label: 'Rounding' }
     ]},
     { id: 'A', label: 'Part A', pts: 8, sections: [
       { id: 'part-a1', label: 'A1 · Retention' },
@@ -770,6 +804,7 @@
     return {
       schema: SCHEMA,
       group: [{ name: '', netid: '' }, { name: '', netid: '' }],
+      groupException: false,
       honor: false,
       parts: {
         A1: {
@@ -1011,6 +1046,7 @@
       else el.value = (v === null || v === undefined) ? '' : v;
     });
     document.getElementById('honor-check').checked = !!state.honor;
+    renderGroupGate();
   }
 
   // ---------- live hygiene updates ----------
@@ -1130,7 +1166,7 @@
       p.log.rows.some(r => r.check === tag && String(r.prompt).trim() && String(r.aiClaim).trim() && String(r.checkPerformed).trim())
     ).length;
     return [
-      { ok: namesOk, label: 'At least 2 group members named' },
+      { ok: namesOk || !!state.groupException, label: 'At least 2 group members named (syllabus requires groups of 2–4)' },
       { ok: honorOk, label: 'Honor / AI certification checked' },
       { ok: a1Ok, label: 'A1 monthly grid and compounded NRR filled' },
       { ok: a2Ok, label: 'A2 formula error, corrected figure, formula, benchmark, and treatment answered' },
@@ -1164,6 +1200,9 @@
     });
     window.addEventListener('resize', syncJumpNavOffset);
 
+    document.getElementById('group-exception-check').addEventListener('change', e => {
+      state.groupException = e.target.checked; scheduleSave();
+    });
     document.getElementById('btn-add-member').addEventListener('click', () => {
       if (state.group.length < 4) { state.group.push({ name: '', netid: '' }); scheduleSave(); renderMembers(); }
     });
@@ -1196,6 +1235,7 @@
     if (bind === undefined) return;
     const v = (t.type === 'checkbox') ? t.checked : t.value;
     setByPath(bind, v);
+    if (bind.startsWith('group.')) renderGroupGate();
     scheduleSave();
     refreshLiveUpdatesFor(bind);
   }
@@ -1260,11 +1300,29 @@
       return parts[parts.length - 1].replace(/[^a-zA-Z]/g, '');
     }).filter(Boolean);
   }
+  function namedMemberCount() {
+    return state.group.filter(m => m.name.trim()).length;
+  }
+
+  function groupSizeOk() {
+    return namedMemberCount() >= 2 || !!state.groupException;
+  }
+
+  function renderGroupGate() {
+    const warn = document.getElementById('group-size-warn');
+    const box = document.getElementById('group-exception-check');
+    if (!warn || !box) return;
+    warn.hidden = namedMemberCount() >= 2;
+    box.checked = !!state.groupException;
+  }
+
   function buildPayload() {
     return {
       schema: SCHEMA,
       group: state.group,
       honor: state.honor,
+      groupException: !!state.groupException,
+      groupSizeBelowMinimum: namedMemberCount() < 2,
       parts: state.parts,
       meta: { version: WORKBENCH_VERSION, generatedAt: new Date().toISOString(), lastSaved: state.meta.lastSaved }
     };
@@ -1386,6 +1444,10 @@
 
   async function generateSubmission() {
     if (!confirmIfIncomplete()) return;
+    if (!groupSizeOk()) {
+      alert('The syllabus requires groups of 2 to 4 students, and this group has fewer than 2 named members.\n\nAdd a second member on the Setup panel. If Professor Barrios has approved you to submit with fewer, check the approval box there to unlock the submission sheet.');
+      setPanel('setup'); return;
+    }
     if (!state.honor) { alert('Please check the honor / AI certification on the Setup panel.'); setPanel('setup'); return; }
     const payload = buildPayload();
     const json = JSON.stringify(payload, null, 2);

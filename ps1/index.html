@@ -134,6 +134,13 @@
       color: var(--text);
     }
     .card .hint { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+    .human-note {
+      font-size: 0.85rem; color: #4a5a45; background: #f2f7f0;
+      border-left: 3px solid #6b8f5e; padding: 0.5rem 0.7rem;
+      margin: 0.4rem 0 0.6rem; border-radius: 0 3px 3px 0;
+    }
+    .rounding-card ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+    .rounding-card li { margin-bottom: 0.55rem; }
     .narrative {
       background: var(--accent-pale);
       border-radius: 8px;
@@ -432,11 +439,18 @@
       </div>
       <div class="card section-anchor" id="setup-group">
         <h2 id="setup-heading">Group setup</h2>
-        <p class="hint">Enter every group member. You need at least 2 and at most 4 names.</p>
+        <p class="hint">Enter every group member. The syllabus requires groups of 2 to 4 students, so you need at least 2 and at most 4 names.</p>
         <div class="member-grid" id="member-grid"></div>
         <div class="btn-row">
           <button type="button" class="btn btn-sm" id="btn-add-member">+ Add member</button>
           <button type="button" class="btn btn-sm btn-danger" id="btn-remove-member">− Remove last</button>
+        </div>
+        <div id="group-size-warn" hidden style="margin-top:0.85rem;background:var(--warn-bg);border:1px solid #e6c200;border-radius:4px;padding:0.7rem 0.85rem;font-size:0.9rem;">
+          <p style="margin:0 0 0.5rem;"><strong>This group has fewer than 2 members.</strong> The syllabus requires groups of 2 to 4 students, so the submission sheet is locked until you add a second name.</p>
+          <label style="display:flex;gap:0.5rem;align-items:flex-start;margin:0;">
+            <input type="checkbox" id="group-exception-check" style="margin-top:0.2rem;">
+            <span>Professor Barrios has approved me to submit with fewer than 2 members. Checking this box unlocks the submission sheet and records the approval on the file your teaching assistant grades.</span>
+          </label>
         </div>
         <div class="honor-box">
           <label>
@@ -453,6 +467,16 @@
           <li><strong>Autosave on this device only.</strong> Progress saves to your browser every few seconds. Use Export/Import to share work within your group.</li>
           <li><strong>No data leaves your computer.</strong> Nothing is uploaded or tracked. Verify in DevTools: zero network requests on this page.</li>
           <li><strong>Excel is optional.</strong> Scratch work is fine in Excel or on paper; submit via the generated HTML file. Generate will list any blank sections before it downloads the file.</li>
+        </ul>
+      </div>
+      <div class="card section-anchor rounding-card" id="setup-rounding">
+        <h2>Rounding and precision</h2>
+        <p class="hint">Your numeric answers are compared against an answer key with a narrow tolerance. Report each figure at the precision below.</p>
+        <ul>
+          <li><strong>Share counts: exact whole numbers.</strong> Every share figure in this problem set resolves to a whole number. If yours does not, the error is upstream in your cap table — find it rather than rounding it away.</li>
+          <li><strong>Dollar amounts: two decimals.</strong> Report price per share to the cent. Write 7.25, not 7 and not 7.2531.</li>
+          <li><strong>Percentages: one decimal.</strong> Write 23.4, not 23 and not 23.41. The ownership percentages this site computes for you already use one decimal, so your typed answers should match what you see on screen.</li>
+          <li><strong>Round only at the last step.</strong> Carry full precision through your intermediate math and round only the number you type into the box. Rounding partway through will push your later answers outside the accepted range.</li>
         </ul>
       </div>
       <div class="panel-footer-nav" data-footer="setup"></div>
@@ -525,10 +549,12 @@
         <h3 id="part-ii-judgment" class="section-anchor">Judgment questions</h3>
         <div class="field-row" style="margin-bottom:1rem;">
           <label for="judgment-lever">Which lever should the founders push hardest, and why?</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched — make your reasoning clear and support it with your own numbers.</div>
           <textarea id="judgment-lever" rows="4" placeholder="Your analysis…"></textarea>
         </div>
         <div class="field-row">
           <label for="judgment-pool">Who bears the cost of the option pool in each scenario?</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. There is no required format or word count, and no exact wording is being matched — make your reasoning clear and support it with your own numbers.</div>
           <textarea id="judgment-pool" rows="4" placeholder="Your analysis…"></textarea>
         </div>
       </div>
@@ -550,6 +576,7 @@
         <h3 id="part-iii-stretch" class="section-anchor">Stretch</h3>
         <div class="field-row">
           <label for="stretch-iii">Show your work for new option shares needed and founder ownership after Series B.</label>
+          <div class="human-note">A member of the teaching team reads and grades this answer. Credit here is for the method you show, so write the equations out in whatever form is clearest. Your final figures still belong in the numeric boxes above, where the rounding rules apply.</div>
           <textarea id="stretch-iii" rows="5" placeholder="Equations, share counts, and reasoning…"></textarea>
         </div>
       </div>
@@ -565,6 +592,7 @@
         </div>
         <div class="field-row section-anchor" id="part-iv-email">
           <label for="founder-email">Your email</label>
+          <div class="human-note">A member of the teaching team reads and grades this email. The five-sentence limit above is real and is part of the grade; within it, write in your own voice.</div>
           <textarea id="founder-email" rows="8" placeholder="Dear Katy and Snoop,&#10;&#10;…"></textarea>
           <div class="sentence-counter" id="sentence-counter">0 sentences</div>
         </div>
@@ -640,7 +668,8 @@
     { id: 'setup', label: 'Setup', sections: [
       { id: 'setup-story', label: 'Overview' },
       { id: 'setup-group', label: 'Group' },
-      { id: 'setup-howto', label: 'How it works' }
+      { id: 'setup-howto', label: 'How it works' },
+      { id: 'setup-rounding', label: 'Rounding' }
     ]},
     { id: 'I', label: 'Part I', pts: 18, sections: [
       { id: 'part-i-formation', label: 'Formation' },
@@ -681,6 +710,7 @@
       schema: SCHEMA,
       group: [{ name: '', netid: '' }, { name: '', netid: '' }],
       honor: false,
+      groupException: false,
       parts: {
         I: {
           formation: {
@@ -1049,6 +1079,7 @@
       </div>
     `).join('');
     document.getElementById('honor-check').checked = state.honor;
+    renderGroupGate();
   }
 
   function renderPartI() {
@@ -1186,7 +1217,7 @@
     const seriesAMetrics = filled(I.seriesA.greylockPct) && filled(I.seriesA.pps) && filled(I.seriesA.founderEachPct) && filled(I.seriesA.founderDilutionPp) && filled(I.seriesA.markPct) && filled(I.seriesA.markChangePp);
     const iiiMetrics = filled(III.unallocatedBefore) && filled(III.allocatedOutstanding) && filled(III.sharesNeeded) && filled(III.pctFullyDiluted) && filled(III.founderOwnershipAfter) && filled(III.pps);
     return [
-      { ok: namesOk, label: 'At least 2 group members named' },
+      { ok: namesOk || !!state.groupException, label: 'At least 2 group members named (syllabus requires groups of 2–4)' },
       { ok: state.honor, label: 'Honor certification checked' },
       { ok: jeHasAmounts(I.formation.je) && holdersHaveShares(I.formation.holders, ['common']), label: 'Part I formation: journal entry and share counts' },
       { ok: jeHasAmounts(I.seed.je) && holdersHaveShares(I.seed.holders, ['common', 'seedPref']) && seedMetrics, label: 'Part I seed: journal entry, cap table, and metrics' },
@@ -1390,6 +1421,10 @@
       if (state.group.length > 2) { state.group.pop(); scheduleSave(); renderSetup(); }
     });
 
+    document.getElementById('group-exception-check').addEventListener('change', e => {
+      state.groupException = e.target.checked; scheduleSave();
+      if (activePanel === 'review') renderReview();
+    });
     document.getElementById('honor-check').addEventListener('change', e => {
       state.honor = e.target.checked; scheduleSave();
     });
@@ -1442,6 +1477,8 @@
     if (t.dataset.member !== undefined) {
       const [i, field] = t.dataset.member.split('.');
       state.group[+i][field] = t.value;
+      renderGroupGate();
+      if (activePanel === 'review') renderReview();
       scheduleSave(); return;
     }
     if (t.dataset.je) {
@@ -1556,6 +1593,22 @@
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
+  function namedMemberCount() {
+    return state.group.filter(m => m.name.trim()).length;
+  }
+
+  function groupSizeOk() {
+    return namedMemberCount() >= 2 || !!state.groupException;
+  }
+
+  function renderGroupGate() {
+    const warn = document.getElementById('group-size-warn');
+    const box = document.getElementById('group-exception-check');
+    if (!warn || !box) return;
+    warn.hidden = namedMemberCount() >= 2;
+    box.checked = !!state.groupException;
+  }
+
   function getLastNames() {
     return state.group.filter(m => m.name.trim()).map(m => {
       const parts = m.name.trim().split(/\s+/);
@@ -1564,7 +1617,7 @@
   }
 
   function buildPayload() {
-    return { schema: SCHEMA, group: state.group, honor: state.honor, parts: state.parts, meta: { ...state.meta, submittedAt: new Date().toISOString(), workbenchVersion: VERSION } };
+    return { schema: SCHEMA, group: state.group, honor: state.honor, groupException: !!state.groupException, groupSizeBelowMinimum: namedMemberCount() < 2, parts: state.parts, meta: { ...state.meta, submittedAt: new Date().toISOString(), workbenchVersion: VERSION } };
   }
 
   function buildHumanReviewHTML() {
@@ -1591,6 +1644,10 @@
 
   async function generateSubmission() {
     if (!confirmIfIncomplete()) return;
+    if (!groupSizeOk()) {
+      alert('The syllabus requires groups of 2 to 4 students, and this group has fewer than 2 named members.\n\nAdd a second member on the Setup panel. If Professor Barrios has approved you to submit with fewer, check the approval box there to unlock the submission sheet.');
+      setPanel('setup'); return;
+    }
     if (!state.honor) { alert('Please check the honor certification on the Setup panel.'); setPanel('setup'); return; }
     const payload = buildPayload();
     const json = JSON.stringify(payload, null, 2);
@@ -1617,7 +1674,8 @@ table{width:100%;border-collapse:collapse;margin:0.75rem 0;}th,td{border:1px sol
 th{background:#1F4E79;color:#fff;}td.num{text-align:right;}footer{margin-top:3rem;font-size:12px;color:#666;border-top:1px solid #ccc;padding-top:1rem;}
 .email{white-space:pre-wrap;background:#f8f9fa;padding:1rem;border-left:4px solid #1F4E79;}</style></head><body>
 <h1>Problem Set 1 Submission</h1>
-<p><strong>MGT 816 · Fall 2026</strong><br>Group: ${payload.group.filter(m=>m.name).map(m=>esc(m.name)).join(', ')}</p>`;
+<p><strong>MGT 816 · Fall 2026</strong><br>Group: ${payload.group.filter(m=>m.name).map(m=>esc(m.name)).join(', ')}</p>
+${payload.groupSizeBelowMinimum ? `<p style="background:#fff8e6;border:1px solid #e6c200;padding:0.6rem 0.8rem;"><strong>Group size below the 2-student minimum.</strong> ${payload.groupException ? 'The group indicated that Professor Barrios approved this exception.' : 'No instructor approval was recorded.'}</p>` : ''}`;
 
     body += sectionSubmissionPartI(p);
     body += sectionSubmissionPartII(p.II);
