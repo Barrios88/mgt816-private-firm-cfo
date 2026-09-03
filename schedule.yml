@@ -14,17 +14,22 @@
       url: live/index.html
   out: "Case 1 (due Sep 16)"
   due: null
-  slides: null
+  slides: files/s01_slides.pdf
   handouts: []
 
 - session: 0
   date: 2026-09-04
   topic: "CFO Toolkit Bootcamp — accounting refresher, Excel cap-table warm-up, group formation"
-  prep: []
+  prep:
+    - text: "Download the balance-sheet equations workbook before class"
+      url: files/s00_bs_equations_workbook.xlsx
+      note: "blank fill-in copy; bring a laptop with Excel if you have one"
   out: null
   due: null
   slides: null
-  handouts: []
+  handouts:
+    - label: "Balance-sheet equations workbook (Excel, blank)"
+      path: files/s00_bs_equations_workbook.xlsx
   note: "Required Monday-makeup class (no classes Labor Day Mon Sep 7)"
 
 - session: 2
