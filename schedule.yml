@@ -42,9 +42,9 @@
   prep:
     - text: "Fabozzi Ch. 7, pp. 127–130 and 140–143"
       url: readings.html#textbook
-    - text: "Download your section's cap-table lab workbook before class (Canvas → S02 module)"
+    - text: "Download the cap-table lab workbook before class (Canvas → Week 2 module)"
       url: "https://yale.instructure.com/courses/122169"
-      note: "three files, one per section — take the one for your section; bring a laptop with Excel (lab-day exception). A paper fallback is handed out in class"
+      note: "one file, same for all sections; bring a laptop with Excel (lab-day exception). A paper fallback is handed out in class"
   out: "PS1 (due Sep 23)"
   due: null
   slides: null
