@@ -44,11 +44,13 @@
       url: readings.html#textbook
     - text: "Download the cap-table lab workbook before class (Canvas → Week 2 module)"
       url: "https://yale.instructure.com/courses/122169"
-      note: "one file, same for all sections; bring a laptop with Excel (lab-day exception). A paper fallback is handed out in class"
+      note: "one file, same for all sections, and also posted on the Materials page under Session 2. Bring a laptop with Excel (lab-day exception). A paper fallback is handed out in class"
   out: "PS1 (due Sep 23)"
   due: null
   slides: null
   handouts:
+    - label: "Cap-table lab workbook (Excel, blank)"
+      path: files/s02_captable_lab_blank.xlsx
     - label: "PS1 assignment (PDF)"
       path: files/ps1_assignment.pdf
     - label: "PS1 Excel scratch template (optional)"
