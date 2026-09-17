@@ -73,10 +73,8 @@
   out: null
   due: null
   slides: files/s03_slides.pdf
-  handouts:
-    - label: "S03 solutions (PDF)"
-      path: files/s03_solutions.pdf
-  note: "The worker-classification block (slides 23–29) was covered in the first ten minutes of the Sep 16 class."
+  handouts: []
+  note: "The worker-classification block (slides 23–29) was covered in the first ten minutes of the Sep 16 class. Exercise solutions are posted on Canvas."
 
 - session: 4
   date: 2026-09-16
@@ -94,9 +92,8 @@
   out: null
   due: "Case 1 memo"
   slides: files/s04_slides.pdf
-  handouts:
-    - label: "S04 solutions (PDF)"
-      path: files/s04_solutions.pdf
+  handouts: []
+  note: "Exercise solutions are posted on Canvas."
   case_day: true
 
 - session: 5
