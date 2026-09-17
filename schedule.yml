@@ -72,8 +72,11 @@
       note: "2-page handout, posted before Sep 14 — use this updated version, not older web explainers (the law changed July 2025)"
   out: null
   due: null
-  slides: null
-  handouts: []
+  slides: files/s03_slides.pdf
+  handouts:
+    - label: "S03 solutions (PDF)"
+      path: files/s03_solutions.pdf
+  note: "The worker-classification block (slides 23–29) was covered in the first ten minutes of the Sep 16 class."
 
 - session: 4
   date: 2026-09-16
@@ -90,8 +93,10 @@
       note: "StartUp season 1, episode 3, ~25 min"
   out: null
   due: "Case 1 memo"
-  slides: null
-  handouts: []
+  slides: files/s04_slides.pdf
+  handouts:
+    - label: "S04 solutions (PDF)"
+      path: files/s04_solutions.pdf
   case_day: true
 
 - session: 5
