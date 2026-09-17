@@ -15,9 +15,8 @@
   out: "Case 1 (due Sep 16)"
   due: null
   slides: files/s01_slides.pdf
-  handouts:
-    - label: "S01 solutions (PDF)"
-      path: files/s01_solutions.pdf
+  handouts: []
+  note: "Exercise solutions are posted on Canvas."
 
 - session: 0
   date: 2026-09-04
@@ -32,9 +31,7 @@
   handouts:
     - label: "Balance-sheet equations workbook (Excel, blank)"
       path: files/s00_bs_equations_workbook.xlsx
-    - label: "S00 solutions (PDF)"
-      path: files/s00_solutions.pdf
-  note: "Required Monday-makeup class (no classes Labor Day Mon Sep 7)"
+  note: "Required Monday-makeup class (no classes Labor Day Mon Sep 7). Exercise solutions are posted on Canvas."
 
 - session: 2
   date: 2026-09-09
@@ -51,8 +48,6 @@
   handouts:
     - label: "Cap-table lab workbook (Excel, blank)"
       path: files/s02_captable_lab_blank.xlsx
-    - label: "S02 solutions (PDF)"
-      path: files/s02_solutions.pdf
     - label: "PS1 assignment (PDF)"
       path: files/ps1_assignment.pdf
     - label: "PS1 Excel scratch template (optional)"
@@ -60,6 +55,7 @@
   workbench: ps1/index.html
   workbench_label: "PS1 workbench"
   assignment: assignments.html#ps1
+  note: "Exercise solutions are posted on Canvas."
 
 - session: 3
   date: 2026-09-14
