@@ -99,7 +99,8 @@
     - text: "Fabozzi Ch. 4"
       url: readings.html#textbook
     - text: "FreshBites 409A mini-case (self-check)"
-      note: "ungraded; posted on the Materials page when released"
+      url: files/s05_freshbites_409a_minicase.pdf
+      note: "ungraded — read the 3-page walkthrough before class; the 409A block opens with a self-check poll on it"
   out: "Case 2 (due Sep 30)"
   due: null
   slides: null
