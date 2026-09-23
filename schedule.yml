@@ -103,8 +103,9 @@
       note: "ungraded — read the 3-page walkthrough before class; the 409A block opens with a self-check poll on it"
   out: "Case 2 (due Sep 30)"
   due: null
-  slides: null
+  slides: files/s05_slides.pdf
   handouts: []
+  note: "The tax block (slides 21–43) opens the Sep 23 class. Exercise solutions are posted on Canvas."
 
 - session: 6
   date: 2026-09-23
