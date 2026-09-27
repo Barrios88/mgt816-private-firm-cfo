@@ -316,8 +316,6 @@ Each must appear in your PS2 verification log:
 
 | File | Status |
 |:-----|:-------|
-| [Verification log template (Excel)](files/ps2/verification_log.xlsx) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
-| [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) | On the [Problem Sets page](assignments.qmd#ps2) with the full PS2 Model Pack |
-| [Prompt card (PDF)](files/ps2/prompt_card.pdf) | The P1–P6 prompts, print form — content is also on this page |
+| [Workshop kit (ZIP, password-protected)](files/ps2/s07_workshop_kit.zip) | The full PS2 Model Pack — verification log template, benchmark sheet, prompt card, ground rules, and the rest. Password posted on Canvas |
 
-The full workshop kit and Model Pack are on the [Problem Sets page](assignments.qmd#ps2). Upload submissions to Canvas.
+The kit is also described on the [Problem Sets page](assignments.qmd#ps2) and posted unzipped on Canvas under Files → S07 Workshop Kit. The P1–P6 prompt content is also on this page. Upload submissions to Canvas.

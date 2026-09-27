@@ -132,8 +132,8 @@
   prep:
     - text: "Download the workshop kit (Problem Sets page)"
       url: assignments.html#ps2
-    - text: "Read the one-page AI-for-FP&A ground rules"
-      url: files/ps2/ground_rules.pdf
+    - text: "Read the one-page AI-for-FP&A ground rules (in the kit)"
+      url: assignments.html#ps2
     - text: "Verify an AI login"
       url: ai-toolkit.html
   out: "PS2 (due Oct 12)"

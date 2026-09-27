@@ -68,15 +68,9 @@ Log as you go: every AI claim you rely on gets a Verification Log row **the mome
 ### Downloads
 
 - [Assignment (PDF)](files/ps2_assignment.pdf) — the full case, questions, and Exhibit A in print form; the workbench mirrors it
-- [Case facts (PDF)](files/ps2/case_facts.pdf) — the Redline Labs business and every stated assumption, with a one-table quick reference; your source of truth. Also as [plain text](files/ps2/case_facts.txt) for pasting into your AI tools
-- [Driver data (CSV)](files/ps2/drivers.csv) — the numeric drivers that feed the model
-- [Starter workbook (Excel)](files/ps2/starter.xlsx) — the tab skeleton you build on; treat it as an unverified v0 and audit every row
-- [Benchmark sheet (PDF)](files/ps2/benchmark_sheet.pdf) — the peer benchmarks you may cite, with their provenance
-- [Verification log template (Excel)](files/ps2/verification_log.xlsx) — the offline fallback for the log you complete in the workbench
-- [Prompt card (PDF)](files/ps2/prompt_card.pdf) — starter prompts for driving the AI through the build
-- [Ground rules (PDF)](files/ps2/ground_rules.pdf) — the AI-for-FP&A rules, including the benchmark-provenance rule
-- [One-pager template (PowerPoint)](files/ps2/one_pager_template.pptx) — the board-memo layout you export to PDF
-- [Fallback transcripts (ZIP)](files/ps2/fallback_transcripts.zip) — worked AI transcripts to fall back on if AI access fails mid-build
+- [Workshop kit (ZIP, password-protected)](files/ps2/s07_workshop_kit.zip) — the full S07/PS2 Model Pack in one download. The password is posted on Canvas and announced in class; it is not published here. The kit is also on Canvas, unzipped, under Files → S07 Workshop Kit.
+
+The kit contains: the case facts (PDF and plain text for pasting into your AI tools) — your source of truth; the driver data (CSV); the starter workbook you build on — treat it as an unverified v0 and audit every row; the benchmark sheet with provenance; the verification log template; the prompt card (PDF and plain text); the AI-for-FP&A ground rules; the board one-pager template; and a Fallback folder of worked AI transcripts to use if AI access fails mid-build.
 
 ---
 
