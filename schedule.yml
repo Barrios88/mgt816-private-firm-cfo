@@ -120,8 +120,9 @@
       url: live/index.html
   out: null
   due: "PS1"
-  slides: null
+  slides: files/s06_slides.pdf
   handouts: []
+  note: "The KPI and unit-economics half (slides 18 on) is covered at the start of the Sep 28 workshop. Exercise solutions are posted on Canvas."
   workbench: ps1/index.html
   workbench_label: "PS1 workbench"
   assignment: assignments.html#ps1
