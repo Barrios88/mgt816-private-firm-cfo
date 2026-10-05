@@ -32,8 +32,9 @@ def main() -> int:
     data = json.loads(polls.read_text(encoding="utf-8"))
     if data.get("schema") != "mgt816-live-polls-v1":
         errors.append("unexpected schema")
-    if len(data.get("sessions", [])) != 10:
-        errors.append("expected 10 sessions")
+    # 10 graded banks + the S08 Case 2 vote session (opinion, no key)
+    if len(data.get("sessions", [])) != 11:
+        errors.append("expected 11 sessions")
     for ses in data.get("sessions", []):
         for q in ses.get("questions", []):
             if "answer" in q or "note" in q:
