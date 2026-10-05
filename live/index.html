@@ -213,11 +213,29 @@
       if (saved[q.id]) html += '<p class="ok">Saved: ' + saved[q.id] + "</p>";
       html += "</div>";
     });
+    html += '<div class="bar"><button type="button" id="done">Done</button></div>';
     appEl.innerHTML = html;
+    document.getElementById("done").addEventListener("click", renderDone);
     document.getElementById("change").addEventListener("click", () => { err = ""; renderStart(); });
     appEl.querySelectorAll(".opt").forEach(btn => {
       btn.addEventListener("click", () => vote(btn.getAttribute("data-q"), btn.getAttribute("data-l")));
     });
+  }
+
+  function renderDone() {
+    const n = ses.questions.filter(q => saved[q.id]).length;
+    let html = '<div class="card">';
+    if (n) {
+      html += '<p class="ok">Your answers are saved (' + n + " of " + ses.questions.length + ").</p>";
+      html += '<p class="msg">You can close this page. To change an answer, come back before the end of class.</p>';
+    } else {
+      html += '<p class="err">You have not answered anything yet.</p>';
+    }
+    html += '<div style="margin-top:0.8rem"><button type="button" class="primary" id="back">Back to the questions</button></div>';
+    html += "</div>";
+    appEl.innerHTML = html;
+    window.scrollTo(0, 0);
+    document.getElementById("back").addEventListener("click", renderPoll);
   }
 
   function vote(qid, letter) {
