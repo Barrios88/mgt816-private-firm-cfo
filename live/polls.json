@@ -580,6 +580,35 @@
       ]
     },
     {
+      "id": "S08",
+      "date": "2026-10-05",
+      "title": "Case 2: Solstice",
+      "questions": [
+        {
+          "id": "q1",
+          "n": 1,
+          "prompt": "Opening vote, before any math. You hold vested equity at Solstice and the tender pays $9.00 a share. What do you do?",
+          "choices": {
+            "A": "Sell the maximum the tender allows",
+            "B": "Sell more than half, but not the maximum",
+            "C": "Sell some, less than half",
+            "D": "Sell nothing"
+          }
+        },
+        {
+          "id": "q2",
+          "n": 2,
+          "prompt": "Closing vote, same question after the case. You hold vested equity at Solstice and the tender pays $9.00 a share. What do you do?",
+          "choices": {
+            "A": "Sell the maximum the tender allows",
+            "B": "Sell more than half, but not the maximum",
+            "C": "Sell some, less than half",
+            "D": "Sell nothing"
+          }
+        }
+      ]
+    },
+    {
       "id": "S09",
       "date": "2026-10-05",
       "title": "Revenue recognition",
