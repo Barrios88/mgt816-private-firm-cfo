@@ -108,7 +108,7 @@
   <header>
     <div class="kicker">MGT 816 · The Private Firm CFO</div>
     <h1>In-class poll</h1>
-    <div class="sub" id="hdr">Scan. Pick your name. Confirm with your NetID.</div>
+    <div class="sub" id="hdr">Enter your NetID and the session number, then vote.</div>
   </header>
   <main id="app"></main>
   <script src="firebase-config.js"></script>
@@ -117,257 +117,132 @@
   <script>
 (function () {
   const cfg = window.MGT816_FIREBASE || {};
-  const STORE = "mgt816-live-who-v2";
+  const WHO = "mgt816-vote-who-v1";
   const LETTERS = ["A", "B", "C", "D"];
   const appEl = document.getElementById("app");
   const hdr = document.getElementById("hdr");
 
   let polls = null;
   let db = null;
-  let room = null;
-  let roster = [];
-  let me = null;
-  let pending = null;
-  let claimErr = "";
-  let claiming = false;
-  try { me = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) { me = null; }
-  if (me && (!me.pid || !me.claim)) {
-    me = null;
-    localStorage.removeItem(STORE);
-  }
-  const answers = {};
-  let filter = "";
+  let id = "";
+  let ses = null;
+  let answers = {};
+  let saved = {};
+  let err = "";
 
-  function md(s) {
-    return String(s || "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  function md(t) {
+    return String(t || "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   }
-  function sessionBank() {
-    if (!polls || !room) return null;
-    return polls.sessions.find(s => s.id === room.session) || null;
+  function cleanId(raw) {
+    let t = String(raw || "").trim().toLowerCase();
+    if (t.endsWith("@yale.edu")) t = t.slice(0, -9);
+    return t;
   }
-  function openedQs() {
-    const bank = sessionBank();
-    if (!bank) return [];
-    const opened = Array.isArray(room.opened) && room.opened.length
-      ? room.opened.map(Number)
-      : bank.questions.map(q => q.n);
-    return bank.questions.filter(q => opened.indexOf(q.n) !== -1);
+  function findSession(raw) {
+    const t = String(raw || "").trim().toUpperCase().replace(/^S/, "");
+    if (!/^\d{1,2}$/.test(t)) return null;
+    const want = "S" + t.padStart(2, "0");
+    return polls.sessions.find(x => x.id === want) || null;
   }
-  function visibleQs() {
-    const qs = openedQs();
-    if (room && room.mode === "live" && room.currentQ) {
-      return qs.filter(q => q.n === Number(room.currentQ));
-    }
-    return qs;
+  function store(key) { return "mgt816-vote-" + key + "-" + id; }
+  function loadLocal() {
+    try { answers = JSON.parse(localStorage.getItem(store(ses.id)) || "{}") || {}; } catch (e) { answers = {}; }
+    saved = Object.assign({}, answers);
   }
-  function complete() {
-    return openedQs().every(q => answers[q.id]);
-  }
-  function normalizeClaim(raw) {
-    let s = String(raw || "").trim().toLowerCase();
-    if (s.endsWith("@yale.edu")) s = s.slice(0, -9);
-    return s;
-  }
-  function clearMe() {
-    me = null;
-    pending = null;
-    claimErr = "";
-    claiming = false;
-    localStorage.removeItem(STORE);
-    Object.keys(answers).forEach(k => delete answers[k]);
+  function saveLocal() {
+    try { localStorage.setItem(store(ses.id), JSON.stringify(saved)); } catch (e) {}
   }
 
-  function render() {
-    if (!polls) {
-      appEl.innerHTML = '<div class="card msg">Loading questions.</div>';
-      return;
-    }
-    if (!cfg.databaseURL) {
-      hdr.textContent = "Nothing is open.";
-      appEl.innerHTML = '<div class="card msg">Polls run in class, on this page. Nothing is open right now.</div>';
-      return;
-    }
-    if (!room || !room.open) {
-      hdr.textContent = "Waiting for class to open the poll.";
-      appEl.innerHTML = '<div class="card msg">Nothing is open. Scan again when class starts, or wait on this page.</div>';
-      return;
-    }
-    const bank = sessionBank();
-    hdr.textContent = (bank ? bank.id + " · " + bank.title : room.session) + " · Section " + room.section;
-    if (pending && (!me || me.section !== room.section)) {
-      renderClaim();
-      return;
-    }
-    if (!me || me.section !== room.section || !me.claim || !me.pid) {
-      renderPick();
-      return;
-    }
-    renderPoll();
-  }
-
-  function renderPick() {
-    const q = filter.trim().toLowerCase();
-    const list = roster.filter(s => {
-      if (s.section && s.section !== room.section) return false;
-      if (!q) return true;
-      return (s.last + " " + s.first).toLowerCase().indexOf(q) !== -1;
-    });
-    let html = '<div class="card"><p class="msg">Pick your name. Section ' + room.section + ' is open.</p>';
-    html += '<input id="find" type="search" placeholder="Type your last name" autocomplete="off">';
-    html += '<ul class="names">';
-    list.slice(0, 40).forEach(s => {
-      const key = s.pid || s.id;
-      html += '<li><button type="button" data-pid="' + key + '">' + s.last + ", " + s.first + "</button></li>";
-    });
-    html += "</ul>";
-    if (!list.length) html += '<p class="msg">No match. Check the section, or tell the TA you are not on the list.</p>';
-    html += "</div>";
-    appEl.innerHTML = html;
-    const inp = document.getElementById("find");
-    inp.value = filter;
-    inp.addEventListener("input", e => { filter = e.target.value; renderPick(); const n = document.getElementById("find"); if (n) n.focus(); });
-    inp.focus();
-    appEl.querySelectorAll(".names button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const s = roster.find(x => (x.pid || x.id) === btn.getAttribute("data-pid"));
-        if (!s || !s.pid) return;
-        pending = { pid: s.pid, first: s.first, last: s.last, section: room.section };
-        claimErr = "";
-        render();
-      });
-    });
-  }
-
-  function renderClaim() {
+  function renderStart() {
+    hdr.textContent = "Enter your NetID and the session number, then vote.";
+    const qs = new URLSearchParams(location.search);
+    let remembered = "";
+    try { remembered = localStorage.getItem(WHO) || ""; } catch (e) {}
     let html = '<div class="card">';
-    html += '<p class="msg"><strong>' + pending.last + ", " + pending.first + "</strong></p>";
-    html += '<p class="msg">Confirm with your Yale NetID — the Canvas login, not your email.</p>';
-    html += '<input id="claim" type="text" inputmode="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="NetID">';
-    if (claimErr) html += '<p class="err">' + claimErr + "</p>";
-    html += '<div style="margin-top:0.7rem"><button type="button" class="primary" id="go"' + (claiming ? " disabled" : "") + ">" + (claiming ? "Checking…" : "Continue") + "</button></div>";
-    html += '<p style="margin-top:0.7rem"><button type="button" class="linkish" id="back">Not you?</button></p>';
+    html += '<p class="msg">Your NetID is your Canvas login, not your email.</p>';
+    html += '<input id="nid" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="NetID">';
+    html += '<p class="msg" style="margin-top:0.8rem">Session number (it is on the slide).</p>';
+    html += '<input id="sn" type="text" inputmode="numeric" placeholder="Session number, e.g. 8">';
+    if (err) html += '<p class="err">' + err + "</p>";
+    html += '<div style="margin-top:0.8rem"><button type="button" class="primary" id="go">Start</button></div>';
     html += "</div>";
     appEl.innerHTML = html;
-    const inp = document.getElementById("claim");
-    inp.focus();
-    document.getElementById("back").addEventListener("click", () => { clearMe(); render(); });
-    function submitClaim() {
-      if (claiming) return;
-      const claim = normalizeClaim(inp.value);
-      if (!claim) {
-        claimErr = "Enter your Yale NetID.";
-        renderClaim();
+    const nid = document.getElementById("nid");
+    const sn = document.getElementById("sn");
+    nid.value = id || remembered;
+    sn.value = ses ? String(Number(ses.id.slice(1))) : (qs.get("s") || "");
+    (nid.value ? sn : nid).focus();
+    function go() {
+      const v = cleanId(nid.value);
+      if (!/^[a-z][a-z0-9]{1,11}$/.test(v)) {
+        err = "Enter your NetID (letters and numbers, no @yale.edu).";
+        renderStart();
         return;
       }
-      if (claim.indexOf("@") !== -1 || claim.indexOf(".") !== -1) {
-        claimErr = "Use your NetID (Canvas login), not your email.";
-        renderClaim();
+      const found = findSession(sn.value);
+      if (!found) {
+        err = "There is no session " + (sn.value || "with that number") + ". Check the slide.";
+        id = v;
+        renderStart();
         return;
       }
-      claiming = true;
-      claimErr = "";
-      renderClaim();
-      const payload = {
-        first: pending.first,
-        last: pending.last,
-        choices: {},
-        updated: Date.now(),
-        claim: claim
-      };
-      db.ref("answers/" + room.session + "/" + room.section + "/" + pending.pid).set(payload)
-        .then(() => {
-          me = {
-            pid: pending.pid,
-            first: pending.first,
-            last: pending.last,
-            section: pending.section,
-            claim: claim
-          };
-          pending = null;
-          claiming = false;
-          localStorage.setItem(STORE, JSON.stringify(me));
-          render();
-        })
-        .catch(() => {
-          claiming = false;
-          claimErr = "That NetID does not match this name.";
-          renderClaim();
-        });
+      err = "";
+      id = v;
+      ses = found;
+      try { localStorage.setItem(WHO, id); } catch (e) {}
+      loadLocal();
+      renderPoll();
     }
-    document.getElementById("go").addEventListener("click", submitClaim);
-    inp.addEventListener("keydown", e => { if (e.key === "Enter") submitClaim(); });
+    document.getElementById("go").addEventListener("click", go);
+    [nid, sn].forEach(el => el.addEventListener("keydown", e => { if (e.key === "Enter") go(); }));
   }
 
   function renderPoll() {
-    const qs = visibleQs();
-    const all = openedQs();
-    let html = '<div class="who"><span>' + me.last + ", " + me.first + '</span><button type="button" id="switch">Not you?</button></div>';
-    html += '<div class="count">' + Object.keys(answers).filter(k => all.some(q => q.id === k && answers[k])).length + " of " + all.length + " answered</div>";
-    if (room.mode === "live" && !qs.length) {
-      html += '<div class="card wait">Waiting for the next question.</div>';
-    }
-    qs.forEach(q => {
+    hdr.textContent = ses.id + " · " + ses.title;
+    const n = ses.questions.filter(q => saved[q.id]).length;
+    let html = '<div class="who"><span>NetID <strong>' + id + "</strong></span>" +
+      '<button type="button" id="change">Change</button></div>';
+    html += '<div class="count">' + n + " of " + ses.questions.length + " saved. Each tap saves.</div>";
+    if (err) html += '<div class="card err">' + err + "</div>";
+    ses.questions.forEach(q => {
       html += '<div class="q card"><h2><span class="n">Q' + q.n + ".</span> " + md(q.prompt) + "</h2>";
       LETTERS.forEach(L => {
         const on = answers[q.id] === L ? " on" : "";
         html += '<button type="button" class="opt' + on + '" data-q="' + q.id + '" data-l="' + L + '"><span class="ltr">' + L + "</span> " + md(q.choices[L]) + "</button>";
       });
+      if (saved[q.id]) html += '<p class="ok">Saved: ' + saved[q.id] + "</p>";
       html += "</div>";
     });
-    if (room.mode !== "live") {
-      html += '<div class="bar"><button type="button" id="submit"' + (complete() ? "" : " disabled") + ">Submit</button></div>";
-    } else if (complete()) {
-      html += '<div class="card ok">You are in. Stay on this page if another question comes up.</div>';
-    }
     appEl.innerHTML = html;
-    const sw = document.getElementById("switch");
-    if (sw) sw.addEventListener("click", () => { clearMe(); render(); });
+    document.getElementById("change").addEventListener("click", () => { err = ""; renderStart(); });
     appEl.querySelectorAll(".opt").forEach(btn => {
-      btn.addEventListener("click", () => {
-        answers[btn.getAttribute("data-q")] = btn.getAttribute("data-l");
-        pushAnswers();
-        render();
-      });
-    });
-    const sub = document.getElementById("submit");
-    if (sub) sub.addEventListener("click", () => {
-      pushAnswers().then(() => {
-        const bar = document.querySelector(".bar");
-        if (bar) bar.innerHTML = '<p class="ok">Submitted. You are marked present.</p>';
-      }).catch(() => {
-        claimErr = "Could not submit. Confirm your NetID again.";
-        clearMe();
-        render();
-      });
+      btn.addEventListener("click", () => vote(btn.getAttribute("data-q"), btn.getAttribute("data-l")));
     });
   }
 
-  function pushAnswers() {
-    if (!db || !me || !me.claim || !me.pid || !room || !room.open) return Promise.resolve();
-    const payload = {
-      first: me.first,
-      last: me.last,
-      choices: answers,
-      updated: Date.now(),
-      claim: me.claim
-    };
-    return db.ref("answers/" + room.session + "/" + room.section + "/" + me.pid).update(payload);
-  }
-
-  function listen() {
-    db.ref("room").on("value", snap => {
-      room = snap.val();
-      if (room && room.open && room.section) {
-        db.ref("roster/" + room.section).once("value", r => {
-          const v = r.val();
-          roster = Array.isArray(v) ? v : (v ? Object.values(v) : []);
-          render();
-        });
-      } else {
-        roster = [];
-        render();
-      }
-    });
+  function vote(qid, letter) {
+    answers[qid] = letter;
+    err = "";
+    renderPoll();
+    if (!db) {
+      err = "Voting is not connected. Tell the TA.";
+      renderPoll();
+      return;
+    }
+    // One key per question, so a later vote never erases an earlier one.
+    const payload = { updated: firebase.database.ServerValue.TIMESTAMP };
+    payload["choices/" + qid] = letter;
+    db.ref("votes/" + ses.id + "/" + id).update(payload)
+      .then(() => {
+        saved[qid] = letter;
+        saveLocal();
+        renderPoll();
+      })
+      .catch(() => {
+        answers[qid] = saved[qid];
+        err = "Not saved. " + ses.id + " takes votes only during class on its class day. Check the session number.";
+        renderPoll();
+      });
   }
 
   fetch("polls.json").then(r => r.json()).then(data => {
@@ -375,10 +250,8 @@
     if (cfg.apiKey && cfg.databaseURL) {
       firebase.initializeApp(cfg);
       db = firebase.database();
-      listen();
-    } else {
-      render();
     }
+    renderStart();
   }).catch(() => {
     appEl.innerHTML = '<div class="card msg">Could not load the poll questions.</div>';
   });
