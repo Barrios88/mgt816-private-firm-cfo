@@ -1,18 +1,891 @@
 <!DOCTYPE html>
+<!--
+  Solstice Robotics discussion site - built 2026-09-20 per Site_Spec_Solstice.md (v1) + Solstice_Site_Build_Plan.md (v2).
+  Two layers: Class replay (projected in class, Mon Oct 5 after the schedule swap) + Explore (post-class calculators).
+  Numbers verified against the corrected instructor figures (Sep 20 independent pass). Deviations from v1, per that pass:
+  walk-away forfeits all 40,000 vested ($312,000); the all-in Sofia gap ($26,607 incl. April balances, $10,920 hold-leg);
+  QSBS framing states the asset test at exercise dates; the closing table carries no arithmetic total.
+  Built OUTSIDE the public repo. The commit IS the unlock (after the 4:10 section, Mon Oct 5).
+-->
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solstice Discussion — MGT 816</title>
-  <style>
-    body { font-family: Georgia, serif; max-width: 40rem; margin: 4rem auto; padding: 0 1.5rem; color: #333; }
-    h1 { color: #1F4E79; }
-    .locked { color: #6c757d; font-style: italic; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solstice Debrief — MGT 816 Case 2</title>
+<style>
+  :root { --accent:#1F4E79; --accent-light:#D5E8F0; --bg:#fafaf8; --ink:#1a1a1a; --ok:#2e7d32; --warn:#b3261e; --line:#d4dce4; font-size:20px; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html { scroll-behavior:auto; } *,*::before,*::after { transition:none !important; animation:none !important; } }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height:1.5; }
+  main { max-width:1100px; margin:0 auto; padding:1rem 1.2rem 3rem; }
+  h1 { font-size:2rem; color:var(--accent); line-height:1.2; margin:0.8rem 0 0.3rem; }
+  h2 { font-size:1.5rem; color:var(--accent); margin:0 0 0.6rem; }
+  h3 { font-size:1.1rem; color:var(--accent); margin:1rem 0 0.4rem; }
+  section { margin:2.2rem 0; padding-top:0.5rem; }
+  .subline { color:#555; font-size:0.95rem; }
+  .framing { font-size:1.15rem; font-style:italic; margin:0.6rem 0; }
+  .timing { color:#777; font-size:0.82rem; font-weight:600; letter-spacing:0.02em; }
+  .topbar { position:sticky; top:0; z-index:50; background:#fff; border-bottom:2px solid var(--accent); padding:0.4rem 0.8rem; display:flex; flex-wrap:wrap; gap:0.4rem 0.8rem; align-items:center; }
+  .topbar .brand { font-weight:700; color:var(--accent); white-space:nowrap; }
+  .topbar nav { display:flex; flex-wrap:wrap; gap:0.15rem 0.7rem; font-size:0.82rem; }
+  .topbar nav a { color:var(--accent); text-decoration:none; padding:0.15rem 0.2rem; }
+  .topbar nav a:hover { text-decoration:underline; }
+  .topbar .tools { margin-left:auto; display:flex; gap:0.35rem; align-items:center; }
+  button { font:inherit; cursor:pointer; }
+  .btn { border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:0.25rem 0.7rem; font-weight:600; font-size:0.85rem; }
+  .btn[aria-pressed="true"], .btn.active { background:var(--accent); color:#fff; }
+  .btn.small { font-size:0.76rem; padding:0.12rem 0.45rem; }
+  :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  .progresswrap { width:100%; height:5px; background:var(--accent-light); }
+  .progressbar { height:5px; width:0%; background:var(--accent); transition:width 0.2s; }
+  .rcard { background:#fff; border:1px solid var(--line); border-radius:10px; margin:0.55rem 0; overflow:hidden; }
+  .rcard.open { border-left:6px solid var(--accent); }
+  .rtoggle { display:flex; width:100%; justify-content:space-between; align-items:center; gap:0.6rem; text-align:left; background:none; border:none; padding:0.6rem 0.8rem; font-size:0.95rem; font-weight:600; color:var(--accent); }
+  .rtoggle .chk { color:var(--ok); font-weight:700; }
+  .rbody { padding:0 0.9rem 0.7rem; font-size:0.95rem; }
+  .rbody ul { margin:0.2rem 0 0.2rem 1.1rem; padding:0; }
+  .rbody li { margin:0.25rem 0; }
+  .arith { font-variant-numeric:tabular-nums; background:#f4f7fa; border-radius:8px; padding:0.5rem 0.7rem; margin:0.4rem 0; font-size:0.92rem; overflow-x:auto; }
+  .big { font-size:1.25rem; font-weight:700; color:var(--accent); }
+  .warntext { color:var(--warn); font-weight:700; }
+  .oktext { color:var(--ok); font-weight:700; }
+  .pricecards { display:grid; grid-template-columns:repeat(3,1fr); gap:0.7rem; }
+  .pricecards .rtoggle { flex-direction:column; align-items:flex-start; }
+  .pricecards .pricebig { font-size:1.9rem; color:var(--ink); }
+  .matrix { display:grid; grid-template-columns:6.8rem 1fr 1fr 1fr; gap:0.4rem; }
+  .matrix .mhead { font-weight:700; color:var(--accent); padding:0.4rem 0.2rem; border-bottom:2px solid var(--accent); font-size:0.9rem; }
+  .matrix .mrowlab { font-weight:600; font-size:0.82rem; color:#555; padding-top:0.7rem; }
+  .matrix .mcell { margin:0; }
+  .matrix .mcell .rtoggle { font-size:0.85rem; padding:0.45rem 0.6rem; }
+  .matrix .mcell .rbody { font-size:0.85rem; padding:0 0.65rem 0.55rem; }
+  .mfixed { background:#fff; border:1px solid var(--line); border-radius:10px; padding:0.5rem 0.65rem; font-size:0.85rem; }
+  .votewrap { display:flex; flex-wrap:wrap; gap:0.8rem; align-items:stretch; margin:0.6rem 0; }
+  .voteres { display:flex; flex-wrap:wrap; gap:0.8rem; align-items:stretch; margin:0.6rem 0; }
+  .voteres .vote { min-width:8.5rem; }
+  .vote { background:#fff; border:1.5px solid var(--accent); border-radius:10px; padding:0.55rem 0.8rem; min-width:11rem; }
+  .vote .vlabel { font-weight:700; color:var(--accent); font-size:0.9rem; }
+  .vote .vcount { font-size:1.7rem; font-weight:700; font-variant-numeric:tabular-nums; }
+  .vote .vbtns { display:flex; gap:0.35rem; margin-top:0.25rem; }
+  .locknote { font-size:0.85rem; color:#555; align-self:center; }
+  .steps { list-style:none; margin:0.4rem 0; padding:0; }
+  .steps li { border:1px solid var(--line); border-left:6px solid var(--accent-light); background:#fff; border-radius:8px; margin:0.35rem 0; padding:0.45rem 0.7rem; font-variant-numeric:tabular-nums; font-size:0.95rem; }
+  .steps li.shown { border-left-color:var(--accent); }
+  .steps li[hidden] { display:none; }
+  .highlight { background:var(--accent-light); border-radius:8px; padding:0.5rem 0.8rem; margin:0.5rem 0; font-weight:600; }
+  .ledger { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; }
+  .ledger h3 { margin-top:0.2rem; }
+  table.cmp { border-collapse:collapse; width:100%; font-size:0.92rem; font-variant-numeric:tabular-nums; }
+  table.cmp th { text-align:left; color:var(--accent); border-bottom:2px solid var(--accent); padding:0.3rem 0.5rem; }
+  table.cmp td { border-bottom:1px solid var(--line); padding:0.3rem 0.5rem; }
+  .scrollx { overflow-x:auto; }
+  .parking input { font:inherit; padding:0.3rem 0.5rem; border:1px solid var(--line); border-radius:8px; min-width:16rem; }
+  .parking li { margin:0.25rem 0; }
+  .parking li button { margin-left:0.5rem; }
+  .calc { background:#fff; border:1px solid var(--line); border-radius:12px; padding:0.9rem 1rem; margin:1rem 0; }
+  .calc .ctrl { display:flex; flex-wrap:wrap; gap:0.7rem 1.4rem; align-items:center; margin:0.5rem 0; font-size:0.92rem; }
+  .calc label { font-weight:600; color:var(--accent); }
+  .calc input[type=range] { width:14rem; }
+  .calc input[type=number] { font:inherit; width:7rem; padding:0.2rem 0.4rem; border:1px solid var(--line); border-radius:6px; }
+  .presets { display:flex; flex-wrap:wrap; gap:0.4rem; margin:0.4rem 0; }
+  .factstrip { font-size:0.85rem; color:#555; background:#f4f7fa; border-radius:8px; padding:0.4rem 0.7rem; margin:0.3rem 0 0.6rem; }
+  .flip { text-align:left; }
+  .bargraph { margin:0.6rem 0; }
+  .footer { border-top:2px solid var(--accent); margin-top:2.5rem; padding-top:0.8rem; color:#555; font-size:0.85rem; }
+  .layerhide[hidden] { display:none; }
+  svg text { font-family:inherit; }
+  @media (max-width:720px){
+    .pricecards, .matrix, .ledger { grid-template-columns:1fr; }
+    .matrix .mrowlab { padding-top:0.9rem; border-top:1px dashed var(--line); }
+  }
+  @media print {
+    .topbar, .vbtns, .presets, button.rtoggle .chk, #revealAllBtn, .parking form { display:none !important; }
+    .rbody[hidden], .steps li[hidden], .layerhide[hidden] { display:block !important; }
+    .rtoggle { color:#000; }
+    body { background:#fff; }
+  }
+</style>
 </head>
 <body>
-  <h1>Solstice Robotics Case Discussion</h1>
-  <p class="locked">This interactive discussion site unlocks after class on <strong>Wednesday, September 30, 2026</strong> (after the 4:10 pm section).</p>
-  <p><a href="../../cases.html">← Back to Cases</a></p>
+<header class="topbar">
+  <span class="brand">Solstice Debrief</span>
+  <div class="tools" role="group" aria-label="Layer">
+    <button class="btn" id="layerReplayBtn" aria-pressed="true">Class replay</button>
+    <button class="btn" id="layerExploreBtn" aria-pressed="false">Explore</button>
+  </div>
+  <nav id="navReplay" aria-label="Panels">
+    <a href="#p1">Vote</a><a href="#p2">Three prices</a><a href="#p3">Matrix</a><a href="#p4">Maya</a><a href="#p5">Ben</a><a href="#p6">Sofia</a><a href="#p7">CFO</a><a href="#p8">Takeaways</a><a href="#p9">Parking lot</a>
+  </nav>
+  <nav id="navExplore" aria-label="Explore modules" hidden>
+    <a href="#e1">AMT</a><a href="#e2">Sell vs. wait</a><a href="#e3">Sofia's bridge</a><a href="#e4">CFO ledger</a><a href="#e5">Wrong turns</a><a href="#e6">What to study</a>
+  </nav>
+  <div class="tools">
+    <span id="sectionCtl" role="group" aria-label="Section">
+      <button class="btn small secbtn" data-sec="1" aria-pressed="true">Section 1</button>
+      <button class="btn small secbtn" data-sec="2" aria-pressed="false">Section 2</button>
+      <button class="btn small secbtn" data-sec="3" aria-pressed="false">Section 3</button>
+    </span>
+    <button class="btn small" id="fontMinus" aria-label="Smaller text">A−</button>
+    <button class="btn small" id="fontPlus" aria-label="Larger text">A+</button>
+  </div>
+</header>
+<div class="progresswrap" id="progressWrap"><div class="progressbar" id="progressBar"></div></div>
+
+<main>
+<div id="layerReplay" class="layerhide">
+
+<section id="p1" aria-labelledby="p1h">
+  <h1 id="p1h">Solstice Robotics: Three Inboxes and a Tender Offer</h1>
+  <p class="subline">The Private Firm CFO · Case 2 · Mon Oct 5, 2026 · Prof. Barrios</p>
+  <p class="subline">This is the projected class discussion. Click any card to reveal it, or press → to step through. For open-ended what-ifs, switch to Explore. <button class="btn small" id="revealAllBtn">Reveal all</button></p>
+  <p class="framing">Three people got the same email about the same $9.00. Their tax bills differ by six figures.</p>
+  <p>The class voted on phones twice: before any math, and again after the case. All three sections combined:</p>
+  <p class="subline">Opening vote — 71 votes</p>
+  <div class="voteres">
+    <div class="vote"><div class="vlabel">Sell the maximum</div><div class="vcount">27</div></div>
+    <div class="vote"><div class="vlabel">More than half</div><div class="vcount">21</div></div>
+    <div class="vote"><div class="vlabel">Some, less than half</div><div class="vcount">18</div></div>
+    <div class="vote"><div class="vlabel">Sell nothing</div><div class="vcount">5</div></div>
+  </div>
+  <p class="subline">Closing vote, same question — 45 votes</p>
+  <div class="voteres">
+    <div class="vote"><div class="vlabel">Sell the maximum</div><div class="vcount">19</div></div>
+    <div class="vote"><div class="vlabel">More than half</div><div class="vcount">12</div></div>
+    <div class="vote"><div class="vlabel">Some, less than half</div><div class="vcount">11</div></div>
+    <div class="vote"><div class="vlabel">Sell nothing</div><div class="vcount">3</div></div>
+  </div>
+  <p class="subline">45 of the 71 re-voted, so compare shares, not raw counts.</p>
+</section>
+
+<section id="p2" aria-labelledby="p2h">
+  <h2 id="p2h">The three prices</h2>
+  <p class="timing">0:05–0:13</p>
+  <div class="pricecards">
+    <div class="rcard" data-rid="price10"><button class="rtoggle" aria-expanded="false"><span><span class="pricebig">$10.00</span><br>Series C preferred</span><span class="chk" hidden>✓</span></button>
+      <div class="rbody" hidden><p>What investors paid for stock plus preferences — a 1× non-participating liquidation preference and board rights. Not the price of common.</p></div></div>
+    <div class="rcard" data-rid="price9"><button class="rtoggle" aria-expanded="false"><span><span class="pricebig">$9.00</span><br>The tender</span><span class="chk" hidden>✓</span></button>
+      <div class="rbody" hidden><p>A negotiated clearing price for common today. Real, but one-time and capped.</p></div></div>
+    <div class="rcard" data-rid="price4"><button class="rtoggle" aria-expanded="false"><span><span class="pricebig">$4.00</span><br>The 409A FMV</span><span class="chk" hidden>✓</span></button>
+      <div class="rbody" hidden><p>The defensible fair market value of common. Sets option strike prices; the tax law's reference point at exercise.</p></div></div>
+  </div>
+  <p><em>Everything in this case is: which number does the tax law use, and when?</em></p>
+</section>
+
+<section id="p3" aria-labelledby="p3h">
+  <h2 id="p3h">The persona matrix</h2>
+  <p class="timing">fills through 0:13–0:58</p>
+  <div class="matrix">
+    <div></div>
+    <div class="mhead">Maya Chen — Staff Engineer</div>
+    <div class="mhead">Ben Osei — Director of Product</div>
+    <div class="mhead">Sofia Ramirez — VP Sales (resigned)</div>
+
+    <div class="mrowlab">Position</div>
+    <div class="mfixed">100,000 ISOs @ $0.25, fully vested, never exercised</div>
+    <div class="mfixed">Early-exercised 80,000 ISOs (Mar 2022, paid $20,000) + 83(b); holds common, basis $0.25</div>
+    <div class="mfixed">60,000 NQSOs @ $1.20; 40,000 vested; 90-day window ends Jun 29, 2026</div>
+
+    <div class="mrowlab">Income character</div>
+    <div class="rcard mcell" data-rid="m-char-maya"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>Ordinary on the tender sale (disqualifying disposition); AMT on exercise-and-hold.</div></div>
+    <div class="rcard mcell" data-rid="m-char-ben"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>Long-term capital gain — heading to a QSBS $0 federal rate.</div></div>
+    <div class="rcard mcell" data-rid="m-char-sofia"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>Ordinary compensation (W-2), with withholding.</div></div>
+
+    <div class="mrowlab">Tax now</div>
+    <div class="rcard mcell" data-rid="m-tax-maya"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>$87,500 on the tender of 25,000; $64,750 AMT if she exercises 75,000 and holds (at the $4.00 FMV).</div></div>
+    <div class="rcard mcell" data-rid="m-tax-ben"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>$50,400 if he sells 20,000 now; $8,750 if he waits past Mar 15, 2027.</div></div>
+    <div class="rcard mcell" data-rid="m-tax-sofia"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>$33,033 total on the tender of 10,000 — $22,893 withheld plus $10,140 more at filing.</div></div>
+
+    <div class="mrowlab">Cash now</div>
+    <div class="rcard mcell" data-rid="m-cash-maya"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>+$131,250 net from the tender.</div></div>
+    <div class="rcard mcell" data-rid="m-cash-ben"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>+$129,600 net if he sells now.</div></div>
+    <div class="rcard mcell" data-rid="m-cash-sofia"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>+$55,107 at settlement — but exercising the rest needs $60,654 by June 29.</div></div>
+
+    <div class="mrowlab">Clock status</div>
+    <div class="rcard mcell" data-rid="m-clock-maya"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>QSBS: unavailable at any exercise now — gross assets have been above the $75M issuance test since January 2026. An exercise before mid-2023, under the old $50M test, would have qualified.</div></div>
+    <div class="rcard mcell" data-rid="m-clock-ben"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>QSBS 5-year mark: March 15, 2027.</div></div>
+    <div class="rcard mcell" data-rid="m-clock-sofia"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>90-day window: June 29, 2026 — a hard deadline.</div></div>
+
+    <div class="mrowlab">Biggest risk</div>
+    <div class="rcard mcell" data-rid="m-risk-maya"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>Exercising under a $9.00 FMV assumption nearly triples the AMT: ≈$194,950.</div></div>
+    <div class="rcard mcell" data-rid="m-risk-ben"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>Waiting: no market, price risk, concentration.</div></div>
+    <div class="rcard mcell" data-rid="m-risk-sofia"><button class="rtoggle" aria-expanded="false"><span>Reveal</span><span class="chk" hidden>✓</span></button><div class="rbody" hidden>Letting the window lapse. The remaining 30,000 carry $234,000 of intrinsic value at $9.00; walking away entirely forfeits all 40,000 — $312,000.</div></div>
+  </div>
+</section>
+
+<section id="p4" aria-labelledby="p4h">
+  <h2 id="p4h">Maya: the AMT worksheet</h2>
+  <p class="timing">0:13–0:30</p>
+  <div class="rcard" data-rid="maya-tender"><button class="rtoggle" aria-expanded="false"><span>The tender leg first — 25,000 same-day</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden>
+      <div class="arith">Ordinary income = ($9.00 − $0.25) × 25,000 = <strong>$218,750</strong><br>
+      Tax at 40% (35% federal + 5% state) = <strong>$87,500</strong><br>
+      Net cash = $225,000 − $6,250 strike − $87,500 = <strong>$131,250</strong></div>
+      <p><strong>No withholding came out — the bill arrives in April.</strong></p>
+    </div></div>
+  <h3>Exercise-and-hold the other 75,000: step through the worksheet</h3>
+  <div class="ctrlbar">
+    <button class="btn" id="amtNextBtn">Next line</button>
+    <button class="btn" id="amtToggleBtn" aria-pressed="false">What if she exercises all 100,000?</button>
+    <button class="btn small" id="amtResetBtn">Restart worksheet</button>
+  </div>
+  <ol class="steps" id="amtSteps"></ol>
+  <div class="highlight" id="amtDelta" hidden>The AMT rises from $64,750 to $101,500 — the last 25,000 shares cost $36,750, the ~42% shadow bracket from the exemption phaseout.</div>
+  <div class="rcard" data-rid="maya-prepay"><button class="rtoggle" aria-expanded="false"><span>What the AMT really is</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>AMT is (mostly) a prepayment: it becomes a credit against future regular tax, and selling in the same calendar year erases the adjustment entirely.</p></div></div>
+</section>
+
+<section id="p5" aria-labelledby="p5h">
+  <h2 id="p5h">Ben: the $20,000 form</h2>
+  <p class="timing">0:30–0:44</p>
+  <div class="rcard" data-rid="ben-timeline"><button class="rtoggle" aria-expanded="false"><span>The timeline</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden>
+      <svg viewBox="0 0 900 110" role="img" aria-label="Timeline from March 2022 exercise to March 2027 QSBS mark" style="width:100%;height:auto">
+        <line x1="40" y1="55" x2="860" y2="55" stroke="#1F4E79" stroke-width="3"/>
+        <circle cx="80" cy="55" r="9" fill="#1F4E79"/>
+        <text x="80" y="30" text-anchor="middle" font-size="15" fill="#1a1a1a">Mar 15, 2022</text>
+        <text x="80" y="90" text-anchor="middle" font-size="13" fill="#555">exercise + 83(b) · $20,000 · tax then $0</text>
+        <circle cx="600" cy="55" r="9" fill="#b3261e"/>
+        <text x="600" y="30" text-anchor="middle" font-size="15" fill="#1a1a1a">May 15, 2026</text>
+        <text x="600" y="90" text-anchor="middle" font-size="13" fill="#555">tender settles — 4.2 years held</text>
+        <circle cx="820" cy="55" r="9" fill="#2e7d32"/>
+        <text x="820" y="30" text-anchor="middle" font-size="15" fill="#1a1a1a">Mar 15, 2027</text>
+        <text x="820" y="90" text-anchor="middle" font-size="13" fill="#555">QSBS 5-year mark</text>
+      </svg>
+    </div></div>
+  <div class="rcard" data-rid="ben-compare"><button class="rtoggle" aria-expanded="false"><span>Sell now vs. wait</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><div class="scrollx">
+      <table class="cmp"><tr><th></th><th>Sell 20,000 in May 2026</th><th>Wait past Mar 15, 2027</th></tr>
+      <tr><td>Proceeds</td><td>$180,000</td><td>$180,000 (at the same $9.00)</td></tr>
+      <tr><td>Gain (basis $5,000)</td><td>$175,000</td><td>$175,000</td></tr>
+      <tr><td>Tax</td><td>28.8% combined = <strong>$50,400</strong></td><td>federal $0 (§1202) + state $8,750</td></tr>
+      <tr><td><strong>Net</strong></td><td><strong>$129,600</strong></td><td><strong>$171,250</strong></td></tr></table></div>
+      <p>His stock is pre-July-4-2025 QSBS: 5-year cliff, 100% exclusion, $10M cap, $50M asset test met at issuance ($14M in March 2022). No partial exclusion at 4.2 years — the cliff is a cliff.</p>
+      <p class="highlight">Waiting saves $41,650 — 24% of the gain — for about ten months of illiquidity.</p>
+    </div></div>
+  <div class="rcard" data-rid="ben-counterfactual"><button class="rtoggle" aria-expanded="false"><span>What the $20,000 form was worth</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Had Ben never early-exercised, at a hypothetical $20 IPO his path is all-ordinary — roughly $632,000 of tax — versus his actual QSBS path of roughly $79,000. The $20,000 form was worth about <strong>$553,000</strong>.</p></div></div>
+  <div class="votewrap" data-vote="ben">
+    <div class="vote"><div class="vlabel">Sell in May</div><div class="vcount" data-count="sell">0</div><div class="vbtns"><button class="btn small" data-d="1">+</button><button class="btn small" data-d="-1">−</button></div></div>
+    <div class="vote"><div class="vlabel">Wait for March</div><div class="vcount" data-count="wait">0</div><div class="vbtns"><button class="btn small" data-d="1">+</button><button class="btn small" data-d="-1">−</button></div></div>
+  </div>
+</section>
+<section id="p6" aria-labelledby="p6h">
+  <h2 id="p6h">Sofia: the 90-day clock</h2>
+  <p class="timing">0:44–0:58</p>
+  <div class="rcard" data-rid="sofia-tender"><button class="rtoggle" aria-expanded="false"><span>The tender: 10,000 shares</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden>
+      <div class="arith">Compensation = ($9.00 − $1.20) × 10,000 = <strong>$78,000</strong> (onto her W-2)<br>
+      Withheld at 29.35% (22% federal supplemental + 2.35% Medicare + 5% state) = <strong>$22,893</strong><br>
+      Net cash = $90,000 − $12,000 strike − $22,893 = <strong>$55,107</strong><br>
+      True tax at 42.35% = $33,033 → <strong>another $10,140 due in April</strong></div>
+      <p><strong>Withholding is not the tax.</strong> It is a deposit; her marginal rate is 42.35%.</p>
+    </div></div>
+  <div class="rcard" data-rid="sofia-exercise"><button class="rtoggle" aria-expanded="false"><span>Exercise-and-hold 30,000 by June 29</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden>
+      <div class="arith">Spread at the $4.00 FMV = $2.80 × 30,000 = <strong>$84,000</strong> of ordinary income — with zero cash received (phantom income)<br>
+      Cash needed = $36,000 strike + $24,654 withholding = <strong>$60,654</strong><br>
+      Full-year tax on this leg = 42.35% × $84,000 = $35,574 — withholding covers $24,654, so <strong>$10,920 more arrives with the April return</strong></div>
+    </div></div>
+  <div class="bargraph" aria-hidden="false">
+    <svg viewBox="0 0 900 170" role="img" aria-label="Funding bridge: tender nets 55,107 dollars against 60,654 needed; the gap is 5,547 dollars" style="width:100%;height:auto">
+      <text x="10" y="38" font-size="15" fill="#1a1a1a">Tender net</text>
+      <rect x="150" y="22" width="617" height="26" fill="#1F4E79" rx="4"/>
+      <text x="775" y="41" font-size="15" fill="#1a1a1a">$55,107</text>
+      <text x="10" y="94" font-size="15" fill="#1a1a1a">Needed by Jun 29</text>
+      <rect x="150" y="78" width="403" height="26" fill="#D5E8F0" stroke="#1F4E79" rx="4"/>
+      <text x="290" y="97" font-size="14" fill="#1a1a1a">strike $36,000</text>
+      <rect x="553" y="78" width="276" height="26" fill="#7ea6c8" rx="4"/>
+      <text x="600" y="97" font-size="14" fill="#fff">withholding $24,654</text>
+      <text x="838" y="97" font-size="15" fill="#1a1a1a">$60,654</text>
+      <rect x="767" y="22" width="62" height="26" fill="none" stroke="#b3261e" stroke-width="2.5" stroke-dasharray="6 3" rx="4"/>
+      <text x="798" y="140" text-anchor="middle" font-size="16" font-weight="bold" fill="#b3261e">gap: $5,547</text>
+    </svg>
+  </div>
+  <div class="rcard" data-rid="sofia-walkaway"><button class="rtoggle" aria-expanded="false"><span>And if she does nothing?</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Walking away entirely forfeits all 40,000 vested options — <strong>$312,000</strong> of intrinsic value at the $9.00 print ($112,000 at the $4.00 409A). After tendering 10,000, the amount still at stake is the remaining 30,000: <strong>$234,000</strong> at $9.00, $84,000 at $4.00. Pretax, illiquid value — but real.</p></div></div>
+  <div class="rcard" data-rid="sofia-paths"><button class="rtoggle" aria-expanded="false"><span>Three paths</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><ul>
+      <li><strong>Sell 10,000 + exercise 30,000:</strong> short $5,547 at the June deadline; with both April filing balances ($10,140 + $10,920) the all-in gap is <strong>$26,607</strong>. Keeps 30,000 shares, and the capital-gains clock starts.</li>
+      <li><strong>Sell 10,000 only:</strong> +$55,107 now; forfeits the remaining 30,000 — $234,000 of intrinsic value at $9.00.</li>
+      <li><strong>Do nothing:</strong> $0, and all 40,000 vested options die on June 29 — $312,000.</li>
+    </ul></div></div>
+</section>
+
+<section id="p7" aria-labelledby="p7h">
+  <h2 id="p7h">The CFO's ledger</h2>
+  <p class="timing">0:58–1:12</p>
+  <p class="subline">Planning mix for the full 1,000,000-share tender: 40% NQSO exercise-and-sells @ $1.20 average strike · 35% ISO same-day sells @ $0.25 · 25% long-held common.</p>
+  <div class="ledger">
+    <div>
+      <h3>In (to Solstice)</h3>
+      <div class="rcard" data-rid="cfo-deduct"><button class="rtoggle" aria-expanded="false"><span>Tax deductions ≈ $6.2M</span><span class="chk" hidden>✓</span></button>
+        <div class="rbody" hidden><div class="arith">NQSO spreads: ($9.00 − $1.20) × 400,000 = <strong>$3.12M</strong><br>ISO same-day (disqualifying) spreads: ($9.00 − $0.25) × 350,000 = <strong>$3.06M</strong> (rounded)<br>Long-held common: <strong>$0</strong></div>
+        <p>Worth ≈ $1.3M at 21% — someday. Solstice is an NOL company; the deduction joins a $110M carryforward.</p></div></div>
+    </div>
+    <div>
+      <h3>Out / obligations</h3>
+      <div class="rcard" data-rid="cfo-withhold"><button class="rtoggle" aria-expanded="false"><span>Withholding remitted ≈ $916,000</span><span class="chk" hidden>✓</span></button>
+        <div class="rbody" hidden><p>$915,720 on the NQSO legs (29.35% of $3.12M) — and at Solstice's deposit size, the federal employment-tax deposit is due the <strong>next business day</strong> after settlement.</p></div></div>
+      <div class="rcard" data-rid="cfo-medicare"><button class="rtoggle" aria-expanded="false"><span>Employer Medicare $45,240</span><span class="chk" hidden>✓</span></button>
+        <div class="rbody" hidden><p>1.45% of the $3.12M of NQSO compensation — the company's own cash cost, on top of remitting employees' withholding.</p></div></div>
+      <div class="rcard" data-rid="cfo-isonote"><button class="rtoggle" aria-expanded="false"><span>ISO sales: no withholding</span><span class="chk" hidden>✓</span></button>
+        <div class="rbody" hidden><p>ISO same-day sales carry no withholding at all — employees must cover the tax themselves in April. The FAQ must say so.</p></div></div>
+    </div>
+  </div>
+  <h3>Three policy questions for the board</h3>
+  <div class="votewrap" data-vote="pol1">
+    <div class="vote"><div class="vlabel">Restore early exercise?</div><div class="vcount" data-count="yes">0</div><div class="vbtns"><button class="btn small" data-d="1">Yes +</button><button class="btn small" data-d="-1">−</button></div></div>
+    <div class="vote"><div class="vlabel">&nbsp;</div><div class="vcount" data-count="no">0</div><div class="vbtns"><button class="btn small" data-d="1">No +</button><button class="btn small" data-d="-1">−</button></div></div>
+  </div>
+  <div class="votewrap" data-vote="pol2">
+    <div class="vote"><div class="vlabel">Extend 90-day windows?</div><div class="vcount" data-count="yes">0</div><div class="vbtns"><button class="btn small" data-d="1">Yes +</button><button class="btn small" data-d="-1">−</button></div></div>
+    <div class="vote"><div class="vlabel">&nbsp;</div><div class="vcount" data-count="no">0</div><div class="vbtns"><button class="btn small" data-d="1">No +</button><button class="btn small" data-d="-1">−</button></div></div>
+  </div>
+  <div class="rcard" data-rid="cfo-extendnote"><button class="rtoggle" aria-expanded="false"><span>The catch on extensions</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Three months after termination an ISO becomes an NQSO by statute, whatever the plan says. And an extension is an ASC 718 modification, with incremental expense.</p></div></div>
+  <div class="votewrap" data-vote="pol3">
+    <div class="vote"><div class="vlabel">Should $9.00 move the next 409A?</div><div class="vcount" data-count="yes">0</div><div class="vbtns"><button class="btn small" data-d="1">Yes +</button><button class="btn small" data-d="-1">−</button></div></div>
+    <div class="vote"><div class="vlabel">&nbsp;</div><div class="vcount" data-count="no">0</div><div class="vbtns"><button class="btn small" data-d="1">No +</button><button class="btn small" data-d="-1">−</button></div></div>
+  </div>
+  <div class="rcard" data-rid="cfo-409anote"><button class="rtoggle" aria-expanded="false"><span>What the valuation firm will say</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>A real secondary print is evidence. Expect the next common FMV in the $4.50–$6.00 range — so grant any planned refreshes before the evidence accumulates.</p></div></div>
+  <div class="highlight">The company's best tax outcomes are exactly the employees' worst ones.</div>
+</section>
+
+<section id="p8" aria-labelledby="p8h">
+  <h2 id="p8h">Takeaways</h2>
+  <p class="timing">1:12–1:20</p>
+  <svg viewBox="0 0 900 120" role="img" aria-label="Decision chain: grant type, exercise timing, sale timing, character" style="width:100%;height:auto">
+    <g font-size="15" fill="#1a1a1a">
+    <rect x="10" y="35" width="170" height="46" rx="8" fill="#D5E8F0" stroke="#1F4E79"/><text x="95" y="63" text-anchor="middle">Grant type</text>
+    <rect x="240" y="35" width="180" height="46" rx="8" fill="#D5E8F0" stroke="#1F4E79"/><text x="330" y="63" text-anchor="middle">Exercise timing</text>
+    <rect x="480" y="35" width="160" height="46" rx="8" fill="#D5E8F0" stroke="#1F4E79"/><text x="560" y="63" text-anchor="middle">Sale timing</text>
+    <rect x="700" y="35" width="190" height="46" rx="8" fill="#1F4E79"/><text x="795" y="63" text-anchor="middle" fill="#fff">Character</text>
+    <path d="M180 58 h50 m-12 -7 l12 7 l-12 7" stroke="#1F4E79" stroke-width="2.5" fill="none"/>
+    <path d="M420 58 h50 m-12 -7 l12 7 l-12 7" stroke="#1F4E79" stroke-width="2.5" fill="none"/>
+    <path d="M640 58 h50 m-12 -7 l12 7 l-12 7" stroke="#1F4E79" stroke-width="2.5" fill="none"/>
+    <text x="795" y="105" text-anchor="middle" font-size="13" fill="#555">ordinary · LTCG · excluded</text>
+    </g>
+  </svg>
+  <div class="rcard" data-rid="ta-maya"><button class="rtoggle" aria-expanded="false"><span>Maya: smart vs. naive</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Exercise-now-and-hold beats never-exercising by roughly <strong>$166,000</strong> at a hypothetical $20 exit — and the QSBS door that closed (an exercise back before mid-2023) would have been worth about <strong>$518,000</strong>.</p></div></div>
+  <div class="rcard" data-rid="ta-ben"><button class="rtoggle" aria-expanded="false"><span>Ben: two numbers</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>The $20,000 form: about <strong>$553,000</strong>. The ten-month wait he is weighing now: <strong>$41,650</strong>.</p></div></div>
+  <div class="rcard" data-rid="ta-sofia"><button class="rtoggle" aria-expanded="false"><span>Sofia: the cost of small print</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Doing nothing costs <strong>$234,000</strong> on the 30,000 she could still keep — found on page six, on a Saturday night, 84 days before the deadline.</p></div></div>
+  <div class="rcard" data-rid="ta-room"><button class="rtoggle" aria-expanded="false"><span>Across the room</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Five choices, each worth five or six figures, on a $9.0 million tender — overlapping alternatives, hypothetical exits, and illiquid value, so they do not add to one number. What they share: none was set by the exit.</p></div></div>
+  <p class="framing" style="font-size:1.3rem;color:#1F4E79"><strong>None of this was set the day the money arrived — it was set the day somebody did, or didn't, sign a form. The CFO's job is making sure nobody finds that out too late.</strong></p>
+</section>
+
+<section id="p9" aria-labelledby="p9h" class="parking">
+  <h2 id="p9h">Parking lot: call your tax attorney</h2>
+  <p class="subline">Edge cases parked to protect the clock. Per section.</p>
+  <form id="parkForm"><input id="parkInput" type="text" aria-label="Add a parked question" placeholder="Type a question and press Add"> <button class="btn" type="submit">Add</button></form>
+  <ul id="parkList"></ul>
+</section>
+</div>
+<div id="layerExplore" class="layerhide" hidden>
+<h1>Explore the machinery</h1>
+<p class="subline">The class discussion used fixed numbers. These calculators run the same machinery on inputs you choose — the transferable part. All rates are the case's simplified tax card, not real-world parameters.</p>
+
+<section id="e1" class="calc" aria-labelledby="e1h">
+  <h2 id="e1h">E1 — The AMT explorer</h2>
+  <p class="factstrip">Machinery: bargain-element add-back → AMTI → $90,000 exemption phased out $0.50 per $1 of AMTI over $500,000 → 26% / 28% tentative → AMT = excess over regular tax. ISO exercise-and-hold only.</p>
+  <div class="ctrl">
+    <label for="e1shares">Shares exercised &amp; held: <span id="e1sharesOut">75,000</span></label>
+    <input type="range" id="e1shares" min="0" max="100000" step="1000" value="75000">
+  </div>
+  <div class="ctrl">
+    <span>FMV at exercise:</span>
+    <button class="btn small e1fmv" data-fmv="4" aria-pressed="true">$4.00</button>
+    <button class="btn small e1fmv" data-fmv="9" aria-pressed="false">$9.00</button>
+    <label for="e1fmvOther">other $</label><input type="number" id="e1fmvOther" min="0.25" max="12" step="0.25" value="4.00">
+    <label for="e1base">Baseline income $</label><input type="number" id="e1base" value="200000" step="5000">
+    <label for="e1regtax">Regular tax $</label><input type="number" id="e1regtax" value="40000" step="1000">
+    <label for="e1strike">Strike $</label><input type="number" id="e1strike" value="0.25" step="0.05">
+  </div>
+  <div class="presets">
+    <button class="btn small e1preset" data-s="75000" data-f="4">75,000 @ $4.00</button>
+    <button class="btn small e1preset" data-s="100000" data-f="4">100,000 @ $4.00</button>
+    <button class="btn small e1preset" data-s="75000" data-f="9">75,000 @ $9.00</button>
+  </div>
+  <div class="arith" id="e1out"></div>
+  <div class="bargraph"><svg id="e1chart" viewBox="0 0 900 240" role="img" aria-label="AMT as a function of shares exercised" style="width:100%;height:auto"></svg></div>
+  <p class="subline" id="e1band"></p>
+</section>
+
+<section id="e2" class="calc" aria-labelledby="e2h">
+  <h2 id="e2h">E2 — Sell now vs. wait: the QSBS clock</h2>
+  <p class="factstrip">Ben's shares: basis $0.25, bought March 15, 2022 with the 83(b). Pre-July-4-2025 QSBS: 5-year cliff, 100% federal exclusion, $10M cap, $50M asset test met at issuance. The state's 5% applies even to excluded gain.</p>
+  <div class="ctrl">
+    <label for="e2shares">Shares: <span id="e2sharesOut">20,000</span></label>
+    <input type="range" id="e2shares" min="0" max="20000" step="500" value="20000">
+    <label for="e2price">Assumed price at a post-Mar-2027 sale: $<span id="e2priceOut">9.00</span></label>
+    <input type="range" id="e2price" min="0" max="15" step="0.25" value="9">
+  </div>
+  <div class="presets"><button class="btn small" id="e2preset">Class numbers: wait at $9.00</button></div>
+  <div class="arith" id="e2out"></div>
+  <p class="highlight" id="e2breakeven"></p>
+  <div class="rcard" data-rid="x-e2risk"><button class="rtoggle" aria-expanded="false"><span>What has to stay true for waiting to pay</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>A buyer still exists next March (the tender is a one-time window); the price holds; and he can keep his whole net worth in one private stock for ten more months without losing sleep.</p></div></div>
+  <div class="rcard" data-rid="x-e2form"><button class="rtoggle" aria-expanded="false"><span>The $20,000 form, again</span><span class="chk" hidden>✓</span></button>
+    <div class="rbody" hidden><p>Had Ben never early-exercised, at a hypothetical $20 IPO his path is all-ordinary — roughly $632,000 of tax versus roughly $79,000 on his actual QSBS path. The form was worth about $553,000. (Static by design: those path assumptions are narrative, not derivable from the tax card.)</p></div></div>
+</section>
+
+<section id="e3" class="calc" aria-labelledby="e3h">
+  <h2 id="e3h">E3 — Sofia's bridge</h2>
+  <p class="factstrip">40,000 vested NQSOs @ $1.20; tender cap 10,000 (25% of vested); window ends June 29. Withholding stack 29.35%; true marginal rate 42.35%. The exercise leg withholds at the $4.00 409A — that is what payroll uses; the $4/$9 choice belongs to ISO holders, not here.</p>
+  <div class="ctrl">
+    <label for="e3tender">Shares tendered: <span id="e3tenderOut">10,000</span></label>
+    <input type="range" id="e3tender" min="0" max="10000" step="500" value="10000">
+    <label for="e3ex">Exercised &amp; held by Jun 29: <span id="e3exOut">30,000</span></label>
+    <input type="range" id="e3ex" min="0" max="30000" step="1000" value="30000">
+  </div>
+  <div class="presets">
+    <button class="btn small e3preset" data-t="10000" data-e="30000">Sell + exercise</button>
+    <button class="btn small e3preset" data-t="10000" data-e="0">Sell only</button>
+    <button class="btn small e3preset" data-t="0" data-e="0">Walk away</button>
+  </div>
+  <div class="arith" id="e3out"></div>
+  <div class="bargraph"><svg id="e3chart" viewBox="0 0 900 150" role="img" aria-label="Funding bridge chart" style="width:100%;height:auto"></svg></div>
+  <p class="subline" id="e3note"></p>
+</section>
+
+<section id="e4" class="calc" aria-labelledby="e4h">
+  <h2 id="e4h">E4 — The CFO's ledger: tender-mix explorer</h2>
+  <p class="factstrip">1,000,000 shares at $9.00. Average strikes: NQSO $1.20, ISO $0.25. NQSO spreads carry the 29.35% withholding stack and 1.45% employer Medicare; ISO same-day sales carry none; long-held common generates no deduction.</p>
+  <div class="ctrl">
+    <label for="e4n">NQSO exercise-and-sell: <span id="e4nOut">40</span>%</label>
+    <input type="range" id="e4n" min="0" max="100" step="5" value="40">
+    <label for="e4i">ISO same-day: <span id="e4iOut">35</span>%</label>
+    <input type="range" id="e4i" min="0" max="100" step="5" value="35">
+    <span>Long-held common: <strong id="e4cOut">25%</strong></span>
+  </div>
+  <div class="presets"><button class="btn small" id="e4preset">Planning mix 40 / 35 / 25</button></div>
+  <div class="arith" id="e4out"></div>
+  <div class="highlight" id="e4punch" hidden>All long-held common: the deductions collapse to $0. The company's best tax outcomes are exactly the employees' worst ones.</div>
+</section>
+
+<section id="e5" aria-labelledby="e5h">
+  <h2 id="e5h">Common wrong turns</h2>
+  <p class="subline">Each card front is a tempting mistake. Click for why it fails and the right number.</p>
+  <div id="wrongTurns"></div>
+</section>
+
+<section id="e6" aria-labelledby="e6h">
+  <h2 id="e6h">What to study</h2>
+  <ul>
+    <li><strong>Character is chosen, not given.</strong> The same $9.00 produced ordinary-with-withholding (Sofia), ordinary-without-withholding (Maya's same-day ISO sale), and capital-gain-heading-to-zero (Ben) — fixed by grant type, elections, and clocks set long before liquidity.</li>
+    <li><strong>The five-line AMT worksheet, cold.</strong> Add-back → AMTI → exemption with the phaseout → 26%/28% tentative → excess over regular tax. Know the ~42% shadow bracket in the phaseout band, the credit, and the same-year-sale escape.</li>
+    <li><strong>Two clocks start at exercise — none while you wait.</strong> The one-year capital-gains clock and the QSBS holding period both run from exercise, and the QSBS asset test is applied at exercise too.</li>
+    <li><strong>Withholding is not the tax.</strong> 29.35% withheld against a 42.35% true rate; ISO events withhold nothing at all; phantom income on an illiquid exercise has to be funded with real cash.</li>
+    <li><strong>The deductibility asymmetry.</strong> NQSO spreads and same-day ISO sales are deductible compensation to the company; qualifying ISO gains and long-held shares give it nothing.</li>
+    <li><strong>Plan design is tax policy.</strong> 90-day windows, the three-month ISO statute, early-exercise availability, and 409A discipline after a secondary print are CFO levers — each with a named payer. Forfeiture of unvested awards reverses recognized expense; vested expiry reverses nothing; extensions are modifications.</li>
+    <li><strong>The final exam will not retest Solstice's facts.</strong> It will hand you a new grant history and a liquidity event and expect the machinery above run on it — the decision tree with dollars attached.</li>
+  </ul>
+  <p class="framing">None of this was set the day the money arrived — it was set the day somebody did, or didn't, sign a form.</p>
+</section>
+</div>
+
+<footer class="footer">
+  <p>Original teaching case — Solstice Robotics is fictional. Classroom analysis only; not tax advice.</p>
+  <p>State lives in memory only — do not reload mid-class.</p>
+  <p>Posted after the October 5 class discussion as a study aid. The graded write-up predates this page; nothing here was available before all sections met.</p>
+</footer>
+</main>
+<script>
+(function(){
+"use strict";
+// ---- All case constants in one place (future variants: edit here) ----
+const CASE = {
+  tenderPrice: 9.00, fmv409a: 4.00, prefC: 10.00,
+  ordFed: 0.35, state: 0.05, ltcgFed: 0.238, // incl. NIIT
+  wFed: 0.22, wMed: 0.0235, wState: 0.05,    // 29.35% stack
+  erMed: 0.0145, corp: 0.21,
+  amt: { exempt: 90000, phaseStart: 500000, phaseRate: 0.5, band: 240000, r1: 0.26, r2: 0.28 },
+  maya: { shares: 100000, strike: 0.25, base: 200000, regTax: 40000, tenderCap: 25000 },
+  ben:  { shares: 20000, strike: 0.25, buyDate: "2022-03-15" },
+  sofia:{ vested: 40000, strike: 1.20, tenderCap: 10000, exMax: 30000 },
+  mix:  { total: 1000000, nq: 0.40, iso: 0.35, strikeNq: 1.20, strikeIso: 0.25 }
+};
+const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+const fmt2 = n => "$" + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+const wStack = CASE.wFed + CASE.wMed + CASE.wState;             // 0.2935
+const trueRate = CASE.ordFed + CASE.wMed + CASE.wState;         // 0.4235
+const cgRate = CASE.ltcgFed + CASE.state;                       // 0.288
+
+// ---- Layer toggle ----
+const layers = { replay: document.getElementById("layerReplay"), explore: document.getElementById("layerExplore") };
+const layerBtns = { replay: document.getElementById("layerReplayBtn"), explore: document.getElementById("layerExploreBtn") };
+const navs = { replay: document.getElementById("navReplay"), explore: document.getElementById("navExplore") };
+let activeLayer = "replay";
+function setLayer(name){
+  activeLayer = name;
+  for (const k of ["replay","explore"]) {
+    layers[k].hidden = (k !== name);
+    navs[k].hidden = (k !== name);
+    layerBtns[k].setAttribute("aria-pressed", String(k === name));
+  }
+  document.getElementById("sectionCtl").style.display = (name === "replay") ? "" : "none";
+  document.getElementById("progressWrap").style.display = (name === "replay") ? "" : "none";
+  window.scrollTo(0,0);
+}
+layerBtns.replay.addEventListener("click", () => setLayer("replay"));
+layerBtns.explore.addEventListener("click", () => setLayer("explore"));
+
+// ---- Per-section state (class layer; in memory only) ----
+function freshSection(){ return { reveals: new Set(), votes: {}, locks: {}, parking: [], amt: { mode: "75", line: 0 } }; }
+const sections = { 1: freshSection(), 2: freshSection(), 3: freshSection() };
+let curSec = 1;
+const S = () => sections[curSec];
+
+// ---- Reveal cards ----
+const replayCards = Array.from(document.querySelectorAll("#layerReplay .rcard[data-rid]"));
+const exploreCards = Array.from(document.querySelectorAll("#layerExplore .rcard[data-rid]"));
+function paintCard(card, open){
+  const btn = card.querySelector(".rtoggle"), body = card.querySelector(".rbody"), chk = card.querySelector(".chk");
+  card.classList.toggle("open", open);
+  btn.setAttribute("aria-expanded", String(open));
+  body.hidden = !open; chk.hidden = !open;
+}
+function setReveal(card, open, persist){
+  paintCard(card, open);
+  if (persist) { const id = card.dataset.rid; if (open) S().reveals.add(id); else S().reveals.delete(id); updateProgress(); }
+}
+replayCards.forEach(card => card.querySelector(".rtoggle").addEventListener("click", () => {
+  setReveal(card, !S().reveals.has(card.dataset.rid), true);
+}));
+exploreCards.forEach(card => card.querySelector(".rtoggle").addEventListener("click", () => {
+  paintCard(card, card.querySelector(".rbody").hidden);
+}));
+function updateProgress(){
+  const pct = Math.round(100 * S().reveals.size / replayCards.length);
+  document.getElementById("progressBar").style.width = pct + "%";
+}
+document.getElementById("revealAllBtn").addEventListener("click", () => {
+  replayCards.forEach(c => setReveal(c, true, true));
+  amtShowAll();
+});
+
+// ---- Keyboard (replay layer) ----
+document.addEventListener("keydown", (e) => {
+  if (activeLayer !== "replay") return;
+  const t = e.target;
+  if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+  if (["ArrowRight","ArrowDown"," "].includes(e.key) || e.code === "Space") {
+    const next = replayCards.find(c => !S().reveals.has(c.dataset.rid));
+    if (next) { e.preventDefault(); setReveal(next, true, true); next.scrollIntoView({block:"center"}); }
+  } else if (["ArrowLeft","ArrowUp"].includes(e.key)) {
+    const opened = replayCards.filter(c => S().reveals.has(c.dataset.rid));
+    const last = opened[opened.length - 1];
+    if (last) { e.preventDefault(); setReveal(last, false, true); }
+  } else if (e.key === "r" || e.key === "R") {
+    if (confirm("Reset this section's reveals, votes, worksheet, and parking lot?")) { sections[curSec] = freshSection(); renderSection(); }
+  }
+});
+
+// ---- Votes ----
+const voteWraps = Array.from(document.querySelectorAll(".votewrap"));
+voteWraps.forEach(w => {
+  const vid = w.dataset.vote;
+  w.querySelectorAll(".vote").forEach(v => {
+    const key = v.querySelector(".vcount").dataset.count;
+    v.querySelectorAll("[data-d]").forEach(b => b.addEventListener("click", () => {
+      const votes = S().votes; const k = vid + ":" + key;
+      votes[k] = Math.max(0, (votes[k] || 0) + Number(b.dataset.d));
+      renderVotes();
+    }));
+  });
+  const lockBtn = w.querySelector("[data-lock]");
+  if (lockBtn) lockBtn.addEventListener("click", () => {
+    const votes = S().votes;
+    S().locks[vid] = "Pre-vote locked — max " + (votes[vid + ":max"] || 0) + " · nothing " + (votes[vid + ":none"] || 0);
+    votes[vid + ":max"] = 0; votes[vid + ":none"] = 0;
+    renderVotes();
+  });
+});
+function renderVotes(){
+  voteWraps.forEach(w => {
+    const vid = w.dataset.vote;
+    w.querySelectorAll(".vcount").forEach(c => { c.textContent = S().votes[vid + ":" + c.dataset.count] || 0; });
+    const note = w.querySelector("[data-locknote]");
+    if (note) note.textContent = S().locks[vid] || "";
+  });
+}
+
+// ---- Maya AMT step-through ----
+function amtCompute(shares, fmv, strike, base, regTax){
+  const L1 = (fmv - strike) * shares;
+  const L2 = base + L1;
+  const exempt = Math.max(0, CASE.amt.exempt - CASE.amt.phaseRate * Math.max(0, L2 - CASE.amt.phaseStart));
+  const amtBase = L2 - exempt;
+  const L4 = CASE.amt.r1 * Math.min(amtBase, CASE.amt.band) + CASE.amt.r2 * Math.max(0, amtBase - CASE.amt.band);
+  const L5 = Math.max(0, L4 - regTax);
+  return { L1, L2, exempt, amtBase, L4, L5, cashOut: L5 + strike * shares };
+}
+const amtSteps = document.getElementById("amtSteps");
+function amtLines(mode){
+  const m = CASE.maya;
+  const shares = mode === "75" ? 75000 : 100000;
+  const r = amtCompute(shares, CASE.fmv409a, m.strike, m.base, m.regTax);
+  const lines = [
+    "Regular taxable income " + fmt(m.base) + " → regular tax " + fmt(m.regTax),
+    "Bargain element: " + shares.toLocaleString() + " × ($4.00 − $0.25) = <strong>" + fmt(r.L1) + "</strong>",
+    "AMTI = " + fmt(m.base) + " + " + fmt(r.L1) + " = <strong>" + fmt(r.L2) + "</strong> → exemption " + fmt(r.exempt) + " → base " + fmt(r.amtBase),
+    "Tentative minimum tax = 26% × $240,000 + 28% × " + fmt(r.amtBase - 240000) + " = <strong>" + fmt(r.L4) + "</strong>",
+    "AMT = " + fmt(r.L4) + " − " + fmt(m.regTax) + " = <strong>" + fmt(r.L5) + "</strong> · plus strike " + fmt(m.strike * shares) + " → <strong>" + fmt(r.cashOut) + " cash out, zero shares sold</strong>"
+  ];
+  if (mode === "75") lines[2] = "AMTI = " + fmt(r.L2) + " → under the $500,000 phaseout → full $90,000 exemption → base " + fmt(r.amtBase);
+  else lines[2] = "AMTI = " + fmt(r.L2) + " → exemption $90,000 − 50% × $75,000 = <strong>$52,500</strong> → base " + fmt(r.amtBase);
+  return lines;
+}
+function renderAmt(){
+  const st = S().amt;
+  const lines = amtLines(st.mode);
+  amtSteps.innerHTML = "";
+  lines.forEach((html, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = html;
+    li.hidden = i >= st.line;
+    li.classList.toggle("shown", i < st.line);
+    amtSteps.appendChild(li);
+  });
+  document.getElementById("amtToggleBtn").setAttribute("aria-pressed", String(st.mode === "100"));
+  document.getElementById("amtDelta").hidden = !(st.mode === "100" && st.line >= 5);
+}
+document.getElementById("amtNextBtn").addEventListener("click", () => { S().amt.line = Math.min(5, S().amt.line + 1); renderAmt(); });
+document.getElementById("amtToggleBtn").addEventListener("click", () => { const a = S().amt; a.mode = (a.mode === "75") ? "100" : "75"; renderAmt(); });
+document.getElementById("amtResetBtn").addEventListener("click", () => { S().amt = { mode: "75", line: 0 }; renderAmt(); });
+function amtShowAll(){ S().amt.line = 5; renderAmt(); }
+
+// ---- Parking lot ----
+document.getElementById("parkForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const inp = document.getElementById("parkInput");
+  const v = inp.value.trim();
+  if (v) { S().parking.push(v); inp.value = ""; renderParking(); }
+});
+function renderParking(){
+  const ul = document.getElementById("parkList");
+  ul.innerHTML = "";
+  S().parking.forEach((q, i) => {
+    const li = document.createElement("li");
+    li.textContent = q;
+    const del = document.createElement("button");
+    del.className = "btn small"; del.textContent = "remove";
+    del.addEventListener("click", () => { S().parking.splice(i,1); renderParking(); });
+    li.appendChild(del);
+    ul.appendChild(li);
+  });
+}
+
+// ---- Section switching ----
+document.querySelectorAll(".secbtn").forEach(b => b.addEventListener("click", () => {
+  curSec = Number(b.dataset.sec);
+  document.querySelectorAll(".secbtn").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  renderSection();
+}));
+function renderSection(){
+  replayCards.forEach(c => paintCard(c, S().reveals.has(c.dataset.rid)));
+  renderVotes(); renderAmt(); renderParking(); updateProgress();
+}
+
+// ---- Font size ----
+let rootPx = 20;
+document.getElementById("fontMinus").addEventListener("click", () => { rootPx = Math.max(18, rootPx - 1); document.documentElement.style.fontSize = rootPx + "px"; });
+document.getElementById("fontPlus").addEventListener("click", () => { rootPx = Math.min(26, rootPx + 1); document.documentElement.style.fontSize = rootPx + "px"; });
+
+// ================= EXPLORE LAYER =================
+// ---- E1: AMT explorer ----
+const e1 = { shares: 75000, fmv: 4.00 };
+function e1Read(){
+  e1.shares = Number(document.getElementById("e1shares").value);
+  const other = Number(document.getElementById("e1fmvOther").value);
+  const pressed = document.querySelector(".e1fmv[aria-pressed='true']");
+  e1.fmv = pressed ? Number(pressed.dataset.fmv) : other;
+  return {
+    base: Number(document.getElementById("e1base").value) || 0,
+    regTax: Number(document.getElementById("e1regtax").value) || 0,
+    strike: Number(document.getElementById("e1strike").value) || 0
+  };
+}
+function e1Render(){
+  const p = e1Read();
+  document.getElementById("e1sharesOut").textContent = e1.shares.toLocaleString();
+  const r = amtCompute(e1.shares, e1.fmv, p.strike, p.base, p.regTax);
+  document.getElementById("e1out").innerHTML =
+    "L1 bargain = (" + fmt2(e1.fmv) + " − " + fmt2(p.strike) + ") × " + e1.shares.toLocaleString() + " = <strong>" + fmt(r.L1) + "</strong><br>" +
+    "L2 AMTI = " + fmt(p.base) + " + " + fmt(r.L1) + " = <strong>" + fmt(r.L2) + "</strong><br>" +
+    "L3 exemption = " + fmt(r.exempt) + " → base = <strong>" + fmt(r.amtBase) + "</strong><br>" +
+    "L4 tentative = 26% × " + fmt(Math.min(r.amtBase, 240000)) + " + 28% × " + fmt(Math.max(0, r.amtBase - 240000)) + " = <strong>" + fmt(r.L4) + "</strong><br>" +
+    "L5 AMT = max(0, " + fmt(r.L4) + " − " + fmt(p.regTax) + ") = <span class='big'>" + fmt(r.L5) + "</span>" +
+    " · cash out (AMT + strike) = <strong>" + fmt(r.cashOut) + "</strong>";
+  // zero-AMT band note (derived)
+  let band = 0;
+  for (let s = 0; s <= 100000; s += 100) { if (amtCompute(s, e1.fmv, p.strike, p.base, p.regTax).L5 > 0) { band = s - 100; break; } band = s; }
+  document.getElementById("e1band").textContent = (band > 0 && band < 100000)
+    ? "At this FMV there is a zero-AMT band up to ~" + band.toLocaleString() + " shares — the exercise-while-the-spread-is-small strategy in miniature."
+    : "";
+  // chart: AMT vs shares
+  const svg = document.getElementById("e1chart");
+  const W = 900, H = 240, mL = 70, mB = 30, mT = 12, mR = 20;
+  const maxShares = 100000;
+  let maxAmt = 1;
+  const pts = [];
+  for (let s = 0; s <= maxShares; s += 2000) { const a = amtCompute(s, e1.fmv, p.strike, p.base, p.regTax).L5; pts.push([s, a]); if (a > maxAmt) maxAmt = a; }
+  const X = s => mL + (W - mL - mR) * s / maxShares;
+  const Y = a => H - mB - (H - mB - mT) * a / maxAmt;
+  let path = "";
+  pts.forEach(([s,a], i) => { path += (i ? "L" : "M") + X(s).toFixed(1) + " " + Y(a).toFixed(1) + " "; });
+  const phaseShares = (CASE.amt.phaseStart - p.base) / Math.max(0.01, e1.fmv - p.strike);
+  const px = phaseShares > 0 && phaseShares < maxShares ? X(phaseShares) : null;
+  svg.innerHTML =
+    "<line x1='" + mL + "' y1='" + (H-mB) + "' x2='" + (W-mR) + "' y2='" + (H-mB) + "' stroke='#999'/>" +
+    "<line x1='" + mL + "' y1='" + mT + "' x2='" + mL + "' y2='" + (H-mB) + "' stroke='#999'/>" +
+    (px ? "<rect x='" + px.toFixed(1) + "' y='" + mT + "' width='" + (W-mR-px).toFixed(1) + "' height='" + (H-mB-mT) + "' fill='#D5E8F0' opacity='0.55'/>" +
+      "<text x='" + Math.min(px+8, W-260).toFixed(1) + "' y='" + (mT+18) + "' font-size='13' fill='#1F4E79'>phaseout band: each extra $1 of bargain taxed at 28% × 1.5 = 42%</text>" : "") +
+    "<path d='" + path + "' fill='none' stroke='#1F4E79' stroke-width='3'/>" +
+    "<circle cx='" + X(e1.shares) + "' cy='" + Y(amtCompute(e1.shares, e1.fmv, p.strike, p.base, p.regTax).L5) + "' r='6' fill='#b3261e'/>" +
+    "<text x='" + ((mL+W-mR)/2) + "' y='" + (H-6) + "' text-anchor='middle' font-size='13' fill='#555'>shares exercised and held</text>" +
+    "<text x='14' y='" + ((mT+H-mB)/2) + "' font-size='13' fill='#555' transform='rotate(-90 14 " + ((mT+H-mB)/2) + ")'>AMT</text>";
+}
+document.getElementById("e1shares").addEventListener("input", e1Render);
+["e1fmvOther","e1base","e1regtax","e1strike"].forEach(id => document.getElementById(id).addEventListener("input", () => {
+  if (document.getElementById("e1fmvOther") === document.activeElement) document.querySelectorAll(".e1fmv").forEach(b => b.setAttribute("aria-pressed","false"));
+  e1Render();
+}));
+document.querySelectorAll(".e1fmv").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".e1fmv").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  e1Render();
+}));
+document.querySelectorAll(".e1preset").forEach(b => b.addEventListener("click", () => {
+  document.getElementById("e1shares").value = b.dataset.s;
+  document.getElementById("e1base").value = 200000;
+  document.getElementById("e1regtax").value = 40000;
+  document.getElementById("e1strike").value = 0.25;
+  document.querySelectorAll(".e1fmv").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.fmv === b.dataset.f)));
+  e1Render();
+}));
+
+// ---- E2: sell now vs wait ----
+function e2Render(){
+  const n = Number(document.getElementById("e2shares").value);
+  const P = Number(document.getElementById("e2price").value);
+  document.getElementById("e2sharesOut").textContent = n.toLocaleString();
+  document.getElementById("e2priceOut").textContent = P.toFixed(2);
+  const gainNow = (CASE.tenderPrice - CASE.ben.strike) * n;
+  const taxNow = cgRate * gainNow;
+  const netNow = CASE.tenderPrice * n - taxNow;
+  const stateWait = CASE.state * Math.max(0, (P - CASE.ben.strike)) * n;
+  const netWait = P * n - stateWait;
+  document.getElementById("e2out").innerHTML =
+    "<strong>Sell May 15, 2026 at $9.00:</strong> gain = " + fmt(gainNow) + " → tax at 28.8% = " + fmt(taxNow) + " → net <span class='big'>" + fmt(netNow) + "</span><br>" +
+    "<strong>Wait past Mar 15, 2027, sell at " + fmt2(P) + ":</strong> federal $0 (§1202) + state 5% = " + fmt(stateWait) + " → net <span class='big'>" + fmt(netWait) + "</span><br>" +
+    (netWait >= netNow ? "<span class='oktext'>Waiting is ahead by " + fmt(netWait - netNow) + ".</span>" : "<span class='warntext'>Waiting is behind by " + fmt(netNow - netWait) + " at that price.</span>");
+  const pstar = n > 0 ? (netNow - CASE.state * CASE.ben.strike * n) / ((1 - CASE.state) * n) : 0;
+  document.getElementById("e2breakeven").textContent = n > 0
+    ? "Breakeven: waiting loses only if the price falls below ≈ " + fmt2(pstar) + " by the sale date (a " + Math.round(100 * (1 - pstar / CASE.tenderPrice)) + "% drop from $9.00)."
+    : "";
+}
+document.getElementById("e2shares").addEventListener("input", e2Render);
+document.getElementById("e2price").addEventListener("input", e2Render);
+document.getElementById("e2preset").addEventListener("click", () => {
+  document.getElementById("e2shares").value = 20000;
+  document.getElementById("e2price").value = 9;
+  e2Render();
+});
+
+// ---- E3: Sofia's bridge ----
+function e3Render(){
+  const t = Number(document.getElementById("e3tender").value);
+  const e = Number(document.getElementById("e3ex").value);
+  document.getElementById("e3tenderOut").textContent = t.toLocaleString();
+  document.getElementById("e3exOut").textContent = e.toLocaleString();
+  const compT = (CASE.tenderPrice - CASE.sofia.strike) * t;
+  const wT = wStack * compT;
+  const netT = CASE.tenderPrice * t - CASE.sofia.strike * t - wT;
+  const trueUpT = (trueRate - wStack) * compT;
+  const spreadE = (CASE.fmv409a - CASE.sofia.strike) * e;
+  const needE = CASE.sofia.strike * e + wStack * spreadE;
+  const trueUpE = (trueRate - wStack) * spreadE;
+  const gap = needE - netT;
+  const kept = CASE.sofia.vested - t - e;
+  document.getElementById("e3out").innerHTML =
+    "<strong>Tender " + t.toLocaleString() + ":</strong> compensation " + fmt(compT) + " → withheld " + fmt(wT) + " → net " + fmt(netT) + " → " + fmt(trueUpT) + " more at filing<br>" +
+    "<strong>Exercise " + e.toLocaleString() + ":</strong> phantom income " + fmt(spreadE) + " → cash needed " + fmt(needE) + " (strike " + fmt(CASE.sofia.strike * e) + " + withholding " + fmt(wStack * spreadE) + ") → " + fmt(trueUpE) + " more at filing<br>" +
+    (gap > 0 ? "<span class='warntext'>June gap: " + fmt(gap) + " short" : "<span class='oktext'>June surplus: " + fmt(-gap)) + "</span> · all-in after filing balances: " + fmt(netT - needE - trueUpT - trueUpE) + "<br>" +
+    (kept > 0 ? "<span class='warntext'>" + kept.toLocaleString() + " vested options lapse on June 29 — " + fmt((CASE.tenderPrice - CASE.sofia.strike) * kept) + " of intrinsic value at $9.00 walks away.</span>" : "<span class='oktext'>No vested options lapse.</span>");
+  const svg = document.getElementById("e3chart");
+  const maxV = Math.max(netT, needE, 1);
+  const bw = v => 700 * v / maxV;
+  svg.innerHTML =
+    "<text x='10' y='36' font-size='14'>Tender net</text><rect x='150' y='20' width='" + Math.max(1,bw(netT)) + "' height='24' fill='#1F4E79' rx='4'/><text x='" + (156 + bw(netT)) + "' y='38' font-size='14'>" + fmt(netT) + "</text>" +
+    "<text x='10' y='90' font-size='14'>Needed Jun 29</text><rect x='150' y='74' width='" + Math.max(1,bw(needE)) + "' height='24' fill='#7ea6c8' rx='4'/><text x='" + (156 + bw(needE)) + "' y='92' font-size='14'>" + fmt(needE) + "</text>" +
+    (gap > 0 ? "<text x='450' y='135' text-anchor='middle' font-size='15' font-weight='bold' fill='#b3261e'>gap: " + fmt(gap) + "</text>" : "");
+  document.getElementById("e3note").textContent = "The exercise leg withholds at the $4.00 409A — payroll's number. True tax runs at 42.35%, so each leg leaves a balance for April.";
+}
+["e3tender","e3ex"].forEach(id => document.getElementById(id).addEventListener("input", e3Render));
+document.querySelectorAll(".e3preset").forEach(b => b.addEventListener("click", () => {
+  document.getElementById("e3tender").value = b.dataset.t;
+  document.getElementById("e3ex").value = b.dataset.e;
+  e3Render();
+}));
+
+// ---- E4: CFO ledger ----
+function e4Render(){
+  let n = Number(document.getElementById("e4n").value);
+  let i = Number(document.getElementById("e4i").value);
+  if (n + i > 100) { i = 100 - n; document.getElementById("e4i").value = i; }
+  const c = 100 - n - i;
+  document.getElementById("e4nOut").textContent = n;
+  document.getElementById("e4iOut").textContent = i;
+  document.getElementById("e4cOut").textContent = c + "%";
+  const shN = CASE.mix.total * n / 100, shI = CASE.mix.total * i / 100;
+  const compN = (CASE.tenderPrice - CASE.mix.strikeNq) * shN;
+  const compI = (CASE.tenderPrice - CASE.mix.strikeIso) * shI;
+  const withh = wStack * compN;
+  const erMed = CASE.erMed * compN;
+  const ded = compN + compI;
+  document.getElementById("e4out").innerHTML =
+    "NQSO compensation = $7.80 × " + shN.toLocaleString() + " = <strong>" + fmt(compN) + "</strong> → withholding remitted " + fmt(withh) + " (next business day) · employer Medicare " + fmt(erMed) + "<br>" +
+    "ISO same-day ordinary income = $8.75 × " + shI.toLocaleString() + " = <strong>" + fmt(compI) + "</strong> → $0 withheld — W-2 reporting only; the FAQ must say so<br>" +
+    "Long-held common: no deduction<br>" +
+    "Deductions = <span class='big'>" + fmt(ded) + "</span> → worth ≈ " + fmt(CASE.corp * ded) + " at 21% — someday (NOL company)";
+  document.getElementById("e4punch").hidden = !(c === 100);
+}
+["e4n","e4i"].forEach(id => document.getElementById(id).addEventListener("input", e4Render));
+document.getElementById("e4preset").addEventListener("click", () => {
+  document.getElementById("e4n").value = 40; document.getElementById("e4i").value = 35; e4Render();
+});
+
+// ---- Wrong turns ----
+const WT = [
+  ["Tax Maya's same-day sale as capital gain.", "A disqualifying disposition makes the spread ordinary income: $218,750 taxed at 40% = $87,500 — not 28.8%."],
+  ["No withholding means less tax.", "ISO dispositions skip payroll and withholding, not the tax. Maya's $87,500 — and Sofia's extra $10,140 — arrive with the April return."],
+  ["AMT is a flat 28% of the bargain element (or skip it).", "It is a full parallel computation: add-back → AMTI → exemption with the phaseout → 26%/28% tentative → the excess over regular tax. Run all five lines."],
+  ["Mix the $4.00 and $9.00 FMV assumptions.", "Either is defensible; blending them is not. State one and carry it through: $4.00 gives $64,750 of AMT, $9.00 gives $194,950."],
+  ["Treat Sofia's withholding as her total tax.", "29.35% is a deposit. Her marginal rate is 42.35% — the difference shows up at filing."],
+  ["Forget the strike in a net-cash bridge.", "Maya's $6,250, Sofia's $12,000 and $36,000 all leave the pocket before net means anything."],
+  ["Apply the new QSBS tiers to Ben's 2022 stock.", "His stock predates July 4, 2025: the old regime governs — 5-year cliff, 100% exclusion, $10M cap, $50M asset test. No partial exclusion at 4.2 years."],
+  ["Use 60,000 for Sofia — or ignore the tender cap.", "She has 40,000 vested (32 of 48 months); 20,000 died at termination. And every holder is capped at 25% of vested."],
+  ["Call AMT a permanent cost.", "It is mostly a prepayment — a credit that offsets future regular tax, with a same-year-sale escape. But the cash is due next April regardless."],
+  ["Company-side slips.", "Employer Medicare is real cash ($45,240). Long-held shares generate no deduction. The $6.2M deduction is not cash now — it feeds the NOLs (≈$1.3M at 21%, someday). And forfeiture of unvested awards reverses recognized expense, while vested expiry reverses nothing."]
+];
+const wtWrap = document.getElementById("wrongTurns");
+WT.forEach(([front, back]) => {
+  const card = document.createElement("div");
+  card.className = "rcard";
+  card.innerHTML = "<button class='rtoggle flip' aria-expanded='false'><span>" + front + "</span><span class='chk' hidden>✓</span></button><div class='rbody' hidden><p>" + back + "</p></div>";
+  card.querySelector(".rtoggle").addEventListener("click", () => paintCard(card, card.querySelector(".rbody").hidden));
+  wtWrap.appendChild(card);
+});
+
+// ---- init ----
+setLayer("replay");
+renderSection();
+e1Render(); e2Render(); e3Render(); e4Render();
+})();
+</script>
 </body>
 </html>

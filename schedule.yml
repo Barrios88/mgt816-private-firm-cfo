@@ -146,29 +146,31 @@
   assignment: assignments.html#ps2
   laptop_required: true
 
-- session: 8
-  date: 2026-09-30
-  topic: "Case 2: Solstice Robotics — taxes and employee stock options"
-  prep:
-    - text: "Solstice Robotics case packet (Canvas)"
-      url: "https://yale.instructure.com/courses/122169"
-      note: "released Sep 21 with Case 2 — Canvas only (graded case)"
-  out: null
-  due: "Case 2 memo"
-  slides: null
-  handouts: []
-  case_day: true
-
 - session: 9
-  date: 2026-10-05
-  topic: "Revenue recognition and margins — ASC 606, bookings vs. revenue, SaaS models"
+  date: 2026-09-30
+  topic: "Revenue recognition and margins — ASC 606, bookings vs. revenue, SaaS models (swapped with S08)"
   prep:
     - text: "Fabozzi Ch. 8, pp. 150–160, and Ch. 10, pp. 197–198"
       url: readings.html#textbook
   out: null
   due: null
-  slides: null
+  slides: files/s09_slides.pdf
   handouts: []
+  note: "Exercise solutions are posted on Canvas. The Case 2 discussion moved to Monday, October 5; the memo was due Friday, October 2, 1:00 pm on Canvas."
+
+- session: 8
+  date: 2026-10-05
+  topic: "Case 2: Solstice Robotics — taxes and employee stock options (discussion; swapped with S09)"
+  prep:
+    - text: "Solstice Robotics case packet (Canvas)"
+      url: "https://yale.instructure.com/courses/122169"
+      note: "released Sep 21 with Case 2 — Canvas only (graded case)"
+  out: null
+  due: null
+  slides: files/s08_slides.pdf
+  handouts: []
+  note: "Exercise solutions are posted on Canvas."
+  case_day: true
 
 - session: 10
   date: 2026-10-07
