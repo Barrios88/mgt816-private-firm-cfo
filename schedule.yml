@@ -196,9 +196,10 @@
       note: "free white paper (PDF)"
   out: null
   due: "PS2"
-  slides: null
+  slides: files/s11_slides.pdf
   handouts: []
   assignment: assignments.html#ps2
+  note: "The answers to the two in-class questions (slides 29 and 38) are added after class."
 
 - session: 12
   date: 2026-10-14
