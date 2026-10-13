@@ -139,8 +139,9 @@
       url: ai-toolkit.html
   out: "PS2 (due Oct 12)"
   due: null
-  slides: null
+  slides: files/s07_slides.pdf
   handouts: []
+  note: "Exercise solutions are posted on Canvas."
   workbench: ps2/index.html
   workbench_label: "PS2 workbench"
   assignment: assignments.html#ps2
@@ -182,8 +183,9 @@
       url: "https://feld.com/archives/2013/01/the-best-approach-to-a-board-package/"
   out: null
   due: null
-  slides: null
+  slides: files/s10_slides.pdf
   handouts: []
+  note: "Exercise solutions are posted on Canvas."
 
 - session: 11
   date: 2026-10-12
@@ -199,7 +201,7 @@
   slides: files/s11_slides.pdf
   handouts: []
   assignment: assignments.html#ps2
-  note: "The answers to the two in-class questions (slides 29 and 38) are added after class."
+  note: "Exercise solutions are posted on Canvas."
 
 - session: 12
   date: 2026-10-14
