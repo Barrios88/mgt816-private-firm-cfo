@@ -205,17 +205,19 @@
 
 - session: 12
   date: 2026-10-14
-  topic: "Exits — M&A, private equity, IPO readiness; course synthesis and exam guidance"
+  topic: "Final exam review — the whole course, S00–S11 and PS2"
   prep:
     - text: "Fabozzi Ch. 2, pp. 30–35"
       url: readings.html#textbook
+      note: "exits background — posted reading, not on the exam"
     - text: "Ramsinghani Ch. 25"
       url: readings.html#textbook
-      note: "The Business of Venture Capital — see the textbook section of the Readings page"
+      note: "The Business of Venture Capital — posted reading, not on the exam"
   out: null
   due: null
-  slides: null
+  slides: files/s12_slides.pdf
   handouts: []
+  note: "The review slides are also on Canvas. The exits readings above are background only and are not on the exam."
 
 - session: null
   date: 2026-10-16
